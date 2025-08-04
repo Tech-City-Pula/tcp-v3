@@ -1,18 +1,23 @@
 {
-  "name": "tcp-v3",
-  "version": "1.0.0",
-  "scripts": {},
-  "keywords": [
-    "tcp",
-    "tech city pula",
-    "pula",
-    "typescript",
-    "supabase"
-  ],
-  "author": "voiys",
-  "license": "ISC",
-  "packageManager": "pnpm@10.14.0",
-  "engines": {
-    "node": "^22.18.0"
-  }
+      "name": "tcp-v3",
+      "version": "1.0.0",
+      "author": "voiys",
+      "license": "MIT",
+      "keywords": [
+            "tcp",
+            "tech city pula",
+            "pula",
+            "typescript",
+            "supabase"
+      ],
+      "scripts": {
+            "biome:check": "pnpm exec biome check --write"
+      },
+      "packageManager": "pnpm@10.14.0",
+      "engines": {
+            "node": "^22.18.0"
+      },
+      "devDependencies": {
+            "@biomejs/biome": "2.1.3"
+      }
 }
