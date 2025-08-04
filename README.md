@@ -3,11 +3,11 @@
 
 ## dev env requirements
 
-- biome
-- node 22
-- pnpm
+- node 22 ✅
+- pnpm ✅
+- docker ✅
+- biome ✅
 - supabase cli
-- docker
 
 ## stack
 
