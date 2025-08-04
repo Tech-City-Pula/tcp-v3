@@ -1,14 +1,18 @@
 {
-      "$schema": "https://biomejs.dev/schemas/2.1.3/schema.json",
-      "linter": {
-            "enabled": true,
-            "rules": {
-                  "recommended": true
-            }
-      },
-      "formatter": {
-            "lineWidth": 120,
-            "indentStyle": "space",
-            "indentWidth": 6
-      }
+  "$schema": "https://biomejs.dev/schemas/2.1.3/schema.json",
+  "files": {
+    "includes": ["!**/routeTree.gen.ts"]
+  },
+
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "formatter": {
+    "lineWidth": 120,
+    "indentStyle": "space",
+    "indentWidth": 2
+  }
 }
