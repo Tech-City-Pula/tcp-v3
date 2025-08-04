@@ -32,6 +32,7 @@ function Home() {
       <div>
         <p>server time: {new Date(serverTime).toISOString()}</p>
         <div>Antonio</div>
+        <div>matej</div>
         <div>Niko</div>
       </div>
     <button
