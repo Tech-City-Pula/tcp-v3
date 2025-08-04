@@ -30,7 +30,7 @@ function Home() {
   return (
     <div>
       <div>
-        <p>server asdasda time: {new Date(serverTime).toISOString()}</p>
+        <p>server time: {new Date(serverTime).toISOString()}</p>
       </div>
     <button
       type="button"
