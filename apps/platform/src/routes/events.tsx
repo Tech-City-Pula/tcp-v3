@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 
 // Mock data - will be replaced with real data later
@@ -141,6 +141,7 @@ function RouteComponent() {
       <div className="matrix-background"></div>
       
       <div className="container">
+      <Link to='/'>Home</Link>
         <header className="page-header">
           <h1 className="main-title">
             <span className="bracket">[</span>EVENTS<span className="bracket">]</span>
