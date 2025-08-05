@@ -136,72 +136,72 @@ function RouteComponent() {
   }
 
   return (
-    <div className="events-page">
+    <div className="min-h-screen bg-black text-emerald-500 relative overflow-x-hidden">
       {/* background pattern */}
-      <div className="matrix-background"></div>
-      
-      <div className="container">
-      <Link to='/'>Home</Link>
-        <header className="page-header">
-          <h1 className="main-title">
-            <span className="bracket">[</span>EVENTS<span className="bracket">]</span>
+      <div className="absolute inset-0 opacity-10 bg-[linear-gradient(90deg,rgba(16,185,129,0.3)_1px,transparent_1px),linear-gradient(rgba(16,185,129,0.3)_1px,transparent_1px)] bg-[length:20px_20px] animate-[matrix_20s_linear_infinite] z-0"></div>
+
+      <div className="max-w-[1200px] mx-auto p-8 relative z-10">
+        <Link to='/' className="text-white underline">Home</Link>
+        <header className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-emerald-500 mb-4 font-mono tracking-wide">
+            <span className="text-white">[</span>EVENTS<span className="text-white">]</span>
           </h1>
-          <p className="subtitle">
+          <p className="text-lg text-emerald-300 font-mono mb-4">
             &gt; Connecting_minds.exe --location=pula
           </p>
-          <div className="status-bar">
-            <span className="status-text">
+          <div className="flex justify-center mt-4">
+            <span className="border-2 border-emerald-500 px-4 py-2 bg-black/80 text-emerald-500 font-mono text-sm font-bold">
               STATUS: {mockEvents.length} EVENTS_LOADED
             </span>
           </div>
         </header>
 
-        <div className="events-grid">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {mockEvents.map((event) => (
             <div 
               key={event.id} 
-              className="event-card"
+              className="bg-black border-2 border-emerald-500/30 cursor-pointer transition-all duration-300 overflow-hidden hover:border-emerald-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
               onClick={() => handleEventClick(event)}
             >
-              <div className="event-image">
+              <div className="relative h-[200px] overflow-hidden">
                 <img 
                   src={event.imageUrl} 
                   alt={event.title}
-                  className="card-image"
+                  className="w-full h-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0"
                 />
-                <div className="image-overlay"></div>
-                <div className="event-category">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <div className="absolute top-3 right-3 bg-emerald-500 text-black px-2 py-1 font-mono text-xs font-bold">
                   {event.category.toUpperCase()}
                 </div>
-                <div className="event-id">
+                <div className="absolute bottom-3 left-3 text-emerald-500 font-mono text-xs font-bold">
                   [{String(event.id).padStart(3, '0')}]
                 </div>
               </div>
-              
-              <div className="event-content">
-                <h3 className="event-title">
+
+              <div className="p-6">
+                <h3 className="text-emerald-500 font-mono font-bold text-lg mb-4 transition-colors duration-300 group-hover:text-white">
                   {event.title}
                 </h3>
-                
-                <div className="event-meta">
-                  <div className="meta-item">
-                    <span className="prompt">&gt;</span> {formatDate(event.date)} @ {event.time}
+
+                <div className="mb-4">
+                  <div className="text-emerald-300 font-mono text-sm mb-2">
+                    <span className="text-white font-bold">&gt;</span> {formatDate(event.date)} @ {event.time}
                   </div>
-                  <div className="meta-item">
-                    <span className="prompt">&gt;</span> {event.location}
+                  <div className="text-emerald-300 font-mono text-sm mb-2">
+                    <span className="text-white font-bold">&gt;</span> {event.location}
                   </div>
                 </div>
-                
-                <p className="event-description">
+
+                <p className="text-gray-400 text-sm leading-relaxed mb-4">
                   {event.shortDescription}
                 </p>
-                
-                <div className="event-stats">
-                  <span className="attendees">
+
+                <div className="flex justify-between items-center">
+                  <span className="text-emerald-300 font-mono text-xs font-bold">
                     [{event.attendees}/{event.capacity}] ATTENDING
                   </span>
                   {interestedEvents.has(event.id) && (
-                    <span className="interested-badge">
+                    <span className="bg-emerald-500 text-black px-2 py-1 font-mono text-xs font-bold">
                       INTERESTED
                     </span>
                   )}
@@ -214,67 +214,65 @@ function RouteComponent() {
 
       {/* Modal */}
       {selectedEvent && (
-        <div className="modal-overlay" onClick={handleCloseModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[1000] p-4" onClick={handleCloseModal}>
+          <div className="bg-black border-2 border-emerald-500 max-w-xl w-full max-h-[90vh] overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
             <button 
-              className="modal-close"
+              className="absolute top-4 right-4 bg-black/80 border-2 border-emerald-500 text-emerald-500 w-8 h-8 cursor-pointer font-mono text-xl z-10 transition-all duration-300 hover:text-white hover:border-white"
               onClick={handleCloseModal}
             >
               ×
             </button>
-            
-            <div className="modal-header">
+
+            <div className="relative">
               <img 
                 src={selectedEvent.imageUrl} 
                 alt={selectedEvent.title}
-                className="modal-image"
+                className="w-full h-[250px] object-cover grayscale"
               />
-              <div className="modal-overlay-gradient"></div>
-              
-              <div className="modal-title-section">
-                <div className="modal-category">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-black/30"></div>
+
+              <div className="absolute bottom-0 left-0 right-0 px-6 pb-6 pt-8">
+                <div className="bg-emerald-500 text-black px-2 py-1 font-mono text-sm font-bold inline-block mb-3">
                   {selectedEvent.category.toUpperCase()}
                 </div>
-                <h2 className="modal-title">
+                <h2 className="text-emerald-500 font-mono font-bold text-2xl m-0 leading-tight">
                   [{String(selectedEvent.id).padStart(3, '0')}] {selectedEvent.title}
                 </h2>
               </div>
             </div>
 
-            <div className="modal-body">
-              <div className="modal-details">
-                <div className="detail-box">
-                  <div className="detail-label">DATE_TIME:</div>
-                  <div className="detail-value">
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div className="border border-emerald-500/30 p-4">
+                  <div className="text-emerald-500 font-mono text-xs font-bold mb-2">DATE_TIME:</div>
+                  <div className="text-white font-mono text-sm">
                     {formatDate(selectedEvent.date)} @ {selectedEvent.time}
                   </div>
                 </div>
-                <div className="detail-box">
-                  <div className="detail-label">LOCATION:</div>
-                  <div className="detail-value">{selectedEvent.location}</div>
+                <div className="border border-emerald-500/30 p-4">
+                  <div className="text-emerald-500 font-mono text-xs font-bold mb-2">LOCATION:</div>
+                  <div className="text-white font-mono text-sm">{selectedEvent.location}</div>
                 </div>
-                <div className="detail-box">
-                  <div className="detail-label">CAPACITY:</div>
-                  <div className="detail-value">
+                <div className="border border-emerald-500/30 p-4">
+                  <div className="text-emerald-500 font-mono text-xs font-bold mb-2">CAPACITY:</div>
+                  <div className="text-white font-mono text-sm">
                     {selectedEvent.attendees}/{selectedEvent.capacity}
                   </div>
                 </div>
               </div>
 
-              <div className="description-section">
-                <h3 className="description-title">
-                  &gt; EVENT_DESCRIPTION.txt
-                </h3>
-                <div className="description-box">
-                  <p className="description-text">
+              <div className="mb-8">
+                <h3 className="text-emerald-500 font-mono font-bold text-lg mb-4">&gt; EVENT_DESCRIPTION.txt</h3>
+                <div className="border border-emerald-500/30 p-4 bg-black/50">
+                  <p className="text-gray-300 font-mono text-sm leading-relaxed m-0">
                     {selectedEvent.fullDescription}
                   </p>
                 </div>
               </div>
 
-              <div className="modal-actions">
+              <div className="text-center">
                 <button 
-                  className={`interest-button ${interestedEvents.has(selectedEvent.id) ? 'interested' : ''}`}
+                  className={`font-mono font-bold px-8 py-3 border-2 border-emerald-500 bg-black text-emerald-500 cursor-pointer transition-all duration-300 text-base ${interestedEvents.has(selectedEvent.id) ? 'bg-emerald-500 text-black hover:bg-emerald-300' : 'hover:bg-emerald-500 hover:text-black'}`}
                   onClick={() => handleMarkInterest(selectedEvent.id)}
                 >
                   {interestedEvents.has(selectedEvent.id) ? '[✓] INTERESTED' : '[+] MARK_INTEREST'}
@@ -284,427 +282,6 @@ function RouteComponent() {
           </div>
         </div>
       )}
-
-      <style>{`
-        .events-page {
-          min-height: 100vh;
-          background-color: #000000;
-          color: #10b981;
-          position: relative;
-          overflow-x: hidden;
-        }
-
-        .matrix-background {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          opacity: 0.1;
-          background-image: 
-            linear-gradient(90deg, rgba(16, 185, 129, 0.3) 1px, transparent 1px),
-            linear-gradient(rgba(16, 185, 129, 0.3) 1px, transparent 1px);
-          background-size: 20px 20px;
-          animation: matrix 20s linear infinite;
-          z-index: 1;
-        }
-
-        @keyframes matrix {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(20px); }
-        }
-
-        .container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 2rem 1rem;
-          position: relative;
-          z-index: 10;
-        }
-
-        .page-header {
-          text-align: center;
-          margin-bottom: 3rem;
-        }
-
-        .main-title {
-          font-size: 4rem;
-          font-weight: bold;
-          color: #10b981;
-          margin-bottom: 1rem;
-          font-family: 'Courier New', monospace;
-          letter-spacing: 0.1em;
-        }
-
-        .bracket {
-          color: #ffffff;
-        }
-
-        .subtitle {
-          font-size: 1.25rem;
-          color: #34d399;
-          font-family: 'Courier New', monospace;
-          margin-bottom: 1rem;
-        }
-
-        .status-bar {
-          display: flex;
-          justify-content: center;
-          margin-top: 1rem;
-        }
-
-        .status-text {
-          border: 2px solid #10b981;
-          padding: 0.5rem 1rem;
-          background-color: rgba(0, 0, 0, 0.8);
-          color: #10b981;
-          font-family: 'Courier New', monospace;
-          font-size: 0.875rem;
-          font-weight: bold;
-        }
-
-        .events-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-          gap: 2rem;
-        }
-
-        .event-card {
-          background-color: #000000;
-          border: 2px solid rgba(16, 185, 129, 0.3);
-          cursor: pointer;
-          transition: all 0.3s ease;
-          overflow: hidden;
-        }
-
-        .event-card:hover {
-          border-color: #10b981;
-          transform: scale(1.02);
-          box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
-        }
-
-        .event-image {
-          position: relative;
-          height: 200px;
-          overflow: hidden;
-        }
-
-        .card-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          filter: grayscale(100%);
-          transition: filter 0.3s ease;
-        }
-
-        .event-card:hover .card-image {
-          filter: grayscale(0%);
-        }
-
-        .image-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-        }
-
-        .event-category {
-          position: absolute;
-          top: 12px;
-          right: 12px;
-          background-color: #10b981;
-          color: #000000;
-          padding: 0.25rem 0.75rem;
-          font-family: 'Courier New', monospace;
-          font-size: 0.75rem;
-          font-weight: bold;
-        }
-
-        .event-id {
-          position: absolute;
-          bottom: 12px;
-          left: 12px;
-          color: #10b981;
-          font-family: 'Courier New', monospace;
-          font-size: 0.75rem;
-          font-weight: bold;
-        }
-
-        .event-content {
-          padding: 1.5rem;
-        }
-
-        .event-title {
-          color: #10b981;
-          font-family: 'Courier New', monospace;
-          font-weight: bold;
-          font-size: 1.125rem;
-          margin-bottom: 1rem;
-          transition: color 0.3s ease;
-        }
-
-        .event-card:hover .event-title {
-          color: #ffffff;
-        }
-
-        .event-meta {
-          margin-bottom: 1rem;
-        }
-
-        .meta-item {
-          color: #34d399;
-          font-family: 'Courier New', monospace;
-          font-size: 0.875rem;
-          margin-bottom: 0.5rem;
-        }
-
-        .prompt {
-          color: #ffffff;
-          font-weight: bold;
-        }
-
-        .event-description {
-          color: #9ca3af;
-          font-size: 0.875rem;
-          line-height: 1.6;
-          margin-bottom: 1rem;
-        }
-
-        .event-stats {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        .attendees {
-          color: #34d399;
-          font-family: 'Courier New', monospace;
-          font-size: 0.75rem;
-          font-weight: bold;
-        }
-
-        .interested-badge {
-          background-color: #10b981;
-          color: #000000;
-          padding: 0.25rem 0.5rem;
-          font-family: 'Courier New', monospace;
-          font-size: 0.75rem;
-          font-weight: bold;
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: rgba(0, 0, 0, 0.9);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-          padding: 1rem;
-        }
-
-        .modal-content {
-          background-color: #000000;
-          border: 2px solid #10b981;
-          max-width: 600px;
-          width: 100%;
-          max-height: 90vh;
-          overflow-y: auto;
-          position: relative;
-        }
-
-        .modal-close {
-          position: absolute;
-          top: 1rem;
-          right: 1rem;
-          background-color: rgba(0, 0, 0, 0.8);
-          border: 2px solid #10b981;
-          color: #10b981;
-          width: 2rem;
-          height: 2rem;
-          cursor: pointer;
-          font-family: 'Courier New', monospace;
-          font-size: 1.25rem;
-          z-index: 10;
-          transition: all 0.3s ease;
-        }
-
-        .modal-close:hover {
-          color: #ffffff;
-          border-color: #ffffff;
-        }
-
-        .modal-header {
-          position: relative;
-        }
-
-        .modal-image {
-          width: 100%;
-          height: 250px;
-          object-fit: cover;
-          filter: grayscale(100%);
-        }
-
-        .modal-overlay-gradient {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
-        }
-
-        .modal-title-section {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          padding: 2rem 1.5rem 1.5rem;
-        }
-
-        .modal-category {
-          background-color: #10b981;
-          color: #000000;
-          padding: 0.25rem 0.75rem;
-          font-family: 'Courier New', monospace;
-          font-size: 0.875rem;
-          font-weight: bold;
-          display: inline-block;
-          margin-bottom: 0.75rem;
-        }
-
-        .modal-title {
-          font-size: 1.75rem;
-          font-weight: bold;
-          color: #10b981;
-          font-family: 'Courier New', monospace;
-          margin: 0;
-          line-height: 1.3;
-        }
-
-        .modal-body {
-          padding: 1.5rem;
-        }
-
-        .modal-details {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-          gap: 1rem;
-          margin-bottom: 2rem;
-        }
-
-        .detail-box {
-          border: 1px solid rgba(16, 185, 129, 0.3);
-          padding: 1rem;
-        }
-
-        .detail-label {
-          color: #10b981;
-          font-family: 'Courier New', monospace;
-          font-size: 0.75rem;
-          font-weight: bold;
-          margin-bottom: 0.5rem;
-        }
-
-        .detail-value {
-          color: #ffffff;
-          font-family: 'Courier New', monospace;
-          font-size: 0.875rem;
-        }
-
-        .description-section {
-          margin-bottom: 2rem;
-        }
-
-        .description-title {
-          color: #10b981;
-          font-family: 'Courier New', monospace;
-          font-weight: bold;
-          font-size: 1.125rem;
-          margin-bottom: 1rem;
-        }
-
-        .description-box {
-          border: 1px solid rgba(16, 185, 129, 0.3);
-          padding: 1rem;
-          background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .description-text {
-          color: #d1d5db;
-          font-family: 'Courier New', monospace;
-          font-size: 0.875rem;
-          line-height: 1.7;
-          margin: 0;
-        }
-
-        .modal-actions {
-          text-align: center;
-        }
-
-        .interest-button {
-          font-family: 'Courier New', monospace;
-          font-weight: bold;
-          padding: 0.75rem 2rem;
-          border: 2px solid #10b981;
-          background-color: #000000;
-          color: #10b981;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-size: 1rem;
-        }
-
-        .interest-button:hover {
-          background-color: #10b981;
-          color: #000000;
-        }
-
-        .interest-button.interested {
-          background-color: #10b981;
-          color: #000000;
-        }
-
-        .interest-button.interested:hover {
-          background-color: #34d399;
-        }
-
-        /* Custom scrollbar */
-        .modal-content::-webkit-scrollbar {
-          width: 8px;
-        }
-        
-        .modal-content::-webkit-scrollbar-track {
-          background: #000000;
-        }
-        
-        .modal-content::-webkit-scrollbar-thumb {
-          background: #10b981;
-        }
-        
-        .modal-content::-webkit-scrollbar-thumb:hover {
-          background: #34d399;
-        }
-
-        @media (max-width: 768px) {
-          .main-title {
-            font-size: 2.5rem;
-          }
-          
-          .events-grid {
-            grid-template-columns: 1fr;
-          }
-          
-          .modal-details {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </div>
   )
 }
