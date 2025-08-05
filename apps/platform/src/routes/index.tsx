@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -35,7 +36,7 @@ function Home() {
         <div>matej</div>
         <div>Niko</div>
       </div>
-    <button
+    <Button
       type="button"
       onClick={async () => {
         const response = await pingServer()
@@ -44,7 +45,7 @@ function Home() {
       }}
     >
       get server time
-    </button>
+    </Button>
     <div>
 
     <Link to="/events">events</Link>
