@@ -75,8 +75,8 @@ function BlogPage() {
 
         {/* Posts top-to-bottom */}
         <div className="max-w-3xl mx-auto space-y-6">
-          {filteredAndSorted.map((p) => (
-            <PostCard key={p.id} post={p} />
+          {filteredAndSorted.map((post) => (
+            <PostCard key={post.id} post={post} />
           ))}
           {filteredAndSorted.length === 0 ? (
             <div className="text-center text-muted-foreground py-12 border rounded-xl">

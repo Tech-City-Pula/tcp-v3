@@ -11,14 +11,14 @@ export function PostCard({ post }: { post: Post }) {
     <Card className="rounded-xl hover:shadow-md transition-shadow">
       <CardHeader>
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
-          <Calendar className="h-4 w-4" />
+          <Calendar className="h-12 w-12" />
           <span>{formatDate(post.date)}</span>
           <User className="h-4 w-4 ml-2" />
           <span>{post.author}</span>
           <FileText className="h-4 w-4 ml-2" />
           <span>{words} words</span>
         </div>
-        <CardTitle className="hover:text-primary transition-colors">
+        <CardTitle className="hover:text-primary transition-colors text-red-400 ">
           <Link to='/blog/$slug' params={{
             slug: post.slug
           }}>{post.title}</Link>
