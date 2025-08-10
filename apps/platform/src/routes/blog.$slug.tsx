@@ -7,8 +7,6 @@ export const Route = createFileRoute('/blog/$slug')({
   component: RouteComponent,
 })
 
-const slug = '/blog/getting-started-with-nextjs'
-
 interface BlogPostPageProperties { params: { slug: string } }
 
 function RouteComponent() {
