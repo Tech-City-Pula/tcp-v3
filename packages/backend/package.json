@@ -9,9 +9,9 @@
   "scripts": {
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "db:reset": "supabase db reset --local"
   },
-  "keywords": [],
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "dotenv": "^17.2.1",
