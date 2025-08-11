@@ -8,11 +8,11 @@ if (!databaseUrl) {
 }
 
 export default defineConfig({
-  out: "./drizzle",
+  out: "./supabase/migrations",
   schema: "./src/schema.ts",
   dialect: "postgresql",
   migrations: {
-    prefix: "timestamp",
+    prefix: "supabase",
   },
   dbCredentials: {
     url: databaseUrl,
