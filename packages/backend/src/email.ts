@@ -55,20 +55,3 @@ export async function sendEmail(options: SendEmailOptions) {
 
 	return info
 }
-
-// Quick dev helper when running this file directly: pnpm ts-node src/email.ts
-if (process.env.NODE_ENV === 'development' && process.argv.includes('--selftest')) {
-	;(async () => {
-		const res = await sendEmail({
-			to: 'test@example.com',
-			subject: 'Mailpit test',
-			text: 'Hello from local Mailpit via Nodemailer',
-		})
-		// eslint-disable-next-line no-console
-		console.log('Sent:', res.messageId)
-	})().catch((err) => {
-		// eslint-disable-next-line no-console
-		console.error(err)
-		process.exit(1)
-	})
-}
