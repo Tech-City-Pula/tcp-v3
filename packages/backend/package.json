@@ -10,18 +10,22 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:reset": "supabase db reset --local"
+    "db:reset": "supabase db reset --local",
+    "email:dev": "email dev"
   },
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
-    "dotenv": "^17.2.1",
-    "drizzle-orm": "^0.44.4",
-    "pg": "^8.16.3"
+    "dotenv": "catalog:",
+    "drizzle-orm": "catalog:",
+    "nodemailer": "catalog:",
+    "pg": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^24.2.1",
-    "@types/pg": "^8.15.5",
-    "drizzle-kit": "^0.31.4",
-    "typescript": "^5.9.2"
+    "@types/node": "catalog:",
+    "@types/nodemailer": "catalog:",
+    "@types/pg": "catalog:",
+    "drizzle-kit": "catalog:",
+    "react-email": "catalog:",
+    "typescript": "catalog:"
   }
 }
