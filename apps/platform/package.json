@@ -16,6 +16,7 @@
   "dependencies": {
     "@radix-ui/react-select": "catalog:",
     "@radix-ui/react-slot": "catalog:",
+    "@react-email/components": "catalog:",
     "@repo/backend": "workspace:*",
     "@tailwindcss/postcss": "catalog:",
     "@tanstack/react-router": "catalog:",
