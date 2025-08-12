@@ -1,4 +1,6 @@
+import { render, toPlainText } from '@react-email/components';
 import { sendEmail } from '@repo/backend/email';
+import { ContactEmail } from '@repo/backend/emails/contact-email';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { type FormEvent, useState } from 'react';
@@ -92,10 +94,13 @@ function ContactForm() {
 export const sendContact = createServerFn({ method: 'POST' })
   .validator(z.object({ email: z.email(), message: z.string().min(1).max(500) }))
   .handler(async ({ data }) => {
+    const emailHtml = await render(<ContactEmail>{data.message}</ContactEmail>);
+
     const info = await sendEmail({
       subject: 'test mail',
       to: data.email,
-      text: data.message,
+      html: emailHtml,
+      text: toPlainText(emailHtml),
     });
 
     return { ok: true, id: info.messageId };
