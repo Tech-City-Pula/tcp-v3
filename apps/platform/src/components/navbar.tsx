@@ -1,26 +1,29 @@
-import { Link } from "@tanstack/react-router";
-import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Link } from '@tanstack/react-router';
+import { Moon, Sun } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 function useThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
     // initial from prefers or existing
-    const saved = localStorage.getItem("theme") as "light" | "dark" | null;
-    const initial = saved ?? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    const saved = localStorage.getItem('theme') as 'light' | 'dark' | null;
+    const initial = saved ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     setTheme(initial);
   }, []);
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === "dark") root.classList.add("dark");
-    else root.classList.remove("dark");
-    localStorage.setItem("theme", theme);
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const toggle = () => setTheme((t) => (t === "light" ? "dark" : "light"));
+  const toggle = () => setTheme((t) => (t === 'light' ? 'dark' : 'light'));
 
   return { theme, toggle };
 }
@@ -30,22 +33,22 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-10 border-b bg-background/70 backdrop-blur">
-      <div className="container mx-auto px-4 h-14 flex items-center">
+      <div className="container mx-auto flex h-14 items-center px-4">
         <div className="flex-1">
-          <Link to="/" className="font-semibold text-lg">
+          <Link className="font-semibold text-lg" to="/">
             My Blog
           </Link>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={toggle} className="rounded-xl" aria-label="Toggle theme">
-            {theme === "dark" ? (
+          <Button aria-label="Toggle theme" className="rounded-xl" onClick={toggle} size="sm" variant="outline">
+            {theme === 'dark' ? (
               <>
-                <Sun className="h-4 w-4 mr-2" />
+                <Sun className="mr-2 h-4 w-4" />
                 Light
               </>
             ) : (
               <>
-                <Moon className="h-4 w-4 mr-2" />
+                <Moon className="mr-2 h-4 w-4" />
                 Dark
               </>
             )}

@@ -1,28 +1,28 @@
-import { Link } from "@tanstack/react-router";
-import { Calendar, FileText, User } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatDate, getWordCount, type Post } from "@/lib/posts";
+import { Link } from '@tanstack/react-router';
+import { Calendar, FileText, User } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { formatDate, getWordCount, type Post } from '@/lib/posts';
 
 export function PostCard({ post }: { post: Post }) {
   const words = getWordCount(post.content);
 
   return (
-    <Card className="rounded-xl hover:shadow-md transition-shadow">
+    <Card className="rounded-xl transition-shadow hover:shadow-md">
       <CardHeader>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+        <div className="mb-2 flex items-center gap-2 text-muted-foreground text-sm">
           <Calendar className="h-12 w-12" />
           <span>{formatDate(post.date)}</span>
-          <User className="h-4 w-4 ml-2" />
+          <User className="ml-2 h-4 w-4" />
           <span>{post.author}</span>
-          <FileText className="h-4 w-4 ml-2" />
+          <FileText className="ml-2 h-4 w-4" />
           <span>{words} words</span>
         </div>
-        <CardTitle className="hover:text-primary transition-colors text-red-400 ">
+        <CardTitle className="text-red-400 transition-colors hover:text-primary">
           <Link
-            to="/blog/$slug"
             params={{
               slug: post.slug,
             }}
+            to="/blog/$slug"
           >
             {post.title}
           </Link>
@@ -32,11 +32,11 @@ export function PostCard({ post }: { post: Post }) {
         <p className="text-muted-foreground">{post.excerpt}</p>
         <div className="mt-4">
           <Link
-            to="/blog/$slug"
+            className="font-medium text-primary text-sm hover:underline"
             params={{
               slug: post.slug,
             }}
-            className="text-sm font-medium text-primary hover:underline"
+            to="/blog/$slug"
           >
             Read more →
           </Link>

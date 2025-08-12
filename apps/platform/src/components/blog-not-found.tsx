@@ -1,16 +1,16 @@
-import { Link } from "@tanstack/react-router";
-import { Home } from "lucide-react";
-import { Button } from "./ui/button";
+import { Link } from '@tanstack/react-router';
+import { Home } from 'lucide-react';
+import { Button } from './ui/button';
 
 export function BlogNotFound() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="text-center space-y-4 px-4">
-        <h1 className="text-3xl font-bold">Post Not Found</h1>
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="space-y-4 px-4 text-center">
+        <h1 className="font-bold text-3xl">Post Not Found</h1>
         <p className="text-muted-foreground">The blog post you are looking for doesn&apos;t exist.</p>
         <Button asChild className="rounded-xl">
           <Link to="/blogs">
-            <Home className="h-4 w-4 mr-2" />
+            <Home className="mr-2 h-4 w-4" />
             Back to Blog
           </Link>
         </Button>

@@ -1,9 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Calendar, FileText, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { formatDate, getPostBySlug, getWordCount } from "@/lib/posts";
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { ArrowLeft, Calendar, FileText, User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { formatDate, getPostBySlug, getWordCount } from '@/lib/posts';
 
-export const Route = createFileRoute("/blog/$slug")({
+export const Route = createFileRoute('/blog/$slug')({
   component: RouteComponent,
 });
 
@@ -17,7 +17,7 @@ function RouteComponent() {
   return (
     <BlogPostPage
       params={{
-        slug: slug,
+        slug,
       }}
     />
   );
@@ -28,30 +28,30 @@ function BlogPostPage({ params }: BlogPostPageProperties) {
 
   if (!post) {
     // Rely on the app/not-found.tsx route
-    throw new Error("Not found");
+    throw new Error('Not found');
   }
 
   const wordCount = getWordCount(post.content);
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8 max-w-3xl">
-        <Button asChild variant="ghost" className="mb-6 rounded-xl">
+      <div className="container mx-auto max-w-3xl px-4 py-8">
+        <Button asChild className="mb-6 rounded-xl" variant="ghost">
           <Link to="/blogs">
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Blog
           </Link>
         </Button>
 
         <article>
           <header className="mb-6">
-            <h1 className="text-4xl font-bold mb-3">{post.title}</h1>
-            <div className="text-sm text-muted-foreground flex flex-wrap items-center gap-3">
+            <h1 className="mb-3 font-bold text-4xl">{post.title}</h1>
+            <div className="flex flex-wrap items-center gap-3 text-muted-foreground text-sm">
               <Calendar className="h-4 w-4" />
               <span>{formatDate(post.date)}</span>
-              <User className="h-4 w-4 ml-2" />
+              <User className="ml-2 h-4 w-4" />
               <span>{post.author}</span>
-              <FileText className="h-4 w-4 ml-2" />
+              <FileText className="ml-2 h-4 w-4" />
               <span>{wordCount} words</span>
             </div>
             {post.excerpt ? <p className="mt-3 text-muted-foreground">{post.excerpt}</p> : null}

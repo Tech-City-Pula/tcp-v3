@@ -1,23 +1,23 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { createServerFn } from '@tanstack/react-start';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 const getServerTimestamp = createServerFn({
-  method: "GET",
+  method: 'GET',
 }).handler(() => {
   return {
     serverTime: Date.now(),
   };
 });
 
-const pingServer = createServerFn({ method: "POST" }).handler(() => {
+const pingServer = createServerFn({ method: 'POST' }).handler(() => {
   return {
     serverTime: Date.now(),
   };
 });
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute('/')({
   component: Home,
   loader: async () => await getServerTimestamp(),
 });
@@ -35,12 +35,12 @@ function Home() {
         <div>Niko</div>
       </div>
       <Button
-        type="button"
         onClick={async () => {
           const response = await pingServer();
 
           setServerTime(response.serverTime);
         }}
+        type="button"
       >
         get server time
       </Button>

@@ -19,6 +19,7 @@
     "node": "^22.18.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "catalog:"
+    "@biomejs/biome": "catalog:",
+    "ultracite": "catalog:"
   }
 }

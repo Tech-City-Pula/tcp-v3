@@ -1,85 +1,85 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { mockEvents } from "@/lib/events";
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { mockEvents } from '@/lib/events';
 
-export const Route = createFileRoute("/events/")({
+export const Route = createFileRoute('/events/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
   };
 
   return (
-    <div className="min-h-screen bg-black text-emerald-500 relative overflow-x-hidden">
+    <div className="relative min-h-screen overflow-x-hidden bg-black text-emerald-500">
       {/* background pattern */}
-      <div className="absolute inset-0 opacity-10 bg-[linear-gradient(90deg,rgba(16,185,129,0.3)_1px,transparent_1px),linear-gradient(rgba(16,185,129,0.3)_1px,transparent_1px)] bg-[length:20px_20px] animate-[matrix_20s_linear_infinite] z-0"></div>
+      <div className="absolute inset-0 z-0 animate-[matrix_20s_linear_infinite] bg-[length:20px_20px] bg-[linear-gradient(90deg,rgba(16,185,129,0.3)_1px,transparent_1px),linear-gradient(rgba(16,185,129,0.3)_1px,transparent_1px)] opacity-10" />
 
-      <div className="max-w-[1200px] mx-auto p-8 relative z-10">
-        <Link to="/" className="text-white underline">
+      <div className="relative z-10 mx-auto max-w-[1200px] p-8">
+        <Link className="text-white underline" to="/">
           Home
         </Link>
-        <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-emerald-500 mb-4 font-mono tracking-wide">
+        <header className="mb-12 text-center">
+          <h1 className="mb-4 font-bold font-mono text-4xl text-emerald-500 tracking-wide md:text-5xl">
             <span className="text-white">[</span>EVENTS<span className="text-white">]</span>
           </h1>
-          <p className="text-lg text-emerald-300 font-mono mb-4">&gt; Connecting_minds.exe --location=pula</p>
-          <div className="flex justify-center mt-4">
-            <span className="border-2 border-emerald-500 px-4 py-2 bg-black/80 text-emerald-500 font-mono text-sm font-bold">
+          <p className="mb-4 font-mono text-emerald-300 text-lg">&gt; Connecting_minds.exe --location=pula</p>
+          <div className="mt-4 flex justify-center">
+            <span className="border-2 border-emerald-500 bg-black/80 px-4 py-2 font-bold font-mono text-emerald-500 text-sm">
               STATUS: {mockEvents.length} EVENTS_LOADED
             </span>
           </div>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {mockEvents.map((event) => (
             <Link
-              to="/events/$eventId"
+              className="cursor-pointer overflow-hidden border-2 border-emerald-500/30 bg-black transition-all duration-300 hover:scale-[1.02] hover:border-emerald-500 hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+              key={event.id}
               params={{
                 eventId: String(event.id),
               }}
-              key={event.id}
-              className="bg-black border-2 border-emerald-500/30 cursor-pointer transition-all duration-300 overflow-hidden hover:border-emerald-500 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(16,185,129,0.3)]"
+              to="/events/$eventId"
             >
               <div className="relative h-[200px] overflow-hidden">
                 <img
-                  src={event.imageUrl}
                   alt={event.title}
-                  className="w-full h-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0"
+                  className="h-full w-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0"
+                  src={event.imageUrl}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                <div className="absolute top-3 right-3 bg-emerald-500 text-black px-2 py-1 font-mono text-xs font-bold">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute top-3 right-3 bg-emerald-500 px-2 py-1 font-bold font-mono text-black text-xs">
                   {event.category.toUpperCase()}
                 </div>
-                <div className="absolute bottom-3 left-3 text-emerald-500 font-mono text-xs font-bold">
-                  [{String(event.id).padStart(3, "0")}]
+                <div className="absolute bottom-3 left-3 font-bold font-mono text-emerald-500 text-xs">
+                  [{String(event.id).padStart(3, '0')}]
                 </div>
               </div>
 
               <div className="p-6">
-                <h3 className="text-emerald-500 font-mono font-bold text-lg mb-4 transition-colors duration-300 group-hover:text-white">
+                <h3 className="mb-4 font-bold font-mono text-emerald-500 text-lg transition-colors duration-300 group-hover:text-white">
                   {event.title}
                 </h3>
 
                 <div className="mb-4">
-                  <div className="text-emerald-300 font-mono text-sm mb-2">
-                    <span className="text-white font-bold">&gt;</span> {formatDate(event.date)} @ {event.time}
+                  <div className="mb-2 font-mono text-emerald-300 text-sm">
+                    <span className="font-bold text-white">&gt;</span> {formatDate(event.date)} @ {event.time}
                   </div>
-                  <div className="text-emerald-300 font-mono text-sm mb-2">
-                    <span className="text-white font-bold">&gt;</span> {event.location}
+                  <div className="mb-2 font-mono text-emerald-300 text-sm">
+                    <span className="font-bold text-white">&gt;</span> {event.location}
                   </div>
                 </div>
 
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">{event.shortDescription}</p>
+                <p className="mb-4 text-gray-400 text-sm leading-relaxed">{event.shortDescription}</p>
 
-                <div className="flex justify-between items-center">
-                  <span className="text-emerald-300 font-mono text-xs font-bold">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold font-mono text-emerald-300 text-xs">
                     [{event.attendees}/{event.capacity}] ATTENDING
                   </span>
                 </div>
