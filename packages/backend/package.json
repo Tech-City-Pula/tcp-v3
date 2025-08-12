@@ -5,7 +5,8 @@
   "exports": {
     "./db": "./src/db.ts",
     "./schema": "./src/schema.ts",
-    "./email": "./src/email.ts"
+    "./email": "./src/email.ts",
+    "./emails/*": "./src/emails/*.tsx"
   },
   "scripts": {
     "db:generate": "drizzle-kit generate",
