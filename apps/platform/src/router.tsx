@@ -14,7 +14,7 @@ export function createRouter() {
       <div className="min-h-screen bg-black text-emerald-500 flex items-center justify-center">
         <div className="text-center p-8 font-mono">
           <div className="text-2xl mb-2">[ERROR]</div>
-          <div className="text-emerald-300">{error?.message ?? 'Unknown error'}</div>
+          <div className="text-emerald-300">{error?.message ?? "Unknown error"}</div>
         </div>
       </div>
     ),

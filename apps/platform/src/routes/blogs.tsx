@@ -1,28 +1,27 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useMemo, useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search } from 'lucide-react'
-import { posts, searchPosts, sortPosts, type SortOption } from "@/lib/posts"
-import { PostCard } from "@/components/post-card"
-import { Navbar } from "@/components/navbar"
-export const Route = createFileRoute('/blogs')({
+import { createFileRoute } from "@tanstack/react-router";
+import { Search } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Navbar } from "@/components/navbar";
+import { PostCard } from "@/components/post-card";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { type SortOption, searchPosts, sortPosts } from "@/lib/posts";
+export const Route = createFileRoute("/blogs")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <BlogPage/>
+  return <BlogPage />;
 }
 
-
 function BlogPage() {
-  const [query, setQuery] = useState("")
-  const [sort, setSort] = useState<SortOption>("newest") // default newest -> oldest
+  const [query, setQuery] = useState("");
+  const [sort, setSort] = useState<SortOption>("newest"); // default newest -> oldest
 
   const filteredAndSorted = useMemo(() => {
-    const filtered = searchPosts(query)
-    return sortPosts(filtered, sort)
-  }, [query, sort])
+    const filtered = searchPosts(query);
+    return sortPosts(filtered, sort);
+  }, [query, sort]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -32,9 +31,7 @@ function BlogPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2">My Blog</h1>
-          <p className="text-muted-foreground text-lg">
-            Insights and tutorials on web development and technology.
-          </p>
+          <p className="text-muted-foreground text-lg">Insights and tutorials on web development and technology.</p>
         </div>
 
         {/* Search + Sort */}
@@ -91,5 +88,5 @@ function BlogPage() {
         </footer>
       </div>
     </div>
-  )
+  );
 }

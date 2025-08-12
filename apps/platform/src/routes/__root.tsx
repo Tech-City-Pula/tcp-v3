@@ -2,8 +2,7 @@
 
 import { createRootRoute, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import globalCss from "@/styles/globals.css?url"
-
+import globalCss from "@/styles/globals.css?url";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -21,13 +20,13 @@ export const Route = createRootRoute({
     ],
     links: [
       {
-        rel: 'stylesheet',
-        href: globalCss
+        rel: "stylesheet",
+        href: globalCss,
       },
-    ]
+    ],
   }),
   component: RootComponent,
-  notFoundComponent: () => <div>not found</div>
+  notFoundComponent: () => <div>not found</div>,
 });
 
 function RootComponent() {

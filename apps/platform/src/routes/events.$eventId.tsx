@@ -1,8 +1,8 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import type { Event } from '@/lib/events'
-import { mockEvents } from '@/lib/events'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import type { Event } from "@/lib/events";
+import { mockEvents } from "@/lib/events";
 
-export const Route = createFileRoute('/events/$eventId')({
+export const Route = createFileRoute("/events/$eventId")({
   component: RouteComponent,
   pendingComponent: () => (
     <div className="min-h-screen bg-black text-emerald-500 flex items-center justify-center font-mono">
@@ -17,21 +17,21 @@ export const Route = createFileRoute('/events/$eventId')({
       </div>
     </div>
   ),
-})
+});
 
 function RouteComponent() {
-  const { eventId } = Route.useParams()
-  const event = mockEvents.find((e: Event) => e.id === Number(eventId))
+  const { eventId } = Route.useParams();
+  const event = mockEvents.find((e: Event) => e.id === Number(eventId));
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-  }
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   if (!event) {
     return (
@@ -49,7 +49,7 @@ function RouteComponent() {
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -70,11 +70,7 @@ function RouteComponent() {
 
         {/* Hero Image Section */}
         <section className="relative h-[420px] md:h-[560px] overflow-hidden">
-          <img
-            src={event.imageUrl}
-            alt={event.title}
-            className="w-full h-full object-cover grayscale"
-          />
+          <img src={event.imageUrl} alt={event.title} className="w-full h-full object-cover grayscale" />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
 
           {/* Category Badge */}
@@ -84,7 +80,7 @@ function RouteComponent() {
 
           {/* Event ID */}
           <div className="absolute top-6 left-6 text-emerald-500 font-mono text-sm font-bold">
-            [{String(event.id).padStart(3, '0')}]
+            [{String(event.id).padStart(3, "0")}]
           </div>
         </section>
 
@@ -110,7 +106,9 @@ function RouteComponent() {
           </div>
           <div className="border border-emerald-500/30 p-6 bg-black/50">
             <div className="text-emerald-500 font-mono text-sm font-bold mb-3">CAPACITY:</div>
-            <div className="text-white font-mono text-lg">{event.attendees}/{event.capacity}</div>
+            <div className="text-white font-mono text-lg">
+              {event.attendees}/{event.capacity}
+            </div>
             <div className="text-emerald-300 font-mono text-sm mt-2">ATTENDING</div>
           </div>
         </section>
@@ -131,17 +129,20 @@ function RouteComponent() {
           </div>
           <div className="border border-emerald-500/30 p-6 bg-black/50">
             <div className="text-emerald-500 font-mono text-sm font-bold mb-2">EVENT_ID:</div>
-            <div className="text-white font-mono text-lg">{String(event.id).padStart(3, '0')}</div>
+            <div className="text-white font-mono text-lg">{String(event.id).padStart(3, "0")}</div>
           </div>
         </section>
 
         {/* Action Section */}
         <section className="max-w-4xl mx-auto px-8 pb-16 text-center">
-          <button className="font-mono font-bold px-8 py-4 border-2 border-emerald-500 bg-black text-emerald-500 cursor-pointer transition-all duration-300 text-lg hover:bg-emerald-500 hover:text-black">
+          <button
+            type="button"
+            className="font-mono font-bold px-8 py-4 border-2 border-emerald-500 bg-black text-emerald-500 cursor-pointer transition-all duration-300 text-lg hover:bg-emerald-500 hover:text-black"
+          >
             [+] REGISTER_FOR_EVENT
           </button>
         </section>
       </div>
     </main>
-  )
+  );
 }

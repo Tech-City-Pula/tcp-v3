@@ -1,48 +1,48 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
-import { z } from 'zod'
-import { sendEmail } from '@repo/backend/email'
-import { useState, FormEvent } from 'react'
+import { sendEmail } from "@repo/backend/email";
+import { createFileRoute } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { type FormEvent, useState } from "react";
+import { z } from "zod";
 
 function ContactForm() {
-  const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState<string | null>(null)
-  const [ok, setOk] = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [ok, setOk] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   function isValidEmail(v: string) {
-    return /.+@.+\..+/.test(v)
+    return /.+@.+\..+/.test(v);
   }
 
   async function onSubmit(e: FormEvent) {
-    e.preventDefault()
-    setError(null)
-    setOk(null)
+    e.preventDefault();
+    setError(null);
+    setOk(null);
 
     if (!isValidEmail(email)) {
-      setError('Enter a valid email')
-      return
+      setError("Enter a valid email");
+      return;
     }
     if (!message.trim()) {
-      setError('Message cannot be empty')
-      return
+      setError("Message cannot be empty");
+      return;
     }
 
-    setSubmitting(true)
+    setSubmitting(true);
     try {
-      const res = await sendContact({ data: { email, message } })
+      const res = await sendContact({ data: { email, message } });
       if (res?.ok) {
-        setOk('Message sent. Check MailHog.')
-        setEmail('')
-        setMessage('')
+        setOk("Message sent. Check MailHog.");
+        setEmail("");
+        setMessage("");
       } else {
-        setError('Failed to send. Try again.')
+        setError("Failed to send. Try again.");
       }
-    } catch (err) {
-      setError('Failed to send. Try again.')
+    } catch (_err) {
+      setError("Failed to send. Try again.");
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
   }
 
@@ -85,28 +85,25 @@ function ContactForm() {
         disabled={submitting}
         className="font-mono font-bold px-6 py-3 border-2 border-emerald-500 text-emerald-500 bg-black cursor-pointer transition-all duration-300 hover:bg-emerald-500 hover:text-black disabled:opacity-60"
       >
-        {submitting ? '[ SENDING… ]' : '[ SEND ]'}
+        {submitting ? "[ SENDING… ]" : "[ SEND ]"}
       </button>
     </form>
-  )
+  );
 }
 
-
-export const sendContact = createServerFn({ method: 'POST' })
+export const sendContact = createServerFn({ method: "POST" })
   .validator(z.object({ email: z.email(), message: z.string().min(1).max(500) }))
   .handler(async ({ data }) => {
-
     const info = await sendEmail({
-        subject: 'test mail',
-        to: data.email,
-        text: data.message
-    })
+      subject: "test mail",
+      to: data.email,
+      text: data.message,
+    });
 
-    return { ok: true, id: info.messageId }
-  })
+    return { ok: true, id: info.messageId };
+  });
 
-
-export const Route = createFileRoute('/contact')({
+export const Route = createFileRoute("/contact")({
   component: () => (
     <main className="min-h-screen bg-black text-emerald-500">
       <div className="py-12">
@@ -114,4 +111,4 @@ export const Route = createFileRoute('/contact')({
       </div>
     </main>
   ),
-})
+});

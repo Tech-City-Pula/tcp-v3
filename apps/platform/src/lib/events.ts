@@ -1,15 +1,15 @@
 export interface Event {
-  id: number
-  title: string
-  date: string
-  time: string
-  location: string
-  shortDescription: string
-  fullDescription: string
-  imageUrl: string
-  category: string
-  capacity: number
-  attendees: number
+  id: number;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  shortDescription: string;
+  fullDescription: string;
+  imageUrl: string;
+  category: string;
+  capacity: number;
+  attendees: number;
 }
 
 export const mockEvents: Event[] = [
@@ -34,8 +34,7 @@ export const mockEvents: Event[] = [
     date: "2025-08-20",
     time: "14:00",
     location: "Tech City Hub",
-    shortDescription:
-      "Master the art of digital marketing in the age of AI and data-driven decision making.",
+    shortDescription: "Master the art of digital marketing in the age of AI and data-driven decision making.",
     fullDescription:
       "Transform your marketing approach with cutting-edge digital strategies, AI-powered analytics, and data visualization techniques. Learn to navigate the complex matrix of modern digital marketing, from neural network-based customer segmentation to algorithmic content optimization. This hands-on workshop combines traditional marketing wisdom with futuristic tech approaches.",
     imageUrl: "/images/events/marketing-workshop.jpg",
@@ -49,8 +48,7 @@ export const mockEvents: Event[] = [
     date: "2025-08-25",
     time: "18:30",
     location: "Innovation Center",
-    shortDescription:
-      "48-hour coding marathon in a cyberpunk-themed environment. Build the future, hack the matrix.",
+    shortDescription: "48-hour coding marathon in a cyberpunk-themed environment. Build the future, hack the matrix.",
     fullDescription:
       "Enter the digital underground at Pula's most intense hackathon. Teams will compete to build innovative solutions using cutting-edge technologies including AI, blockchain, and neural interfaces. The cyberpunk aesthetic meets serious coding as participants work through the night in a neon-lit environment, fueled by energy drinks and the drive to create revolutionary software.",
     imageUrl: "/images/events/cyberpunk-hackathon.png",
@@ -94,8 +92,7 @@ export const mockEvents: Event[] = [
     date: "2025-09-15",
     time: "16:00",
     location: "Business Center Pula",
-    shortDescription:
-      "Deep dive into modern cryptography, zero-knowledge proofs, and advanced security protocols.",
+    shortDescription: "Deep dive into modern cryptography, zero-knowledge proofs, and advanced security protocols.",
     fullDescription:
       "Master the art of digital security in an increasingly connected world. This advanced lab covers quantum-resistant cryptography, zero-knowledge protocols, and cutting-edge security implementations. Participants will work with real cryptographic challenges, learn to implement secure communication protocols, and explore the future of digital privacy and security.",
     imageUrl: "/images/events/matrix-cryptography-lab.png",
@@ -118,4 +115,4 @@ export const mockEvents: Event[] = [
     capacity: 90,
     attendees: 56,
   },
-]
+];

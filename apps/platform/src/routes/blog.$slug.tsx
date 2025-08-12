@@ -1,30 +1,37 @@
-import { Button } from '@/components/ui/button'
-import { formatDate, getPostBySlug, getWordCount } from '@/lib/posts'
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { ArrowLeft, Calendar, FileText, User } from 'lucide-react'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft, Calendar, FileText, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { formatDate, getPostBySlug, getWordCount } from "@/lib/posts";
 
-export const Route = createFileRoute('/blog/$slug')({
+export const Route = createFileRoute("/blog/$slug")({
   component: RouteComponent,
-})
+});
 
-interface BlogPostPageProperties { params: { slug: string } }
+interface BlogPostPageProperties {
+  params: { slug: string };
+}
 
 function RouteComponent() {
-  const { slug } = Route.useParams()
+  const { slug } = Route.useParams();
 
-  return <BlogPostPage params={{
-    slug: slug 
-  }}/>}
+  return (
+    <BlogPostPage
+      params={{
+        slug: slug,
+      }}
+    />
+  );
+}
 
 function BlogPostPage({ params }: BlogPostPageProperties) {
-  const post = getPostBySlug(params.slug)
+  const post = getPostBySlug(params.slug);
 
   if (!post) {
     // Rely on the app/not-found.tsx route
-    throw new Error("Not found")
+    throw new Error("Not found");
   }
 
-  const wordCount = getWordCount(post.content)
+  const wordCount = getWordCount(post.content);
 
   return (
     <div className="min-h-screen bg-background">
@@ -47,18 +54,12 @@ function BlogPostPage({ params }: BlogPostPageProperties) {
               <FileText className="h-4 w-4 ml-2" />
               <span>{wordCount} words</span>
             </div>
-            {post.excerpt ? (
-              <p className="mt-3 text-muted-foreground">{post.excerpt}</p>
-            ) : null}
+            {post.excerpt ? <p className="mt-3 text-muted-foreground">{post.excerpt}</p> : null}
           </header>
 
-          <div className="prose prose-neutral dark:prose-invert max-w-none">
-            {post.content.split("\n\n").map((para, i) => (
-              <p key={i}>{para}</p>
-            ))}
-          </div>
+          <div className="prose prose-neutral dark:prose-invert max-w-none">{post.content}</div>
         </article>
       </div>
     </div>
-  )
+  );
 }

@@ -1,23 +1,21 @@
-import { Button } from "@/components/ui/button";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useState } from "react";
-
+import { Button } from "@/components/ui/button";
 
 const getServerTimestamp = createServerFn({
   method: "GET",
 }).handler(() => {
   return {
-    serverTime: Date.now()
-  }
+    serverTime: Date.now(),
+  };
 });
 
-const pingServer = createServerFn({ method: "POST" })
-  .handler(() => {
-    return {
-      serverTime: Date.now()
-    }
-  });
+const pingServer = createServerFn({ method: "POST" }).handler(() => {
+  return {
+    serverTime: Date.now(),
+  };
+});
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -26,7 +24,7 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const loaderData = Route.useLoaderData();
-  const [serverTime, setServerTime] = useState(loaderData.serverTime)
+  const [serverTime, setServerTime] = useState(loaderData.serverTime);
 
   return (
     <div>
@@ -36,20 +34,19 @@ function Home() {
         <div>matej</div>
         <div>Niko</div>
       </div>
-    <Button
-      type="button"
-      onClick={async () => {
-        const response = await pingServer()
+      <Button
+        type="button"
+        onClick={async () => {
+          const response = await pingServer();
 
-        setServerTime(response.serverTime)
-      }}
-    >
-      get server time
-    </Button>
-    <div>
-
-    <Link to="/events">events</Link>
-    </div>
+          setServerTime(response.serverTime);
+        }}
+      >
+        get server time
+      </Button>
+      <div>
+        <Link to="/events">events</Link>
+      </div>
     </div>
   );
 }

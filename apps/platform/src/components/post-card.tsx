@@ -1,11 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calendar, FileText, User } from 'lucide-react'
-import { type Post } from "@/lib/posts"
-import { formatDate, getWordCount } from "@/lib/posts"
+import { Calendar, FileText, User } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatDate, getWordCount, type Post } from "@/lib/posts";
 
 export function PostCard({ post }: { post: Post }) {
-  const words = getWordCount(post.content)
+  const words = getWordCount(post.content);
 
   return (
     <Card className="rounded-xl hover:shadow-md transition-shadow">
@@ -19,17 +18,24 @@ export function PostCard({ post }: { post: Post }) {
           <span>{words} words</span>
         </div>
         <CardTitle className="hover:text-primary transition-colors text-red-400 ">
-          <Link to='/blog/$slug' params={{
-            slug: post.slug
-          }}>{post.title}</Link>
+          <Link
+            to="/blog/$slug"
+            params={{
+              slug: post.slug,
+            }}
+          >
+            {post.title}
+          </Link>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-muted-foreground">{post.excerpt}</p>
         <div className="mt-4">
-          <Link to='/blog/$slug' params={{
-            slug: post.slug
-          }}
+          <Link
+            to="/blog/$slug"
+            params={{
+              slug: post.slug,
+            }}
             className="text-sm font-medium text-primary hover:underline"
           >
             Read more →
@@ -37,5 +43,5 @@ export function PostCard({ post }: { post: Post }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
