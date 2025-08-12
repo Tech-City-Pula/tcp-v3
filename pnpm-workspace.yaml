@@ -38,10 +38,8 @@ catalog:
   vite-tsconfig-paths: 5.1.4
   zod: 4.0.17
 
-ignoredBuiltDependencies:
-  - sharp
-
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@tailwindcss/oxide'
   - esbuild
+  - sharp
