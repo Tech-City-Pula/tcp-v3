@@ -158,6 +158,26 @@ const ResourcesPage = () => (
 				</p>
 			</header>
 
+			<section className="mb-10">
+				<h2 className="mb-3 font-mono text-emerald-500 text-xl">
+					<span className="text-white">[</span> VIDEO{" "}
+					<span className="text-white">]</span>
+				</h2>
+				<div className="relative w-full overflow-hidden rounded border border-emerald-500/40 bg-black/70">
+					<div className="relative w-full pb-[56.25%]">
+						<iframe
+							className="absolute left-0 top-0 h-full w-full"
+							src="https://www.youtube.com/embed/rBJSN2tzyEc?rel=0&modestbranding=1&cc_load_policy=1"
+							title="YouTube video: TanStack Router overview"
+							loading="lazy"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+							referrerPolicy="strict-origin-when-cross-origin"
+							allowFullScreen
+						/>
+					</div>
+				</div>
+			</section>
+
 			{resources.map((cat) => (
 				<CategorySection key={cat.title} title={cat.title} items={cat.items} />
 			))}
