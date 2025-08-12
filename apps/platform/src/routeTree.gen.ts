@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestRouteImport } from './routes/test'
+import { Route as LearnRouteImport } from './routes/learn'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as IndexRouteImport } from './routes/index'
@@ -20,6 +21,11 @@ import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 const TestRoute = TestRouteImport.update({
   id: '/test',
   path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnRoute = LearnRouteImport.update({
+  id: '/learn',
+  path: '/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blogs': typeof BlogsRoute
   '/contact': typeof ContactRoute
+  '/learn': typeof LearnRoute
   '/test': typeof TestRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/events/$eventId': typeof EventsEventIdRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blogs': typeof BlogsRoute
   '/contact': typeof ContactRoute
+  '/learn': typeof LearnRoute
   '/test': typeof TestRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/events/$eventId': typeof EventsEventIdRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/blogs': typeof BlogsRoute
   '/contact': typeof ContactRoute
+  '/learn': typeof LearnRoute
   '/test': typeof TestRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/events/$eventId': typeof EventsEventIdRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/blogs'
     | '/contact'
+    | '/learn'
     | '/test'
     | '/blog/$slug'
     | '/events/$eventId'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/blogs'
     | '/contact'
+    | '/learn'
     | '/test'
     | '/blog/$slug'
     | '/events/$eventId'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/blogs'
     | '/contact'
+    | '/learn'
     | '/test'
     | '/blog/$slug'
     | '/events/$eventId'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlogsRoute: typeof BlogsRoute
   ContactRoute: typeof ContactRoute
+  LearnRoute: typeof LearnRoute
   TestRoute: typeof TestRoute
   BlogSlugRoute: typeof BlogSlugRoute
   EventsEventIdRoute: typeof EventsEventIdRoute
@@ -128,6 +141,13 @@ declare module '@tanstack/react-router' {
       path: '/test'
       fullPath: '/test'
       preLoaderRoute: typeof TestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn': {
+      id: '/learn'
+      path: '/learn'
+      fullPath: '/learn'
+      preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogsRoute: BlogsRoute,
   ContactRoute: ContactRoute,
+  LearnRoute: LearnRoute,
   TestRoute: TestRoute,
   BlogSlugRoute: BlogSlugRoute,
   EventsEventIdRoute: EventsEventIdRoute,
