@@ -23,7 +23,8 @@
     "nodemailer": "catalog:",
     "pg": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@react-email/preview-server": "catalog:",
