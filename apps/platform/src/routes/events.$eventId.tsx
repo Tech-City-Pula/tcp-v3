@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useState } from 'react';
+import EventAttend from '../components/event-attend';
 import type { EventRow } from '../server/events';
-import { attendEvent, getEvent } from '../server/events';
+import { getEvent } from '../server/events';
 
 export const Route = createFileRoute('/events/$eventId')({
   loader: async ({ params }) => {
@@ -25,9 +25,6 @@ export const Route = createFileRoute('/events/$eventId')({
 
 function RouteComponent() {
   const event = Route.useLoaderData() as EventRow | null;
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [error, setError] = useState<string | null>(null);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -38,23 +35,6 @@ function RouteComponent() {
       day: 'numeric',
     });
   };
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus('loading');
-    setError(null);
-    if (!event) {
-      return;
-    }
-    try {
-      await attendEvent({ data: { eventId: event.eventId, email } });
-      setStatus('success');
-      setEmail('');
-    } catch (err) {
-      setStatus('error');
-      setError(err instanceof Error ? err.message : 'Failed to register.');
-    }
-  }
 
   if (!event) {
     return (
@@ -135,42 +115,16 @@ function RouteComponent() {
           </div>
         </section>
 
+        {/* Event Attend Section */}
+        <EventAttend eventId={event.eventId} />
+
         {/* Further Details Section */}
-        <section className="mx-auto grid max-w-4xl grid-cols-1 gap-6 px-8 pb-10 md:grid-cols-2">
+        <section className="mx-auto max-w-4xl grid-cols-1 gap-6 px-8 pb-10 md:grid-cols-2">
           {/* No category */}
           <div className="border border-emerald-500/30 bg-black/50 p-6">
             <div className="mb-2 font-bold font-mono text-emerald-500 text-sm">EVENT_ID:</div>
             <div className="font-mono text-lg text-white">{String(event.eventId).padStart(3, '0')}</div>
           </div>
-        </section>
-
-        {/* Action Section: Attendance/Newsletter Form */}
-        <section className="mx-auto max-w-4xl px-8 pb-16 text-center">
-          <form className="mx-auto max-w-md space-y-4" onSubmit={handleSubmit}>
-            <label className="block text-left font-mono text-emerald-400" htmlFor="email">
-              Register your email to attend this event:
-            </label>
-            <input
-              autoComplete="email"
-              className="w-full rounded border border-emerald-500 bg-black p-3 text-emerald-200 focus:border-emerald-400 focus:outline-none"
-              id="email"
-              name="email"
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@email.com"
-              required
-              type="email"
-              value={email}
-            />
-            <button
-              className="w-full rounded border-2 border-emerald-500 bg-black px-8 py-3 font-bold font-mono text-emerald-500 text-lg transition-all duration-300 hover:bg-emerald-500 hover:text-black disabled:opacity-60"
-              disabled={status === 'loading'}
-              type="submit"
-            >
-              {status === 'loading' ? 'Registering…' : '[+] REGISTER_FOR_EVENT'}
-            </button>
-            {status === 'success' && <div className="mt-2 font-mono text-emerald-400">Successfully registered!</div>}
-            {status === 'error' && <div className="mt-2 font-mono text-red-400">{error}</div>}
-          </form>
         </section>
       </div>
     </main>

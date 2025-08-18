@@ -19,8 +19,15 @@ export const getEvent = createServerFn({ method: 'GET' })
   });
 
 // Add attendance to an event
-export const attendEvent = createServerFn({ method: 'POST' })
-  .validator(z.object({ eventId: z.string().uuid(), email: z.string().email() }))
+export const attendEvent = createServerFn({
+  method: 'POST',
+})
+  .validator(
+    z.object({
+      eventId: z.string().uuid(),
+      email: z.string().email(),
+    })
+  )
   .handler(async ({ data }) => {
     return await addEventAttendance(data.eventId, data.email);
   });
