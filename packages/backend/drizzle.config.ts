@@ -9,7 +9,7 @@ if (!databaseUrl) {
 
 export default defineConfig({
   out: './supabase/migrations',
-  schema: './src/schema.ts',
+  schema: ['./src/schema.ts', './src/events-schema.ts'],
   dialect: 'postgresql',
   migrations: {
     prefix: 'supabase',

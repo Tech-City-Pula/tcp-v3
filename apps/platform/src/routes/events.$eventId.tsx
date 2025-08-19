@@ -1,8 +1,12 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import type { Event } from '@/lib/events';
-import { mockEvents } from '@/lib/events';
+import EventAttend from '../components/attend-event.js';
+import type { EventRow } from '../server/events';
+import { getEvent } from '../server/events';
 
 export const Route = createFileRoute('/events/$eventId')({
+  loader: async ({ params }) => {
+    return await getEvent({ data: { eventId: params.eventId } });
+  },
   component: RouteComponent,
   pendingComponent: () => (
     <div className="flex min-h-screen items-center justify-center bg-black font-mono text-emerald-500">
@@ -20,8 +24,7 @@ export const Route = createFileRoute('/events/$eventId')({
 });
 
 function RouteComponent() {
-  const { eventId } = Route.useParams();
-  const event = mockEvents.find((e: Event) => e.id === Number(eventId));
+  const event = Route.useLoaderData() as EventRow | null;
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -70,17 +73,11 @@ function RouteComponent() {
 
         {/* Hero Image Section */}
         <section className="relative h-[420px] overflow-hidden md:h-[560px]">
-          <img alt={event.title} className="h-full w-full object-cover grayscale" src={event.imageUrl} />
+          {/* No image or category */}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-
-          {/* Category Badge */}
-          <div className="absolute top-6 right-6 bg-emerald-500 px-4 py-2 font-bold font-mono text-black text-sm">
-            {event.category.toUpperCase()}
-          </div>
-
           {/* Event ID */}
           <div className="absolute top-6 left-6 font-bold font-mono text-emerald-500 text-sm">
-            [{String(event.id).padStart(3, '0')}]
+            [{event.eventId.slice(-8).toUpperCase()}]
           </div>
         </section>
 
@@ -97,8 +94,7 @@ function RouteComponent() {
         <section className="mx-auto grid max-w-4xl grid-cols-1 gap-6 px-8 py-6 md:grid-cols-3">
           <div className="border border-emerald-500/30 bg-black/50 p-6">
             <div className="mb-3 font-bold font-mono text-emerald-500 text-sm">DATE_TIME:</div>
-            <div className="font-mono text-lg text-white">{formatDate(event.date)}</div>
-            <div className="mt-1 font-mono text-base text-emerald-300">@ {event.time}</div>
+            <div className="font-mono text-lg text-white">{formatDate(event.eventAt)}</div>
           </div>
           <div className="border border-emerald-500/30 bg-black/50 p-6">
             <div className="mb-3 font-bold font-mono text-emerald-500 text-sm">LOCATION:</div>
@@ -106,9 +102,7 @@ function RouteComponent() {
           </div>
           <div className="border border-emerald-500/30 bg-black/50 p-6">
             <div className="mb-3 font-bold font-mono text-emerald-500 text-sm">CAPACITY:</div>
-            <div className="font-mono text-lg text-white">
-              {event.attendees}/{event.capacity}
-            </div>
+            <div className="font-mono text-lg text-white">{/* You can add attendance info here if available */}</div>
             <div className="mt-2 font-mono text-emerald-300 text-sm">ATTENDING</div>
           </div>
         </section>
@@ -117,30 +111,20 @@ function RouteComponent() {
         <section className="mx-auto max-w-4xl px-8 py-6">
           <h2 className="mb-4 font-bold font-mono text-2xl text-emerald-500">&gt; EVENT_DESCRIPTION.txt</h2>
           <div className="border border-emerald-500/30 bg-black/50 p-8">
-            <p className="font-mono text-base text-gray-300 leading-relaxed">{event.fullDescription}</p>
+            <p className="font-mono text-base text-gray-300 leading-relaxed">{event.description}</p>
           </div>
         </section>
+
+        {/* Event Attend Section */}
+        <EventAttend eventId={event.eventId} />
 
         {/* Further Details Section */}
-        <section className="mx-auto grid max-w-4xl grid-cols-1 gap-6 px-8 pb-10 md:grid-cols-2">
-          <div className="border border-emerald-500/30 bg-black/50 p-6">
-            <div className="mb-2 font-bold font-mono text-emerald-500 text-sm">CATEGORY:</div>
-            <div className="font-mono text-lg text-white">{event.category}</div>
-          </div>
+        <section className="mx-auto max-w-4xl grid-cols-1 gap-6 px-8 pb-10 md:grid-cols-2">
+          {/* No category */}
           <div className="border border-emerald-500/30 bg-black/50 p-6">
             <div className="mb-2 font-bold font-mono text-emerald-500 text-sm">EVENT_ID:</div>
-            <div className="font-mono text-lg text-white">{String(event.id).padStart(3, '0')}</div>
+            <div className="font-mono text-lg text-white">{event.eventId.slice(-8).toUpperCase()}</div>
           </div>
-        </section>
-
-        {/* Action Section */}
-        <section className="mx-auto max-w-4xl px-8 pb-16 text-center">
-          <button
-            className="cursor-pointer border-2 border-emerald-500 bg-black px-8 py-4 font-bold font-mono text-emerald-500 text-lg transition-all duration-300 hover:bg-emerald-500 hover:text-black"
-            type="button"
-          >
-            [+] REGISTER_FOR_EVENT
-          </button>
         </section>
       </div>
     </main>

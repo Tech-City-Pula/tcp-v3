@@ -5,6 +5,7 @@
   "exports": {
     "./db": "./src/db.ts",
     "./schema": "./src/schema.ts",
+    "./events-schema": "./src/events-schema.ts",
     "./email": "./src/email.ts",
     "./emails/*": "./src/emails/*.tsx"
   },

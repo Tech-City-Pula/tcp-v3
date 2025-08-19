@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
+import { eventsSchema } from './events-schema.ts';
 import { schema } from './schema.ts';
 
 const pool = new Pool({
@@ -10,5 +11,5 @@ const pool = new Pool({
 
 export const db = drizzle({
   client: pool,
-  schema,
+  schema: { ...schema, ...eventsSchema },
 });
