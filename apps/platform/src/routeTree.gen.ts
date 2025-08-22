@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestRouteImport } from './routes/test'
+import { Route as SubmitTalkRouteImport } from './routes/submit-talk'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BlogsRouteImport } from './routes/blogs'
@@ -22,6 +23,11 @@ import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 const TestRoute = TestRouteImport.update({
   id: '/test',
   path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubmitTalkRoute = SubmitTalkRouteImport.update({
+  id: '/submit-talk',
+  path: '/submit-talk',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LearnRoute = LearnRouteImport.update({
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/blogs': typeof BlogsRoute
   '/contact': typeof ContactRoute
   '/learn': typeof LearnRoute
+  '/submit-talk': typeof SubmitTalkRoute
   '/test': typeof TestRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/events/$eventId': typeof EventsEventIdRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByTo {
   '/blogs': typeof BlogsRoute
   '/contact': typeof ContactRoute
   '/learn': typeof LearnRoute
+  '/submit-talk': typeof SubmitTalkRoute
   '/test': typeof TestRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/events/$eventId': typeof EventsEventIdRoute
@@ -94,6 +102,7 @@ export interface FileRoutesById {
   '/blogs': typeof BlogsRoute
   '/contact': typeof ContactRoute
   '/learn': typeof LearnRoute
+  '/submit-talk': typeof SubmitTalkRoute
   '/test': typeof TestRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/events/$eventId': typeof EventsEventIdRoute
@@ -107,6 +116,7 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/contact'
     | '/learn'
+    | '/submit-talk'
     | '/test'
     | '/blog/$slug'
     | '/events/$eventId'
@@ -118,6 +128,7 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/contact'
     | '/learn'
+    | '/submit-talk'
     | '/test'
     | '/blog/$slug'
     | '/events/$eventId'
@@ -129,6 +140,7 @@ export interface FileRouteTypes {
     | '/blogs'
     | '/contact'
     | '/learn'
+    | '/submit-talk'
     | '/test'
     | '/blog/$slug'
     | '/events/$eventId'
@@ -141,6 +153,7 @@ export interface RootRouteChildren {
   BlogsRoute: typeof BlogsRoute
   ContactRoute: typeof ContactRoute
   LearnRoute: typeof LearnRoute
+  SubmitTalkRoute: typeof SubmitTalkRoute
   TestRoute: typeof TestRoute
   BlogSlugRoute: typeof BlogSlugRoute
   EventsEventIdRoute: typeof EventsEventIdRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/test'
       fullPath: '/test'
       preLoaderRoute: typeof TestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/submit-talk': {
+      id: '/submit-talk'
+      path: '/submit-talk'
+      fullPath: '/submit-talk'
+      preLoaderRoute: typeof SubmitTalkRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/learn': {
@@ -221,6 +241,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogsRoute: BlogsRoute,
   ContactRoute: ContactRoute,
   LearnRoute: LearnRoute,
+  SubmitTalkRoute: SubmitTalkRoute,
   TestRoute: TestRoute,
   BlogSlugRoute: BlogSlugRoute,
   EventsEventIdRoute: EventsEventIdRoute,

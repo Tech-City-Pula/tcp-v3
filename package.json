@@ -14,12 +14,15 @@
     "biome:check": "pnpm exec biome check --write",
     "catalogify": "pnpx codemod pnpm/catalog"
   },
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.15.0",
   "engines": {
     "node": "^22.18.0"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
     "ultracite": "catalog:"
+  },
+  "dependencies": {
+    "drizzle-kit": "catalog:"
   }
 }

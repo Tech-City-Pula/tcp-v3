@@ -91,6 +91,6 @@ function SubmitTalkPage() {
   );
 }
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/submit-talk')({
   component: SubmitTalkPage,
 });
