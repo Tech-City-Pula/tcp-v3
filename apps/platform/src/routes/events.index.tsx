@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import type { EventRow } from '../server/events';
+import { formatDate } from '@/lib/posts';
 import { listEvents } from '../server/events';
 
 export const Route = createFileRoute('/events/')({
@@ -10,16 +10,7 @@ export const Route = createFileRoute('/events/')({
 });
 
 function RouteComponent() {
-  const events = Route.useLoaderData() as EventRow[];
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
+  const events = Route.useLoaderData();
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black text-emerald-500">

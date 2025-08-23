@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import EventAttend from '../components/attend-event.js';
-import type { EventRow } from '../server/events';
+import { formatDate } from '@/lib/posts';
+import { EventAttend } from '../components/attend-event';
 import { getEvent } from '../server/events';
 
 export const Route = createFileRoute('/events/$eventId')({
@@ -24,17 +24,7 @@ export const Route = createFileRoute('/events/$eventId')({
 });
 
 function RouteComponent() {
-  const event = Route.useLoaderData() as EventRow | null;
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
+  const event = Route.useLoaderData();
 
   if (!event) {
     return (

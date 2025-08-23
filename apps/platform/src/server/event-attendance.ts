@@ -1,12 +1,12 @@
 import { db } from '@repo/backend/db';
-import { eventAttendance, events } from '@repo/backend/events-schema';
+import { eventAttendance, events } from '@repo/backend/schema';
 import { createServerFn } from '@tanstack/react-start';
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 
 const attendEventSchema = z.object({
-  email: z.string().email(),
-  eventId: z.string().uuid(),
+  email: z.email(),
+  eventId: z.uuidv4(),
 });
 
 export const attendEvent = createServerFn({
