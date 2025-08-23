@@ -1,15 +1,8 @@
 import { db } from '@repo/backend/db';
-import { events } from '@repo/backend/events-schema';
+import { events } from '@repo/backend/schema';
 import { createServerFn } from '@tanstack/react-start';
 import { eq } from 'drizzle-orm';
-
-export interface EventRow {
-  eventId: string;
-  title: string;
-  description: string;
-  eventAt: string;
-  location: string;
-}
+import z from 'zod';
 
 export const listEvents = createServerFn({
   method: 'GET',
@@ -25,10 +18,14 @@ export const listEvents = createServerFn({
   }));
 });
 
+const getEventInputSchema = z.object({
+  eventId: z.uuidv4(),
+});
+
 export const getEvent = createServerFn({
   method: 'POST',
 })
-  .validator((data: unknown) => data as { eventId: string })
+  .validator(getEventInputSchema)
   .handler(async ({ data }) => {
     const dbEvent = await db.select().from(events).where(eq(events.id, data.eventId)).limit(1);
 
