@@ -24,12 +24,7 @@ export const eventAttendance = pgTable(
       .notNull(),
     email: text('email').notNull(),
   },
-  (table) => [
-    {
-      // Composite unique constraint on event_id + email
-      uniqueEventEmail: unique().on(table.eventId, table.email),
-    },
-  ]
+  (table) => [unique().on(table.eventId, table.email)]
 );
 
 export const talks = pgTable('talks', {
