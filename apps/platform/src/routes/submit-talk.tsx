@@ -1,7 +1,37 @@
+import { db } from '@repo/backend/db';
+import { talks } from '@repo/backend/schema';
 import { createFileRoute } from '@tanstack/react-router';
+import { createServerFn } from '@tanstack/react-start';
 import type React from 'react';
 import { useState } from 'react';
+import z from 'zod';
 import { Button } from '@/components/ui/button';
+
+const insertTedTalkSchema = z.object({
+  email: z.email(),
+  title: z.string(),
+  description: z.string(),
+});
+
+const insertTedTalk = createServerFn({
+  method: 'POST',
+})
+  .validator(insertTedTalkSchema)
+  .handler(async ({ data }) => {
+    try {
+      await db.insert(talks).values(data);
+
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+
+      return {
+        success: false,
+      };
+    }
+  });
 
 function SubmitTalkPage() {
   const [formData, setFormData] = useState({
@@ -10,10 +40,12 @@ function SubmitTalkPage() {
     description: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Talk submission:', formData);
-    // Handle form submission here
+    await insertTedTalk({
+      data: formData,
+    });
   };
 
   const handleInputChange = (field: string, value: string) => {
