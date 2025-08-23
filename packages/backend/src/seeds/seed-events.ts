@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import { db } from './src/db';
-import { events } from './src/schema';
+import { db } from '../db.ts';
+import { events } from '../schema.ts';
 
 async function seedEvents() {
   console.log('Seeding events...');
