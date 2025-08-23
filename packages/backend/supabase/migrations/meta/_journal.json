@@ -29,6 +29,20 @@
       "when": 1755622228306,
       "tag": "20250819165028_slim_agent_zero",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1755951859991,
+      "tag": "20250823122419_powerful_infant_terrible",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1755952014648,
+      "tag": "20250823122654_aberrant_sabretooth",
+      "breakpoints": true
     }
   ]
 }

@@ -24,14 +24,20 @@ export const eventAttendance = pgTable(
       .notNull(),
     email: text('email').notNull(),
   },
-  (table) => ({
-    // Composite unique constraint on event_id + email
-    uniqueEventEmail: unique().on(table.eventId, table.email),
-  })
+  (table) => [unique().on(table.eventId, table.email)]
 );
+
+export const talks = pgTable('talks', {
+  talkId: uuid('talk_id').defaultRandom().primaryKey(),
+  title: text('title').notNull(),
+  description: text('description').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
 
 export const schema = {
   newslatterSubscriptions,
   events,
   eventAttendance,
+  talks,
 };
