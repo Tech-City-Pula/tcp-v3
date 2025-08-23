@@ -5,7 +5,6 @@
   "exports": {
     "./db": "./src/db.ts",
     "./schema": "./src/schema.ts",
-    "./events-schema": "./src/events-schema.ts",
     "./email": "./src/email.ts",
     "./emails/*": "./src/emails/*.tsx"
   },
@@ -14,7 +13,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:reset": "supabase db reset --local",
-    "email:dev": "email dev --dir ./src/emails --port 9999"
+    "email:dev": "email dev --dir ./src/emails --port 9999",
+    "db:seed": "tsx ./seed-events.ts"
   },
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
