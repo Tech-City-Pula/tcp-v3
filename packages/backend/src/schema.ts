@@ -24,25 +24,25 @@ export const eventAttendance = pgTable(
       .notNull(),
     email: text('email').notNull(),
   },
-  (table) => ({
-    // Composite unique constraint on event_id + email
-    uniqueEventEmail: unique().on(table.eventId, table.email),
-  })
+  (table) => [
+    {
+      // Composite unique constraint on event_id + email
+      uniqueEventEmail: unique().on(table.eventId, table.email),
+    },
+  ]
 );
+
+export const talks = pgTable('talks', {
+  talkId: uuid('talk_id').defaultRandom().primaryKey(),
+  title: text('title').notNull(),
+  description: text('description').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+});
 
 export const schema = {
   newslatterSubscriptions,
   events,
   eventAttendance,
+  talks,
 };
-export const talks = pgTable('talks', {
-  talk_id: uuid('talk_id').defaultRandom().primaryKey(),
-  title: text('title').notNull(),
-  description: text('description').notNull(),
-  created_at: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
-  updated_at: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-});
-
-// Tipovi za TypeScript
-export type Talk = typeof talks.$inferSelect;
-export type NewTalk = typeof talks.$inferInsert;
