@@ -6,7 +6,7 @@ interface EventAttendProps {
   onSuccess?: () => void;
 }
 
-export default function EventAttend({ eventId, onSuccess }: EventAttendProps) {
+export function EventAttend({ eventId, onSuccess }: EventAttendProps) {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -69,7 +69,3 @@ export default function EventAttend({ eventId, onSuccess }: EventAttendProps) {
     </section>
   );
 }
-
-// interface koji definira koje propove prima komponenta
-// handleSubmit napravit
-// u event detail stranici importat i koristit komponentu
