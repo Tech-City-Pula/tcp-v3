@@ -19,6 +19,7 @@
     "@react-email/components": "catalog:",
     "@repo/backend": "workspace:*",
     "@tailwindcss/postcss": "catalog:",
+    "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/react-start": "catalog:",
     "class-variance-authority": "catalog:",
