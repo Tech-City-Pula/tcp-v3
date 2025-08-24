@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
   "extends": ["ultracite"],
   "files": {
     "includes": [
@@ -7,8 +7,8 @@
       "**/*.ts",
       "**/*.tsx",
       "!**/routeTree.gen.ts",
-      "!**/components/ui/**",
-      "!**/packages/backend/supabase/**"
+      "!**/components/ui",
+      "!**/packages/backend/supabase"
     ]
   },
   "linter": {
