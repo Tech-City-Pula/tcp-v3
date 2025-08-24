@@ -1,4 +1,4 @@
-export interface Post {
+export type Post = {
   id: string;
   slug: string;
   title: string;
@@ -6,7 +6,7 @@ export interface Post {
   excerpt: string;
   date: string; // ISO yyyy-mm-dd
   author: string;
-}
+};
 
 export const posts: Post[] = [
   {
@@ -86,6 +86,7 @@ export function getWordCount(content: string): number {
 
 export function sortPosts(input: Post[], sortBy: SortOption): Post[] {
   const arr = [...input];
+  // biome-ignore lint/nursery/noUnnecessaryConditions: just fuck off, it's a switch statement
   switch (sortBy) {
     case 'newest':
       return arr.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

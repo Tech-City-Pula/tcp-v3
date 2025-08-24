@@ -91,8 +91,9 @@ function ContactForm() {
   );
 }
 
+const maxLength = 500;
 export const sendContact = createServerFn({ method: 'POST' })
-  .validator(z.object({ email: z.email(), message: z.string().min(1).max(500) }))
+  .validator(z.object({ email: z.email(), message: z.string().min(1).max(maxLength) }))
   .handler(async ({ data }) => {
     const emailHtml = await render(<ContactEmail>{data.message}</ContactEmail>);
 

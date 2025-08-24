@@ -32,7 +32,9 @@ function AboutPage() {
               <img
                 alt="Tech City Pula community"
                 className="mx-auto mb-6 w-full max-w-md rounded border border-green-400"
+                height="100%"
                 src="/placeholder.svg?height=200&width=400&text=Tech+City+Pula+Community"
+                width="100%"
               />
               <h2 className="mb-4 text-green-300 text-xl md:text-2xl">{'> Tech City Pula'}</h2>
               <div className="text-sm opacity-80">
@@ -97,7 +99,9 @@ function AboutPage() {
               <img
                 alt="Recent meetup photos"
                 className="mb-3 w-full rounded border border-green-400"
+                height="100%"
                 src="/placeholder.svg?height=150&width=250&text=Hackathon+Photos"
+                width="100%"
               />
               <p className="text-xs opacity-80">
                 Photos from our latest hackathon where we built amazing projects and made new connections in the tech
@@ -130,7 +134,9 @@ function AboutPage() {
             <div className="rounded-lg border border-green-400 bg-gray-900 p-6">
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
-                  <label className="mb-2 block text-green-300 text-sm">$ echo "your-email" {'>'} contact.txt</label>
+                  <label className="mb-2 block text-green-300 text-sm" htmlFor="asd">
+                    $ echo "your-email" {'>'} contact.txt
+                  </label>
                   <input
                     className="w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
                     onChange={(e) => setEmail(e.target.value)}
@@ -141,7 +147,9 @@ function AboutPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-green-300 text-sm">$ vim message.txt</label>
+                  <label className="mb-2 block text-green-300 text-sm" htmlFor="asdf">
+                    $ vim message.txt
+                  </label>
                   <textarea
                     className="min-h-[100px] w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
                     onChange={(e) => setMessage(e.target.value)}

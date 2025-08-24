@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { attendEvent } from '../server/event-attendance';
 
-interface EventAttendProps {
+type EventAttendProps = {
   eventId: string;
   onSuccess?: () => void;
-}
+};
 
 export function EventAttend({ eventId, onSuccess }: EventAttendProps) {
   const [email, setEmail] = useState('');

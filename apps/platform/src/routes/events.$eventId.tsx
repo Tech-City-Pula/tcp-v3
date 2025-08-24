@@ -45,6 +45,7 @@ function RouteComponent() {
     );
   }
 
+  const maxIdLength = -8;
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-black text-emerald-500">
       {/* background pattern */}
@@ -67,7 +68,7 @@ function RouteComponent() {
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
           {/* Event ID */}
           <div className="absolute top-6 left-6 font-bold font-mono text-emerald-500 text-sm">
-            [{event.eventId.slice(-8).toUpperCase()}]
+            [{event.eventId.slice(maxIdLength).toUpperCase()}]
           </div>
         </section>
 
@@ -113,7 +114,7 @@ function RouteComponent() {
           {/* No category */}
           <div className="border border-emerald-500/30 bg-black/50 p-6">
             <div className="mb-2 font-bold font-mono text-emerald-500 text-sm">EVENT_ID:</div>
-            <div className="font-mono text-lg text-white">{event.eventId.slice(-8).toUpperCase()}</div>
+            <div className="font-mono text-lg text-white">{event.eventId.slice(maxIdLength).toUpperCase()}</div>
           </div>
         </section>
       </div>

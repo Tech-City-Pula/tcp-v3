@@ -12,6 +12,7 @@ export const Route = createFileRoute('/events/')({
 function RouteComponent() {
   const events = Route.useLoaderData();
 
+  const maxIdLength = -8;
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black text-emerald-500">
       {/* background pattern */}
@@ -47,7 +48,7 @@ function RouteComponent() {
                 {/* No image or category */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-3 left-3 font-bold font-mono text-emerald-500 text-xs">
-                  [{event.eventId.slice(-8).toUpperCase()}]
+                  [{event.eventId.slice(maxIdLength).toUpperCase()}]
                 </div>
               </div>
 
