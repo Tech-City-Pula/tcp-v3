@@ -30,6 +30,18 @@
       }
     }
   },
+  "vcs": {
+    "clientKind": "git",
+    "defaultBranch": "main",
+    "enabled": true
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "useSortedAttributes": "off"
+      }
+    }
+  },
   "formatter": {
     "enabled": true,
     "lineWidth": 120,
