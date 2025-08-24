@@ -14,6 +14,7 @@
     "build": "vite build"
   },
   "dependencies": {
+  "@tanstack/react-store": "catalog:",
     "@radix-ui/react-select": "catalog:",
     "@radix-ui/react-slot": "catalog:",
     "@react-email/components": "catalog:",
