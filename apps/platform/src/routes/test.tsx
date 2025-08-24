@@ -1,5 +1,5 @@
 import { db } from '@repo/backend/db';
-import { newslatterSubscriptions } from '@repo/backend/schema';
+import { schema } from '@repo/backend/schema';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
@@ -14,7 +14,7 @@ const subscribeToNewletter = createServerFn({
     })
   )
   .handler(async ({ data }) => {
-    await db.insert(newslatterSubscriptions).values({
+    await db.insert(schema.newslatterSubscriptions).values({
       email: data.email,
     });
   });

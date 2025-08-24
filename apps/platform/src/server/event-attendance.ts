@@ -1,5 +1,5 @@
 import { db } from '@repo/backend/db';
-import { eventAttendance, events } from '@repo/backend/schema';
+import { schema } from '@repo/backend/schema';
 import { createServerFn } from '@tanstack/react-start';
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
@@ -18,7 +18,7 @@ export const attendEvent = createServerFn({
       const { email, eventId } = data;
 
       // Check if event exists
-      const event = await db.select().from(events).where(eq(events.id, eventId)).limit(1);
+      const event = await db.select().from(schema.events).where(eq(schema.events.id, eventId)).limit(1);
       if (event.length === 0) {
         throw new Error('Event not found');
       }
@@ -26,8 +26,8 @@ export const attendEvent = createServerFn({
       // Check if user is already registered
       const existingAttendance = await db
         .select()
-        .from(eventAttendance)
-        .where(and(eq(eventAttendance.eventId, eventId), eq(eventAttendance.email, email)))
+        .from(schema.eventAttendance)
+        .where(and(eq(schema.eventAttendance.eventId, eventId), eq(schema.eventAttendance.email, email)))
         .limit(1);
 
       if (existingAttendance.length > 0) {
@@ -35,7 +35,7 @@ export const attendEvent = createServerFn({
       }
 
       // Register user for event
-      await db.insert(eventAttendance).values({
+      await db.insert(schema.eventAttendance).values({
         eventId,
         email,
       });

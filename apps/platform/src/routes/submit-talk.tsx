@@ -1,5 +1,5 @@
 import { db } from '@repo/backend/db';
-import { talks } from '@repo/backend/schema';
+import { schema } from '@repo/backend/schema';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import type React from 'react';
@@ -19,7 +19,7 @@ const insertTedTalk = createServerFn({
   .validator(insertTedTalkSchema)
   .handler(async ({ data }) => {
     try {
-      await db.insert(talks).values(data);
+      await db.insert(schema.talks).values(data);
 
       return {
         success: true,
