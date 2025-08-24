@@ -1,67 +1,104 @@
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
-import { toast } from 'sonner';
 import z from 'zod';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export const Route = createFileRoute('/')({
   component: Home,
 });
 
-const userSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  hobbies: z.array(z.string()),
+const loginInputSchema = z.object({
+  username: z.string(),
+  password: z.string(),
 });
 
-const logOnServer = createServerFn({ method: 'POST' })
-  .validator(userSchema)
+const loginAction = createServerFn({ method: 'POST' })
+  .validator(loginInputSchema)
   .handler(({ data }) => {
     console.log(data);
   });
 
-const defaultUser: z.infer<typeof userSchema> = { firstName: '', lastName: '', hobbies: [] };
+const defaultLoginInfo: z.infer<typeof loginInputSchema> = { username: '', password: '' };
 
-function Home() {
+function LoginForm() {
   const form = useForm({
-    defaultValues: defaultUser,
+    defaultValues: defaultLoginInfo,
     validators: {
-      onChange: userSchema,
+      onSubmit: loginInputSchema,
     },
     async onSubmit(props) {
-      console.log(props);
-      await logOnServer({
-        // data: props.value,
-        data: {
-          firstName: 'Matej',
-          lastName: 'Ljubic',
-          hobbies: ['coding', 'swimming'],
-        },
-      });
-
-      toast('Submitted successfully!');
-
-      props.formApi.reset();
+      await loginAction({ data: props.value });
     },
   });
 
   return (
-    <div>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault();
 
-          await form.handleSubmit();
-        }}
-      >
-        <form.Field name="firstName">
-          {() => {
-            return <div>fkoff</div>;
-          }}
-        </form.Field>
-        <Button type="submit">submit</Button>
-      </form>
+        await form.handleSubmit();
+      }}
+      className="w-full max-w-xs"
+    >
+      <Card>
+        <CardHeader>
+          <CardTitle>login</CardTitle>
+          <CardDescription>enter your credentials</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form.Field
+            name="username"
+            children={(field) => {
+              return (
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor={field.name}>{field.name}</Label>
+                  <Input
+                    id={field.name}
+                    type="text"
+                    value={field.state.value}
+                    onChange={(e) => {
+                      field.handleChange(e.target.value);
+                    }}
+                  />
+                </div>
+              );
+            }}
+          />
+          <form.Field
+            name="password"
+            children={(field) => {
+              return (
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor={field.name}>{field.name}</Label>
+                  <Input
+                    id={field.name}
+                    type="password"
+                    value={field.state.value}
+                    onChange={(e) => {
+                      field.handleChange(e.target.value);
+                    }}
+                  />
+                </div>
+              );
+            }}
+          />
+        </CardContent>
+        <CardFooter>
+          <Button type="submit">login</Button>
+        </CardFooter>
+      </Card>
+    </form>
+  );
+}
+
+function Home() {
+  return (
+    <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-gray-300">
+      <LoginForm />
     </div>
   );
 }
