@@ -7,7 +7,8 @@
       "**/*.ts",
       "**/*.tsx",
       "!**/routeTree.gen.ts",
-      "!**/components/ui/**"
+      "!**/components/ui/**",
+      "!**/packages/backend/supabase/**"
     ]
   },
   "linter": {
