@@ -7,7 +7,7 @@
       "**/*.ts",
       "**/*.tsx",
       "!**/routeTree.gen.ts",
-      "!**/components/ui",
+      "!**/components/ui/*.tsx",
       "!**/packages/backend/supabase"
     ]
   },
