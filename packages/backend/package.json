@@ -4,7 +4,7 @@
   "type": "module",
   "exports": {
     "./db": "./src/lib/db/index.ts",
-    "./schema": "./src/lib/db/schema.ts",
+    "./schema": "./src/lib/db/schemas/index.ts",
     "./email": "./src/email.ts",
     "./emails/*": "./src/emails/*.tsx"
   },
