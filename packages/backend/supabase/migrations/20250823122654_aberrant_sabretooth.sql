@@ -1,1 +1,0 @@
-ALTER TABLE "event_attendance" ADD CONSTRAINT "event_attendance_event_id_email_unique" UNIQUE("event_id","email");

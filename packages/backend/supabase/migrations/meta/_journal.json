@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1754935903095,
-      "tag": "20250811181143_polite_black_cat",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1755610668572,
-      "tag": "20250819133748_yielding_molecule_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1755612313174,
-      "tag": "20250819140513_charming_martin_li",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1755622228306,
-      "tag": "20250819165028_slim_agent_zero",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1755951859991,
-      "tag": "20250823122419_powerful_infant_terrible",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1755952014648,
-      "tag": "20250823122654_aberrant_sabretooth",
+      "when": 1756078330188,
+      "tag": "20250824233210_squash",
       "breakpoints": true
     }
   ]
