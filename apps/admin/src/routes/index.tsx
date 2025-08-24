@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { type FormEventHandler, useCallback } from 'react';
 import { toast } from 'sonner';
-import z from 'zod';
+import z, { ZodError } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -17,12 +17,22 @@ export const Route = createFileRoute('/')({
 const passwordMinLength = 8;
 const passwordMaxLength = 72;
 
+const emailMinLength = 8;
+const emailMaxLength = 256;
+
+const emailSchema = z
+  .email({ message: 'Please enter a valid email address.' })
+  .min(emailMinLength, { message: `Email must be at least ${emailMinLength} characters.` })
+  .max(emailMaxLength, { message: `Email must be at most ${emailMaxLength} characters.` });
+
+const passwordSchema = z
+  .string()
+  .min(passwordMinLength, { message: `Password must be at least ${passwordMinLength} characters.` })
+  .max(passwordMaxLength, { message: `Password must be at most ${passwordMaxLength} characters.` });
+
 const loginInputSchema = z.object({
-  email: z.email({ message: 'Please enter a valid email address.' }),
-  password: z
-    .string()
-    .min(passwordMinLength, { message: `Password must be at least ${passwordMinLength} characters.` })
-    .max(passwordMaxLength, { message: `Password must be at most ${passwordMaxLength} characters.` }),
+  email: emailSchema,
+  password: passwordSchema,
 });
 
 const adminUsers = [
@@ -39,6 +49,8 @@ const loginAction = createServerFn({ method: 'POST' })
 
     const adminUser = adminUsers.find((user) => user.email === data.email && user.password === data.password);
 
+    console.log(adminUser);
+
     if (!adminUser) {
       throw new Error('User is not admin. Try again with a different user.');
     }
@@ -50,10 +62,22 @@ function LoginForm() {
   const form = useForm({
     defaultValues: defaultLoginInfo,
     validators: {
-      onChange: loginInputSchema,
+      onSubmit: loginInputSchema,
     },
     async onSubmit(props) {
-      await loginAction({ data: props.value });
+      try {
+        await loginAction({ data: props.value });
+
+        toast.success('Logged in successfully!');
+
+        form.reset();
+      } catch (error) {
+        if (error instanceof Error || error instanceof ZodError) {
+          toast.error(error.message);
+        } else {
+          console.error(error);
+        }
+      }
     },
   });
 
@@ -61,20 +85,9 @@ function LoginForm() {
     async (e) => {
       e.preventDefault();
 
-      try {
-        await form.handleSubmit();
-
-        toast.success('Logged in successfully!');
-
-        form.reset();
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        }
-        console.error(error);
-      }
+      await form.handleSubmit();
     },
-    [form.handleSubmit, form.reset]
+    [form.handleSubmit]
   );
 
   return (
@@ -87,6 +100,9 @@ function LoginForm() {
         <CardContent>
           <form.Field
             name="email"
+            validators={{
+              onChange: emailSchema,
+            }}
             children={(field) => {
               return (
                 <div className="flex flex-col gap-2">
@@ -101,7 +117,7 @@ function LoginForm() {
                   />
                   <em
                     className={cn(
-                      'invisible h-lh text-red-400 text-xs',
+                      'invisible min-h-lh text-red-400 text-xs',
                       field.state.meta.errors.length > 0 && 'visible'
                     )}
                   >
@@ -113,6 +129,9 @@ function LoginForm() {
           />
           <form.Field
             name="password"
+            validators={{
+              onChange: passwordSchema,
+            }}
             children={(field) => {
               return (
                 <div className="flex flex-col gap-2">
@@ -139,9 +158,14 @@ function LoginForm() {
           />
         </CardContent>
         <CardFooter>
-          <Button type="submit" className="w-full">
-            login
-          </Button>
+          <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
+            children={([canSubmit, isSubmitting]) => (
+              <Button type="submit" className="w-full" disabled={!canSubmit || isSubmitting || !form.state.isDirty}>
+                login
+              </Button>
+            )}
+          />
         </CardFooter>
       </Card>
     </form>
