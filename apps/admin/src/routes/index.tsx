@@ -1,7 +1,9 @@
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
+import { toast } from 'sonner';
 import z from 'zod';
+import { Button } from '@/components/ui/button';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -19,15 +21,26 @@ const logOnServer = createServerFn({ method: 'POST' })
     console.log(data);
   });
 
-const defaultUser = { firstName: '', lastName: '', hobbies: [] } satisfies z.infer<typeof userSchema>;
+const defaultUser: z.infer<typeof userSchema> = { firstName: '', lastName: '', hobbies: [] };
 
 function Home() {
   const form = useForm({
     defaultValues: defaultUser,
+    validators: {
+      onChange: userSchema,
+    },
     async onSubmit(props) {
+      console.log(props);
       await logOnServer({
-        data: props.value,
+        // data: props.value,
+        data: {
+          firstName: 'Matej',
+          lastName: 'Ljubic',
+          hobbies: ['coding', 'swimming'],
+        },
       });
+
+      toast('Submitted successfully!');
 
       props.formApi.reset();
     },
@@ -35,12 +48,19 @@ function Home() {
 
   return (
     <div>
-      <form>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+
+          await form.handleSubmit();
+        }}
+      >
         <form.Field name="firstName">
           {() => {
             return <div>fkoff</div>;
           }}
         </form.Field>
+        <Button type="submit">submit</Button>
       </form>
     </div>
   );
