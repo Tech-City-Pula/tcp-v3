@@ -1,6 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
+import { type FormEventHandler, useCallback } from 'react';
 import { toast } from 'sonner';
 import z from 'zod';
 import { Button } from '@/components/ui/button';
@@ -56,26 +57,28 @@ function LoginForm() {
     },
   });
 
-  return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault();
+  const login = useCallback<FormEventHandler<HTMLFormElement>>(
+    async (e) => {
+      e.preventDefault();
 
-        try {
-          await form.handleSubmit();
+      try {
+        await form.handleSubmit();
 
-          toast.success('Logged in successfully!');
+        toast.success('Logged in successfully!');
 
-          form.reset();
-        } catch (error) {
-          if (error instanceof Error) {
-            toast.error(error.message);
-          }
-          console.error(error);
+        form.reset();
+      } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
         }
-      }}
-      className="w-full max-w-xs"
-    >
+        console.error(error);
+      }
+    },
+    [form.handleSubmit, form.reset]
+  );
+
+  return (
+    <form onSubmit={login} className="w-full max-w-xs">
       <Card>
         <CardHeader>
           <CardTitle>login</CardTitle>
@@ -136,7 +139,9 @@ function LoginForm() {
           />
         </CardContent>
         <CardFooter>
-          <Button type="submit">login</Button>
+          <Button type="submit" className="w-full">
+            login
+          </Button>
         </CardFooter>
       </Card>
     </form>
