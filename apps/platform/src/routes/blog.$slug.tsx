@@ -7,9 +7,9 @@ export const Route = createFileRoute('/blog/$slug')({
   component: RouteComponent,
 });
 
-interface BlogPostPageProperties {
+type BlogPostPageProperties = {
   params: { slug: string };
-}
+};
 
 function RouteComponent() {
   const { slug } = Route.useParams();

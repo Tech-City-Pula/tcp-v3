@@ -2,6 +2,7 @@
 
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import { Toaster } from '@/components/ui/sonner';
 import globalCss from '@/styles/globals.css?url';
 
 export const Route = createRootRoute({
@@ -47,6 +48,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <body>
         {children}
         <Scripts />
+        <Toaster />
       </body>
     </html>
   );
