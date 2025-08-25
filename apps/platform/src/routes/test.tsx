@@ -14,7 +14,7 @@ const subscribeToNewletter = createServerFn({
     })
   )
   .handler(async ({ data }) => {
-    await db.insert(schema.newslatterSubscriptions).values({
+    await db.insert(schema.newsletterSubscriptions).values({
       email: data.email,
     });
   });

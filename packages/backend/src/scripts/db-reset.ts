@@ -7,7 +7,7 @@ import { reset, seed } from 'drizzle-seed';
 import { auth } from 'lib/auth/index.ts';
 import { db } from 'lib/db/index.ts';
 import { schema } from 'lib/db/schemas/index.ts';
-import { eventAttendance, events, newslatterSubscriptions, talks } from 'lib/db/schemas/schema.public.ts';
+import { eventAttendance, events, newsletterSubscriptions, talks } from 'lib/db/schemas/schema.public.ts';
 
 config();
 
@@ -46,7 +46,7 @@ async function main() {
 
   // first create admins
   await Promise.all([
-    await auth.api.createUser({
+    auth.api.createUser({
       body: {
         email: 'admin1@email.com',
         password: '12345678',
@@ -54,7 +54,7 @@ async function main() {
         role: 'admin',
       },
     }),
-    await auth.api.createUser({
+    auth.api.createUser({
       body: {
         email: 'admin2@email.com',
         password: '12345678',
@@ -62,7 +62,7 @@ async function main() {
         role: 'admin',
       },
     }),
-    await auth.api.createUser({
+    auth.api.createUser({
       body: {
         email: 'admin3@email.com',
         password: '12345678',
@@ -83,7 +83,7 @@ async function main() {
     {
       talks,
       events,
-      newslatterSubscriptions,
+      newsletterSubscriptions,
     },
     { count: 10 }
   ).refine((generators) => {
@@ -112,7 +112,7 @@ async function main() {
         },
         count: 30,
       },
-      newslatterSubscriptions: {
+      newsletterSubscriptions: {
         columns: {
           email: generators.valuesFromArray({
             values: Array.from(emails),

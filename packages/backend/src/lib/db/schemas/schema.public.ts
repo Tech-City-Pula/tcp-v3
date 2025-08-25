@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
 
-export const newslatterSubscriptions = pgTable('newsletter_subscriptions', {
+export const newsletterSubscriptions = pgTable('newsletter_subscriptions', {
   id: uuid('id')
     .primaryKey()
     .$defaultFn(() => randomUUID()),
@@ -43,7 +43,7 @@ export const talks = pgTable('talks', {
 }).enableRLS();
 
 export const publicSchema = {
-  newslatterSubscriptions,
+  newsletterSubscriptions,
   events,
   eventAttendance,
   talks,
