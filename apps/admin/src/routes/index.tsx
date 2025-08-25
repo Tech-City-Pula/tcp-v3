@@ -1,6 +1,9 @@
+import { auth } from '@repo/backend/auth';
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
+import { getWebRequest } from '@tanstack/react-start/server';
+import { createAuthClient } from 'better-auth/react';
 import { type FormEventHandler, useCallback } from 'react';
 import { toast } from 'sonner';
 import z, { ZodError } from 'zod';
@@ -10,8 +13,38 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
+export const authClient = createAuthClient({
+  baseURL: 'http://localhost:3001', // The base URL of your auth server
+});
+
+const getInitialSession = createServerFn({
+  method: 'GET',
+}).handler(async () => {
+  const request = getWebRequest();
+
+  const session = await auth.api.getSession(request);
+
+  if (!session) {
+    return {
+      session: undefined,
+      user: undefined,
+    };
+  }
+
+  return {
+    session: session.session,
+    user: session.user,
+  };
+});
+
 export const Route = createFileRoute('/')({
   component: Home,
+  beforeLoad() {
+    return getInitialSession();
+  },
+  loader(ctx) {
+    return ctx.context;
+  },
 });
 
 const passwordMinLength = 8;
@@ -35,30 +68,12 @@ const loginInputSchema = z.object({
   password: passwordSchema,
 });
 
-const adminUsers = [
-  {
-    email: 'matej@admin.com',
-    password: 'StrongPass123',
-  },
-];
-
-const loginAction = createServerFn({ method: 'POST' })
-  .validator(loginInputSchema)
-  .handler(({ data }) => {
-    console.log(data);
-
-    const adminUser = adminUsers.find((user) => user.email === data.email && user.password === data.password);
-
-    console.log(adminUser);
-
-    if (!adminUser) {
-      throw new Error('User is not admin. Try again with a different user.');
-    }
-  });
-
 const defaultLoginInfo: z.infer<typeof loginInputSchema> = { email: '', password: '' };
 
 function LoginForm() {
+  const loaderData = Route.useLoaderData();
+
+  const session = authClient.useSession();
   const form = useForm({
     defaultValues: defaultLoginInfo,
     validators: {
@@ -66,7 +81,12 @@ function LoginForm() {
     },
     async onSubmit(props) {
       try {
-        await loginAction({ data: props.value });
+        const response = await authClient.signIn.email({
+          email: props.value.email,
+          password: props.value.password,
+        });
+
+        console.log(response);
 
         toast.success('Logged in successfully!');
 
@@ -89,6 +109,28 @@ function LoginForm() {
     },
     [form.handleSubmit]
   );
+
+  // const user = loaderData.session?.user ?? session.data?.user;
+  const user = loaderData.user ?? session.data?.user;
+
+  const navigate = Route.useNavigate();
+
+  if (user) {
+    return (
+      <div>
+        <h1>Welcome back, {user.name}</h1>
+        <Button
+          onClick={async () => {
+            await authClient.signOut();
+
+            await navigate({
+              to: '/',
+            });
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={login} className="w-full max-w-xs">
