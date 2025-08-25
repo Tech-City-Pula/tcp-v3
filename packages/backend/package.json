@@ -17,7 +17,7 @@
     "db:reset": "supabase db reset --local",
     "email:dev": "email dev --dir ./src/emails --port 9999",
     "script:create-admin": "tsx ./src/scripts/create-admin-user.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit --allowImportingTsExtensions"
   },
   "packageManager": "pnpm@10.14.0",
   "dependencies": {
