@@ -14,7 +14,7 @@
     "db:generate": "drizzle-kit generate --config ./drizzle.config.ts",
     "db:migrate": "drizzle-kit migrate --config ./drizzle.config.ts",
     "db:push": "drizzle-kit push --config ./drizzle.config.ts",
-    "db:reset": "supabase db reset --local",
+    "db:reset": "tsx ./src/scripts/db-reset.ts",
     "email:dev": "email dev --dir ./src/emails --port 9999",
     "script:create-admin": "tsx ./src/scripts/create-admin.ts",
     "typecheck": "tsc --noEmit --allowImportingTsExtensions"
@@ -25,6 +25,7 @@
     "commander": "catalog:",
     "dotenv": "catalog:",
     "drizzle-orm": "catalog:",
+    "drizzle-seed": "catalog:",
     "nodemailer": "catalog:",
     "pg": "catalog:",
     "prompts": "catalog:",
@@ -33,6 +34,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@faker-js/faker": "catalog:",
     "@react-email/preview-server": "catalog:",
     "@types/node": "catalog:",
     "@types/nodemailer": "catalog:",
