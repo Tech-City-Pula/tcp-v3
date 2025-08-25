@@ -2,7 +2,7 @@ import path from 'node:path';
 import { faker } from '@faker-js/faker';
 import { config } from 'dotenv';
 import { sql } from 'drizzle-orm';
-import { migrate } from 'drizzle-orm/aws-data-api/pg/migrator';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import { reset, seed } from 'drizzle-seed';
 import { auth } from 'lib/auth/index.ts';
 import { db } from 'lib/db/index.ts';
