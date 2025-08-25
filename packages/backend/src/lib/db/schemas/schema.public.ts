@@ -4,7 +4,7 @@ export const newslatterSubscriptions = pgTable('newsletter_subscriptions', {
   id: uuid('id').primaryKey().defaultRandom(),
   email: text('email').unique().notNull(),
   createdAt: timestamp('created_at').defaultNow(),
-});
+}).enableRLS();
 
 export const events = pgTable('events', {
   id: uuid('event_id').primaryKey().defaultRandom(),
@@ -14,7 +14,7 @@ export const events = pgTable('events', {
   location: text('location').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
-});
+}).enableRLS();
 
 export const eventAttendance = pgTable(
   'event_attendance',
@@ -25,7 +25,7 @@ export const eventAttendance = pgTable(
     email: text('email').notNull(),
   },
   (table) => [unique().on(table.eventId, table.email)]
-);
+).enableRLS();
 
 export const talks = pgTable('talks', {
   talkId: uuid('talk_id').defaultRandom().primaryKey(),
@@ -33,9 +33,9 @@ export const talks = pgTable('talks', {
   description: text('description').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
-});
+}).enableRLS();
 
-export const schema = {
+export const publicSchema = {
   newslatterSubscriptions,
   events,
   eventAttendance,

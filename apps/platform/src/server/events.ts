@@ -1,5 +1,5 @@
 import { db } from '@repo/backend/db';
-import { events } from '@repo/backend/schema';
+import { schema } from '@repo/backend/schema';
 import { createServerFn } from '@tanstack/react-start';
 import { eq } from 'drizzle-orm';
 import z from 'zod';
@@ -7,7 +7,7 @@ import z from 'zod';
 export const listEvents = createServerFn({
   method: 'GET',
 }).handler(async () => {
-  const dbEvents = await db.select().from(events);
+  const dbEvents = await db.select().from(schema.events);
 
   return dbEvents.map((event) => ({
     eventId: event.id,
@@ -27,7 +27,7 @@ export const getEvent = createServerFn({
 })
   .validator(getEventInputSchema)
   .handler(async ({ data }) => {
-    const dbEvent = await db.select().from(events).where(eq(events.id, data.eventId)).limit(1);
+    const dbEvent = await db.select().from(schema.events).where(eq(schema.events.id, data.eventId)).limit(1);
 
     if (dbEvent.length === 0) {
       return null;

@@ -3,34 +3,41 @@
   "version": "1.0.0",
   "type": "module",
   "exports": {
-    "./db": "./src/db.ts",
-    "./schema": "./src/schema.ts",
+    "./db": "./src/lib/db/index.ts",
+    "./schema": "./src/lib/db/schemas/index.ts",
     "./email": "./src/email.ts",
-    "./emails/*": "./src/emails/*.tsx"
+    "./emails/*": "./src/emails/*.tsx",
+    "./auth": "./src/lib/auth/index.ts"
   },
   "scripts": {
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
+    "auth:generate": "pnpx @better-auth/cli generate --config ./src/lib/auth/index.ts --output ./src/lib/db/schemas/schema.auth.ts",
+    "db:generate": "drizzle-kit generate --config ./drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config ./drizzle.config.ts",
+    "db:push": "drizzle-kit push --config ./drizzle.config.ts",
     "db:reset": "supabase db reset --local",
     "email:dev": "email dev --dir ./src/emails --port 9999",
-    "db:seed": "tsx ./src/seeds/seed-events.ts"
+    "script:create-admin": "tsx ./src/scripts/create-admin.ts",
+    "typecheck": "tsc --noEmit --allowImportingTsExtensions"
   },
-  "packageManager": "pnpm@10.14.0",
   "dependencies": {
     "@react-email/components": "catalog:",
+    "better-auth": "catalog:",
+    "commander": "catalog:",
     "dotenv": "catalog:",
     "drizzle-orm": "catalog:",
     "nodemailer": "catalog:",
     "pg": "catalog:",
+    "prompts": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@react-email/preview-server": "catalog:",
     "@types/node": "catalog:",
     "@types/nodemailer": "catalog:",
     "@types/pg": "catalog:",
+    "@types/prompts": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "drizzle-kit": "catalog:",

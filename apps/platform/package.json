@@ -11,7 +11,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build"
+    "build": "vite build",
+    "typecheck": "tsc --noEmit --allowImportingTsExtensions"
   },
   "dependencies": {
     "@radix-ui/react-select": "catalog:",
