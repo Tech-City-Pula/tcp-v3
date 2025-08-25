@@ -16,7 +16,7 @@
     "db:push": "drizzle-kit push --config ./drizzle.config.ts",
     "db:reset": "supabase db reset --local",
     "email:dev": "email dev --dir ./src/emails --port 9999",
-    "script:create-admin": "tsx ./src/scripts/create-admin-user.ts",
+    "script:create-admin": "tsx ./src/scripts/create-admin.ts",
     "typecheck": "tsc --noEmit --allowImportingTsExtensions"
   },
   "dependencies": {
