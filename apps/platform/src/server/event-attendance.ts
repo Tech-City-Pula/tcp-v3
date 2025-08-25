@@ -46,3 +46,6 @@ export const attendEvent = createServerFn({
       throw new Error(error instanceof Error ? error.message : 'Failed to register for event');
     }
   });
+
+// TODO:
+// newsletter component has funky code

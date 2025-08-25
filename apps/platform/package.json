@@ -31,6 +31,7 @@
     "postcss": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "sonner": "catalog:",
     "tailwind-merge": "catalog:",
     "tailwindcss": "catalog:",
     "vite": "catalog:",
