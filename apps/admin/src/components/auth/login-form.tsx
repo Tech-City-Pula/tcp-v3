@@ -25,10 +25,12 @@ export function LoginForm() {
           password: props.value.password,
         });
 
-        console.log(response);
-
-        toast.success('Logged in successfully!');
-        form.reset();
+        if (response.data) {
+          toast.success('Logged in successfully!');
+          form.reset();
+        } else {
+          throw new Error(response.error.message);
+        }
       } catch (error) {
         if (error instanceof Error || error instanceof ZodError) {
           toast.error(error.message);

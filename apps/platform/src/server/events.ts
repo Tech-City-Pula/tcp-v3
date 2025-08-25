@@ -2,7 +2,7 @@ import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
 import { createServerFn } from '@tanstack/react-start';
 import { eq } from 'drizzle-orm';
-import z from 'zod';
+import { z as z3 } from 'zod/v3';
 
 export const listEvents = createServerFn({
   method: 'GET',
@@ -18,8 +18,9 @@ export const listEvents = createServerFn({
   }));
 });
 
-const getEventInputSchema = z.object({
-  eventId: z.uuidv4(),
+// TODO: change to zod v4 when drizzle-orm fix gets merged
+const getEventInputSchema = z3.object({
+  eventId: z3.string().uuid(),
 });
 
 export const getEvent = createServerFn({

@@ -1,61 +1,51 @@
-import { db } from "@repo/backend/db";
-import { schema } from "@repo/backend/schema";
-import { createServerFn } from "@tanstack/react-start";
-import { and, eq } from "drizzle-orm";
-import { z } from "zod";
+import { db } from '@repo/backend/db';
+import { schema } from '@repo/backend/schema';
+import { createServerFn } from '@tanstack/react-start';
+import { and, eq } from 'drizzle-orm';
+import { z as z3 } from 'zod/v3';
 
-const attendEventSchema = z.object({
-	email: z.string().email(),
-	eventId: z.string().uuid(),
+// TODO: change to zod v4 when drizzle-orm fix gets merged
+const attendEventSchema = z3.object({
+  email: z3.string().email(),
+  eventId: z3.string().uuid(),
 });
 
 export const attendEvent = createServerFn({
-	method: "POST",
+  method: 'POST',
 })
-	.validator(attendEventSchema)
-	.handler(async ({ data }) => {
-		try {
-			const { email, eventId } = data;
+  .validator(attendEventSchema)
+  .handler(async ({ data }) => {
+    try {
+      const { email, eventId } = data;
 
-			// Check if event exists
-			const event = await db
-				.select()
-				.from(schema.events)
-				.where(eq(schema.events.id, eventId))
-				.limit(1);
-			if (event.length === 0) {
-				throw new Error("Event not found");
-			}
+      // Check if event exists
+      const event = await db.select().from(schema.events).where(eq(schema.events.id, eventId)).limit(1);
+      if (event.length === 0) {
+        throw new Error('Event not found');
+      }
 
-			// Check if user is already registered
-			const existingAttendance = await db
-				.select()
-				.from(schema.eventAttendance)
-				.where(
-					and(
-						eq(schema.eventAttendance.eventId, eventId),
-						eq(schema.eventAttendance.email, email),
-					),
-				)
-				.limit(1);
+      // Check if user is already registered
+      const existingAttendance = await db
+        .select()
+        .from(schema.eventAttendance)
+        .where(and(eq(schema.eventAttendance.eventId, eventId), eq(schema.eventAttendance.email, email)))
+        .limit(1);
 
-			if (existingAttendance.length > 0) {
-				throw new Error("You are already registered for this event");
-			}
+      if (existingAttendance.length > 0) {
+        throw new Error('You are already registered for this event');
+      }
 
-			// Register user for event
-			await db.insert(schema.eventAttendance).values({
-				eventId,
-				email,
-			});
+      // Register user for event
+      await db.insert(schema.eventAttendance).values({
+        eventId,
+        email,
+      });
 
-			return { success: true, message: "Successfully registered for event" };
-		} catch (error) {
-			throw new Error(
-				error instanceof Error ? error.message : "Failed to register for event",
-			);
-		}
-	});
+      return { success: true, message: 'Successfully registered for event' };
+    } catch (error) {
+      throw new Error(error instanceof Error ? error.message : 'Failed to register for event');
+    }
+  });
 
 // TODO:
 // newsletter component has funky code
