@@ -1,13 +1,18 @@
+import { randomUUID } from 'node:crypto';
 import { pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
 
 export const newslatterSubscriptions = pgTable('newsletter_subscriptions', {
-  id: uuid('id').primaryKey().defaultRandom(),
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => randomUUID()),
   email: text('email').unique().notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 }).enableRLS();
 
 export const events = pgTable('events', {
-  id: uuid('event_id').primaryKey().defaultRandom(),
+  id: uuid('event_id')
+    .primaryKey()
+    .$defaultFn(() => randomUUID()),
   title: text('title').notNull(),
   description: text('description').notNull(),
   eventAt: timestamp('event_at').notNull(),
@@ -28,7 +33,9 @@ export const eventAttendance = pgTable(
 ).enableRLS();
 
 export const talks = pgTable('talks', {
-  talkId: uuid('talk_id').defaultRandom().primaryKey(),
+  talkId: uuid('talk_id')
+    .primaryKey()
+    .$defaultFn(() => randomUUID()),
   title: text('title').notNull(),
   description: text('description').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),

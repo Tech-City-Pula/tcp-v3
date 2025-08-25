@@ -1,10 +1,13 @@
+import { randomUUID } from 'node:crypto';
 import { boolean, pgSchema, text, timestamp } from 'drizzle-orm/pg-core';
 
 export const betterAuthSchema = pgSchema('better_auth');
 
 export const user = betterAuthSchema
   .table('user', {
-    id: text('id').primaryKey(),
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
     name: text('name').notNull(),
     email: text('email').notNull().unique(),
     emailVerified: boolean('email_verified')
@@ -26,7 +29,9 @@ export const user = betterAuthSchema
 
 export const session = betterAuthSchema
   .table('session', {
-    id: text('id').primaryKey(),
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
     expiresAt: timestamp('expires_at').notNull(),
     token: text('token').notNull().unique(),
     createdAt: timestamp('created_at').notNull(),
@@ -42,9 +47,15 @@ export const session = betterAuthSchema
 
 export const account = betterAuthSchema
   .table('account', {
-    id: text('id').primaryKey(),
-    accountId: text('account_id').notNull(),
-    providerId: text('provider_id').notNull(),
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    accountId: text('account_id')
+      .notNull()
+      .$defaultFn(() => randomUUID()),
+    providerId: text('provider_id')
+      .notNull()
+      .$defaultFn(() => randomUUID()),
     userId: text('user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
@@ -62,7 +73,9 @@ export const account = betterAuthSchema
 
 export const verification = betterAuthSchema
   .table('verification', {
-    id: text('id').primaryKey(),
+    id: text('id')
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
     identifier: text('identifier').notNull(),
     value: text('value').notNull(),
     expiresAt: timestamp('expires_at').notNull(),
