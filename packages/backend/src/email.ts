@@ -1,8 +1,7 @@
-import dotenv from 'dotenv';
-import nodemailer, { type Transporter } from 'nodemailer';
-
 // Load env vars from packages/backend/.env if present
-dotenv.config();
+import 'dotenv/config';
+
+import nodemailer, { type Transporter } from 'nodemailer';
 
 const defaultSmtpPort = 54_325;
 
