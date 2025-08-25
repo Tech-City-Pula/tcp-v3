@@ -2,11 +2,12 @@ import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
 import { createServerFn } from '@tanstack/react-start';
 import { and, eq } from 'drizzle-orm';
-import { z } from 'zod';
+import { z as z3 } from 'zod/v3';
 
-const attendEventSchema = z.object({
-  email: z.email(),
-  eventId: z.uuidv4(),
+// TODO: change to zod v4 when drizzle-orm fix gets merged
+const attendEventSchema = z3.object({
+  email: z3.string().email(),
+  eventId: z3.string().uuid(),
 });
 
 export const attendEvent = createServerFn({
