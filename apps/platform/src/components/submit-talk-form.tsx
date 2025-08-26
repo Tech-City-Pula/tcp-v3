@@ -11,9 +11,9 @@ const defaultTalkInfo: SubmitTalkInput = {
   description: '',
 } as const;
 
-interface SubmitTalkFormProps {
+type SubmitTalkFormProps = {
   onSubmit: (data: SubmitTalkInput) => Promise<{ success: boolean }>;
-}
+};
 
 export function SubmitTalkForm({ onSubmit }: SubmitTalkFormProps) {
   const form = useForm({

@@ -10,7 +10,6 @@ export const descriptionMinLength = 10;
 export const descriptionMaxLength = 500;
 
 export const emailSchema = z
-  .string()
   .email({ message: 'Please enter a valid email address.' })
   .min(emailMinLength, {
     message: `Email must be at least ${emailMinLength} characters.`,
