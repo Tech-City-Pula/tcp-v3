@@ -36,6 +36,7 @@ export const talks = pgTable('talks', {
   talkId: uuid('talk_id')
     .primaryKey()
     .$defaultFn(() => randomUUID()),
+  email: text('email').notNull(),
   title: text('title').notNull(),
   description: text('description').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
