@@ -1,20 +1,38 @@
+import { useForm } from '@tanstack/react-form';
 import { createFileRoute } from '@tanstack/react-router';
-import type React from 'react';
+import { zodValidator } from '@tanstack/zod-form-adapter';
 import { useState } from 'react';
+import { type ContactFormValues, contactSchema } from '@/schemas/contact';
 
 export const Route = createFileRoute('/about')({
   component: AboutPage,
 });
 
 function AboutPage() {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [serverError, setServerError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', { email, message });
-    // Handle form submission here
-  };
+  const form = useForm<ContactFormValues>({
+    defaultValues: {
+      email: '',
+      message: '',
+    },
+    validatorAdapter: zodValidator,
+    validator: contactSchema,
+    onSubmit: async ({ value }) => {
+      setServerError(null);
+      try {
+        // Simulate server validation (replace with real API call)
+        if (value.email === 'hello@techcitypula.org') {
+          setServerError('This email is already registered for event attendance.');
+          return;
+        }
+        // Success: show toast or success message here
+        // toast.success('Message sent!');
+      } catch {
+        setServerError('Unknown server error. Please try again.');
+      }
+    },
+  });
 
   return (
     <div className="min-h-screen bg-black p-4 font-mono text-green-400 md:p-8">
@@ -132,39 +150,78 @@ function AboutPage() {
             </div>
 
             <div className="rounded-lg border border-green-400 bg-gray-900 p-6">
-              <form className="space-y-4" onSubmit={handleSubmit}>
-                <div>
-                  <label className="mb-2 block text-green-300 text-sm" htmlFor="asd">
-                    $ echo "your-email" {'>'} contact.txt
-                  </label>
-                  <input
-                    className="w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                    type="email"
-                    value={email}
-                  />
-                </div>
-                <div>
-                  <label className="mb-2 block text-green-300 text-sm" htmlFor="asdf">
-                    $ vim message.txt
-                  </label>
-                  <textarea
-                    className="min-h-[100px] w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Tell us about your sponsorship ideas or just say hello..."
-                    required
-                    value={message}
-                  />
-                  <div className="mt-1 text-green-600 text-xs">{message.length}/500 chars</div>
-                </div>
+              <form
+                className="space-y-4"
+                onSubmit={form.handleSubmit}
+                noValidate
+                aria-describedby={serverError ? 'server-error' : undefined}
+              >
+                <form.Field
+                  name="email"
+                  children={(field) => (
+                    <div>
+                      <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
+                        $ echo "your-email" {'>'} contact.txt
+                      </label>
+                      <input
+                        id={field.name}
+                        className="w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
+                        type="email"
+                        placeholder="your@email.com"
+                        required
+                        {...field.getInputProps()}
+                        aria-invalid={!!field.state.meta.errors.length}
+                        aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
+                        maxLength={50}
+                      />
+                      {field.state.meta.errors.length > 0 && (
+                        <div id={`${field.name}-error`} className="mt-1 text-red-400 text-xs" role="alert">
+                          {field.state.meta.errors[0]}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                />
+
+                <form.Field
+                  name="message"
+                  children={(field) => (
+                    <div>
+                      <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
+                        $ vim message.txt
+                      </label>
+                      <textarea
+                        id={field.name}
+                        className="min-h-[100px] w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
+                        placeholder="Tell us about your sponsorship ideas or just say hello..."
+                        required
+                        {...field.getInputProps()}
+                        aria-invalid={!!field.state.meta.errors.length}
+                        aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
+                        maxLength={500}
+                      />
+                      <div className="mt-1 text-green-600 text-xs">{form.state.values.message.length}/500 chars</div>
+                      {field.state.meta.errors.length > 0 && (
+                        <div id={`${field.name}-error`} className="mt-1 text-red-400 text-xs" role="alert">
+                          {field.state.meta.errors[0]}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                />
+
                 <button
                   className="w-full rounded bg-green-400 p-2 font-bold font-mono text-black transition-colors hover:bg-green-300"
                   type="submit"
+                  disabled={form.state.isSubmitting}
                 >
                   $ send --message
                 </button>
+                {serverError && (
+                  <div id="server-error" className="mt-2 text-red-400 text-xs" role="alert">
+                    {serverError}
+                  </div>
+                )}
               </form>
             </div>
           </div>

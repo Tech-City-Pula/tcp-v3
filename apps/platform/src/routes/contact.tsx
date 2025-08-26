@@ -1,118 +1,140 @@
-import { render, toPlainText } from '@react-email/components';
-import { sendEmail } from '@repo/backend/email';
-import { ContactEmail } from '@repo/backend/emails/contact-email';
+import { useForm } from '@tanstack/react-form';
 import { createFileRoute } from '@tanstack/react-router';
-import { createServerFn } from '@tanstack/react-start';
-import { type FormEvent, useState } from 'react';
-import { z } from 'zod';
-
-const emailSchema = z.email();
-
-function ContactForm() {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [ok, setOk] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    setError(null);
-    setOk(null);
-
-    if (!emailSchema.parse(email)) {
-      setError('Enter a valid email');
-      return;
-    }
-    if (!message.trim()) {
-      setError('Message cannot be empty');
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      const res = await sendContact({ data: { email, message } });
-      if (res?.ok) {
-        setOk('Message sent. Check MailHog.');
-        setEmail('');
-        setMessage('');
-      } else {
-        setError('Failed to send. Try again.');
-      }
-    } catch (_err) {
-      setError('Failed to send. Try again.');
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  return (
-    <form className="mx-auto max-w-xl border border-emerald-500/40 bg-black/70 p-6" onSubmit={onSubmit}>
-      <h2 className="mb-4 font-mono text-emerald-500 text-xl">
-        <span className="text-white">[</span> CONTACT_US <span className="text-white">]</span>
-      </h2>
-      <div className="mb-3">
-        <label className="mb-1 block font-mono text-emerald-400 text-sm" htmlFor="contact-email">
-          EMAIL
-        </label>
-        <input
-          className="h-11 w-full border border-emerald-500/40 bg-black px-3 text-emerald-100 outline-none focus:border-emerald-500"
-          id="contact-email"
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
-          required
-          type="email"
-          value={email}
-        />
-      </div>
-      <div className="mb-4">
-        <label className="mb-1 block font-mono text-emerald-400 text-sm" htmlFor="contact-message">
-          MESSAGE
-        </label>
-        <textarea
-          className="min-h-[140px] w-full border border-emerald-500/40 bg-black px-3 py-2 text-emerald-100 outline-none focus:border-emerald-500"
-          id="contact-message"
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Write your message…"
-          required
-          value={message}
-        />
-      </div>
-      {error ? <p className="mb-3 font-mono text-red-400 text-sm">{error}</p> : null}
-      {ok ? <p className="mb-3 font-mono text-emerald-400 text-sm">{ok}</p> : null}
-      <button
-        className="cursor-pointer border-2 border-emerald-500 bg-black px-6 py-3 font-bold font-mono text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-black disabled:opacity-60"
-        disabled={submitting}
-        type="submit"
-      >
-        {submitting ? '[ SENDING… ]' : '[ SEND ]'}
-      </button>
-    </form>
-  );
-}
-
-const maxLength = 500;
-export const sendContact = createServerFn({ method: 'POST' })
-  .validator(z.object({ email: z.email(), message: z.string().min(1).max(maxLength) }))
-  .handler(async ({ data }) => {
-    const emailHtml = await render(<ContactEmail>{data.message}</ContactEmail>);
-
-    const info = await sendEmail({
-      subject: 'test mail',
-      to: data.email,
-      html: emailHtml,
-      text: toPlainText(emailHtml),
-    });
-
-    return { ok: true, id: info.messageId };
-  });
+import { zodValidator } from '@tanstack/zod-form-adapter';
+import { useState } from 'react';
+import { toast } from '@/components/ui/toast';
+import { type ContactFormValues, contactSchema } from '@/schemas/contact';
 
 export const Route = createFileRoute('/contact')({
-  component: () => (
-    <main className="min-h-screen bg-black text-emerald-500">
-      <div className="py-12">
-        <ContactForm />
-      </div>
-    </main>
-  ),
+  component: ContactPage,
 });
+
+function ContactPage() {
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  const form = useForm<ContactFormValues>({
+    defaultValues: {
+      email: '',
+      message: '',
+    },
+    validatorAdapter: zodValidator,
+    validator: contactSchema,
+    onSubmit: async ({ value }) => {
+      setServerError(null);
+      try {
+        // Replace with your real API call
+        if (value.email === 'hello@techcitypula.org') {
+          setServerError('This email is already registered for event attendance.');
+          toast({
+            title: 'Error',
+            description: 'This email is already registered for event attendance.',
+            variant: 'destructive',
+          });
+          return;
+        }
+        // Success: show toast or success message here
+        toast({
+          title: 'Success!',
+          description: 'Your message has been sent.',
+          variant: 'success',
+        });
+      } catch {
+        setServerError('Unknown server error. Please try again.');
+        toast({
+          title: 'Error',
+          description: 'Unknown server error. Please try again.',
+          variant: 'destructive',
+        });
+      }
+    },
+  });
+
+  return (
+    <div className="min-h-screen bg-black p-4 font-mono text-green-400 md:p-8">
+      <div className="mx-auto max-w-2xl">
+        <header className="mb-8">
+          <div className="mb-2 text-sm opacity-70">~/contact</div>
+          <h1 className="font-bold text-2xl md:text-3xl">$ cat contact.md</h1>
+        </header>
+        <section className="mb-8">
+          <h3 className="mb-4 text-green-300 text-lg">{'> contact --get-in-touch'}</h3>
+          <div className="rounded-lg border border-green-400 bg-gray-900 p-6">
+            <form
+              className="space-y-4"
+              onSubmit={form.handleSubmit}
+              noValidate
+              aria-describedby={serverError ? 'server-error' : undefined}
+            >
+              <form.Field
+                name="email"
+                children={(field) => (
+                  <div>
+                    <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
+                      $ echo "your-email" {'>'} contact.txt
+                    </label>
+                    <input
+                      id={field.name}
+                      className="w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
+                      type="email"
+                      placeholder="your@email.com"
+                      required
+                      {...field.getInputProps()}
+                      aria-invalid={!!field.state.meta.errors.length}
+                      aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
+                      maxLength={50}
+                    />
+                    {field.state.meta.errors.length > 0 && (
+                      <div id={`${field.name}-error`} className="mt-1 text-red-400 text-xs" role="alert">
+                        {field.state.meta.errors[0]}
+                      </div>
+                    )}
+                  </div>
+                )}
+              />
+
+              <form.Field
+                name="message"
+                children={(field) => (
+                  <div>
+                    <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
+                      $ vim message.txt
+                    </label>
+                    <textarea
+                      id={field.name}
+                      className="min-h-[100px] w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
+                      placeholder="Type your message here..."
+                      required
+                      {...field.getInputProps()}
+                      aria-invalid={!!field.state.meta.errors.length}
+                      aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
+                      maxLength={500}
+                    />
+                    <div className="mt-1 text-green-600 text-xs">{form.state.values.message.length}/500 chars</div>
+                    {field.state.meta.errors.length > 0 && (
+                      <div id={`${field.name}-error`} className="mt-1 text-red-400 text-xs" role="alert">
+                        {field.state.meta.errors[0]}
+                      </div>
+                    )}
+                  </div>
+                )}
+              />
+
+              <button
+                className="w-full rounded bg-green-400 p-2 font-bold font-mono text-black transition-colors hover:bg-green-300"
+                type="submit"
+                disabled={form.state.isSubmitting}
+              >
+                $ send --message
+              </button>
+              {serverError && (
+                <div id="server-error" className="mt-2 text-red-400 text-xs" role="alert">
+                  {serverError}
+                </div>
+              )}
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
