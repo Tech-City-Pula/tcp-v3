@@ -3,7 +3,7 @@ import { schema } from '@repo/backend/schema';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
-import Newsletter from '@/components/newsletter';
+import { Newsletter } from '@/components/newsletter';
 
 const subscribeToNewletter = createServerFn({
   method: 'POST',
@@ -14,7 +14,7 @@ const subscribeToNewletter = createServerFn({
     })
   )
   .handler(async ({ data }) => {
-    await db.insert(schema.newslatterSubscriptions).values({
+    await db.insert(schema.newsletterSubscriptions).values({
       email: data.email,
     });
   });

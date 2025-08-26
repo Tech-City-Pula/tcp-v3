@@ -1,4 +1,6 @@
-CREATE TABLE "account" (
+CREATE SCHEMA "better_auth";
+--> statement-breakpoint
+CREATE TABLE "better_auth"."account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
 	"provider_id" text NOT NULL,
@@ -14,8 +16,8 @@ CREATE TABLE "account" (
 	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "account" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
-CREATE TABLE "session" (
+ALTER TABLE "better_auth"."account" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
+CREATE TABLE "better_auth"."session" (
 	"id" text PRIMARY KEY NOT NULL,
 	"expires_at" timestamp NOT NULL,
 	"token" text NOT NULL,
@@ -28,8 +30,8 @@ CREATE TABLE "session" (
 	CONSTRAINT "session_token_unique" UNIQUE("token")
 );
 --> statement-breakpoint
-ALTER TABLE "session" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
-CREATE TABLE "user" (
+ALTER TABLE "better_auth"."session" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
+CREATE TABLE "better_auth"."user" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"email" text NOT NULL,
@@ -44,8 +46,8 @@ CREATE TABLE "user" (
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
-ALTER TABLE "user" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
-CREATE TABLE "verification" (
+ALTER TABLE "better_auth"."user" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
+CREATE TABLE "better_auth"."verification" (
 	"id" text PRIMARY KEY NOT NULL,
 	"identifier" text NOT NULL,
 	"value" text NOT NULL,
@@ -54,7 +56,7 @@ CREATE TABLE "verification" (
 	"updated_at" timestamp
 );
 --> statement-breakpoint
-ALTER TABLE "verification" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
+ALTER TABLE "better_auth"."verification" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 CREATE TABLE "event_attendance" (
 	"event_id" uuid NOT NULL,
 	"email" text NOT NULL,
@@ -90,6 +92,6 @@ CREATE TABLE "talks" (
 );
 --> statement-breakpoint
 ALTER TABLE "talks" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
-ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "better_auth"."account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "better_auth"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "better_auth"."session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "better_auth"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "event_attendance" ADD CONSTRAINT "event_attendance_event_id_events_event_id_fk" FOREIGN KEY ("event_id") REFERENCES "public"."events"("event_id") ON DELETE no action ON UPDATE no action;
