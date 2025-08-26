@@ -96,6 +96,7 @@ async function main() {
           description: generators.loremIpsum({
             sentencesCount: 5,
           }),
+          email: generators.email(),
         },
       },
       events: {
