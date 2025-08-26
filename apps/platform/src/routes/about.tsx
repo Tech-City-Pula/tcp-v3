@@ -1,38 +1,18 @@
-import { useForm } from '@tanstack/react-form';
+import type { ContactFormValues } from '@repo/backend/schema';
 import { createFileRoute } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-form-adapter';
-import { useState } from 'react';
-import { type ContactFormValues, contactSchema } from '@/schemas/contact';
+import { ContactForm } from '@/components/ContactForm';
 
 export const Route = createFileRoute('/about')({
   component: AboutPage,
 });
 
 function AboutPage() {
-  const [serverError, setServerError] = useState<string | null>(null);
-
-  const form = useForm<ContactFormValues>({
-    defaultValues: {
-      email: '',
-      message: '',
-    },
-    validatorAdapter: zodValidator,
-    validator: contactSchema,
-    onSubmit: async ({ value }) => {
-      setServerError(null);
-      try {
-        // Simulate server validation (replace with real API call)
-        if (value.email === 'hello@techcitypula.org') {
-          setServerError('This email is already registered for event attendance.');
-          return;
-        }
-        // Success: show toast or success message here
-        // toast.success('Message sent!');
-      } catch {
-        setServerError('Unknown server error. Please try again.');
-      }
-    },
-  });
+  const handleSponsorInquiry = (values: ContactFormValues) => {
+    console.log('Sponsor inquiry submitted:', values);
+    // Additional sponsor-specific handling can go here
+    // For example, you could send this to a different endpoint
+    // or add additional tracking for sponsor inquiries
+  };
 
   return (
     <div className="min-h-screen bg-black p-4 font-mono text-green-400 md:p-8">
@@ -50,9 +30,9 @@ function AboutPage() {
               <img
                 alt="Tech City Pula community"
                 className="mx-auto mb-6 w-full max-w-md rounded border border-green-400"
-                height="100%"
+                height="200"
                 src="/placeholder.svg?height=200&width=400&text=Tech+City+Pula+Community"
-                width="100%"
+                width="400"
               />
               <h2 className="mb-4 text-green-300 text-xl md:text-2xl">{'> Tech City Pula'}</h2>
               <div className="text-sm opacity-80">
@@ -117,9 +97,9 @@ function AboutPage() {
               <img
                 alt="Recent meetup photos"
                 className="mb-3 w-full rounded border border-green-400"
-                height="100%"
+                height="150"
                 src="/placeholder.svg?height=150&width=250&text=Hackathon+Photos"
-                width="100%"
+                width="250"
               />
               <p className="text-xs opacity-80">
                 Photos from our latest hackathon where we built amazing projects and made new connections in the tech
@@ -146,83 +126,28 @@ function AboutPage() {
                   <li>• Support open source projects</li>
                 </ul>
                 <p className="font-bold text-green-300">Partner with us to grow Pula's tech ecosystem!</p>
+
+                {/* Sponsorship tiers */}
+                <div className="mt-4 space-y-2">
+                  <p className="font-bold text-green-300">Sponsorship Tiers:</p>
+                  <div className="space-y-1 text-xs">
+                    <p>🥉 Bronze: €500/year - Logo on website</p>
+                    <p>🥈 Silver: €1000/year - Logo + meetup mentions</p>
+                    <p>🥇 Gold: €2500/year - All above + speaking slots</p>
+                    <p>💎 Platinum: €5000/year - Premium partnership</p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="rounded-lg border border-green-400 bg-gray-900 p-6">
-              <form
-                className="space-y-4"
-                onSubmit={form.handleSubmit}
-                noValidate
-                aria-describedby={serverError ? 'server-error' : undefined}
-              >
-                <form.Field
-                  name="email"
-                  children={(field) => (
-                    <div>
-                      <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
-                        $ echo "your-email" {'>'} contact.txt
-                      </label>
-                      <input
-                        id={field.name}
-                        className="w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
-                        type="email"
-                        placeholder="your@email.com"
-                        required
-                        {...field.getInputProps()}
-                        aria-invalid={!!field.state.meta.errors.length}
-                        aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
-                        maxLength={50}
-                      />
-                      {field.state.meta.errors.length > 0 && (
-                        <div id={`${field.name}-error`} className="mt-1 text-red-400 text-xs" role="alert">
-                          {field.state.meta.errors[0]}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                />
-
-                <form.Field
-                  name="message"
-                  children={(field) => (
-                    <div>
-                      <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
-                        $ vim message.txt
-                      </label>
-                      <textarea
-                        id={field.name}
-                        className="min-h-[100px] w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
-                        placeholder="Tell us about your sponsorship ideas or just say hello..."
-                        required
-                        {...field.getInputProps()}
-                        aria-invalid={!!field.state.meta.errors.length}
-                        aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
-                        maxLength={500}
-                      />
-                      <div className="mt-1 text-green-600 text-xs">{form.state.values.message.length}/500 chars</div>
-                      {field.state.meta.errors.length > 0 && (
-                        <div id={`${field.name}-error`} className="mt-1 text-red-400 text-xs" role="alert">
-                          {field.state.meta.errors[0]}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                />
-
-                <button
-                  className="w-full rounded bg-green-400 p-2 font-bold font-mono text-black transition-colors hover:bg-green-300"
-                  type="submit"
-                  disabled={form.state.isSubmitting}
-                >
-                  $ send --message
-                </button>
-                {serverError && (
-                  <div id="server-error" className="mt-2 text-red-400 text-xs" role="alert">
-                    {serverError}
-                  </div>
-                )}
-              </form>
+            <div>
+              <ContactForm
+                onSuccess={handleSponsorInquiry}
+                emailPlaceholder="sponsor@company.com"
+                messagePlaceholder="Tell us about your sponsorship ideas or just say hello..."
+                submitButtonText="$ send --sponsor-inquiry"
+                showCharacterCount={true}
+              />
             </div>
           </div>
         </section>
@@ -232,7 +157,7 @@ function AboutPage() {
           <div className="grid gap-6 text-sm md:grid-cols-2">
             <div>
               <h4 className="mb-2 font-bold text-green-300">$ cat contact_info.json</h4>
-              <div className="space-y-1 text-xs">
+              <div className="space-y-1 font-mono text-xs">
                 <p>{'{'}</p>
                 <p className="pl-4">"location": "Pula, Croatia",</p>
                 <p className="pl-4">"email": "hello@techcitypula.org",</p>
