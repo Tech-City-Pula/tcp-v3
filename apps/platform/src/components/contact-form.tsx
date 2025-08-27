@@ -1,8 +1,13 @@
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { useState } from 'react';
-import { toast } from '@/components/ui/toast';
-import { type ContactFormValues, contactSchema } from '@/schemas/contact';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+const MIN_EMAIL_LENGTH = 3;
+const MAX_EMAIL_LENGTH = 50;
+const MIN_MESSAGE_LENGTH = 10;
+const MAX_MESSAGE_LENGTH = 500;
 
 interface ContactFormProps {
   onSuccess?: (values: ContactFormValues) => void;
@@ -172,3 +177,16 @@ export function ContactForm({
     </div>
   );
 }
+export const contactSchema = z.object({
+  email: z
+    .string()
+    .min(MIN_EMAIL_LENGTH, 'Email must be at least 3 characters')
+    .max(MAX_EMAIL_LENGTH, 'Email must be at most 50 characters')
+    .email('Invalid email address'),
+  message: z
+    .string()
+    .min(MIN_MESSAGE_LENGTH, 'Message must be at least 10 characters')
+    .max(MAX_MESSAGE_LENGTH, 'Message must be at most 500 characters'),
+});
+
+export type ContactFormValues = z.infer<typeof contactSchema>;
