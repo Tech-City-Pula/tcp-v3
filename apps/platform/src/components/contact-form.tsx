@@ -9,7 +9,7 @@ const MAX_EMAIL_LENGTH = 50;
 const MIN_MESSAGE_LENGTH = 10;
 const MAX_MESSAGE_LENGTH = 500;
 
-interface ContactFormProps {
+type ContactFormProps{
   onSuccess?: (values: ContactFormValues) => void;
   emailPlaceholder?: string;
   messagePlaceholder?: string;

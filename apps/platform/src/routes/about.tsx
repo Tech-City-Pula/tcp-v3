@@ -1,5 +1,5 @@
-import type { ContactFormValues } from '@repo/backend/schema';
 import { createFileRoute } from '@tanstack/react-router';
+import type { ContactFormValues } from '@/components/contact-form';
 import { ContactForm } from '@/components/contact-form';
 
 export const Route = createFileRoute('/about')({
