@@ -1,6 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { zodValidator } from '@tanstack/zod-form-adapter';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -35,8 +34,7 @@ export function ContactForm({
     },
     validatorAdapter: zodValidator,
     validator: contactSchema,
-    onSubmit: async ({ value }) => {
-      setServerError(null);
+
       try {
         // Replace with your real API call
         const response = await fetch('/api/contact', {
@@ -47,58 +45,44 @@ export function ContactForm({
           body: JSON.stringify(value),
         });
 
-        if (!response.ok) {
-          const errorData = await response.json();
+  // Handle specific server errors
+  if (response.status === 409) {
+    setServerError('This email is already registered for event attendance.');
+    toast({
+      title: 'Error',
+      description: 'This email is already registered for event attendance.',
+      variant: 'destructive',
+    });
+    return;
+  }
 
-          // Handle specific server errors
-          if (response.status === 409) {
-            setServerError('This email is already registered for event attendance.');
-            toast({
-              title: 'Error',
-              description: 'This email is already registered for event attendance.',
-              variant: 'destructive',
-            });
-            return;
-          }
+  if (response.status === 400) {
+    setServerError(errorData.message || 'Invalid form data. Please check your inputs.');
+    toast({
+      title: 'Validation Error',
+      description: errorData.message || 'Invalid form data. Please check your inputs.',
+      variant: 'destructive',
+    });
+    return;
+  }
 
-          if (response.status === 400) {
-            setServerError(errorData.message || 'Invalid form data. Please check your inputs.');
-            toast({
-              title: 'Validation Error',
-              description: errorData.message || 'Invalid form data. Please check your inputs.',
-              variant: 'destructive',
-            });
-            return;
-          }
+  throw new Error(errorData.message || 'Server error');
+}
 
-          throw new Error(errorData.message || 'Server error');
-        }
+// Success
+toast({
+  title: 'Success!',
+  description: 'Your message has been sent.',
+  variant: 'success',
+});
 
-        // Success
-        toast({
-          title: 'Success!',
-          description: 'Your message has been sent.',
-          variant: 'success',
-        });
+// Reset form
+form.reset();
 
-        // Reset form
-        form.reset();
+},
+  })
 
-        // Call onSuccess callback if provided
-        onSuccess?.(value);
-      } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown server error. Please try again.';
-        setServerError(errorMessage);
-        toast({
-          title: 'Error',
-          description: errorMessage,
-          variant: 'destructive',
-        });
-      }
-    },
-  });
-
-  return (
+return (
     <div className={`rounded-lg border border-green-400 bg-gray-900 p-6 ${className}`}>
       <form
         className="space-y-4"
