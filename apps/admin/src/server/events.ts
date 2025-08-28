@@ -1,14 +1,7 @@
 import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
 import { createServerFn } from '@tanstack/react-start';
-import { z } from 'zod';
-
-const createEventSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  eventAt: z.string(),
-  location: z.string(),
-});
+import { createEventSchema } from '@/lib/validation/events';
 
 export const createEvent = createServerFn({
   method: 'POST',
