@@ -14,6 +14,11 @@ export const getInitialSession = createServerFn({ method: 'GET' }).handler(async
     } as const;
   }
 
+  // Check if user has admin role - throw error if not admin
+  if (session.user.role !== 'admin') {
+    throw new Error('Access denied: Admin role required');
+  }
+
   return {
     session: session.session,
     user: session.user,
