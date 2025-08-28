@@ -126,17 +126,6 @@ function AboutPage() {
                   <li>• Support open source projects</li>
                 </ul>
                 <p className="font-bold text-green-300">Partner with us to grow Pula's tech ecosystem!</p>
-
-                {/* Sponsorship tiers */}
-                <div className="mt-4 space-y-2">
-                  <p className="font-bold text-green-300">Sponsorship Tiers:</p>
-                  <div className="space-y-1 text-xs">
-                    <p>🥉 Bronze: €500/year - Logo on website</p>
-                    <p>🥈 Silver: €1000/year - Logo + meetup mentions</p>
-                    <p>🥇 Gold: €2500/year - All above + speaking slots</p>
-                    <p>💎 Platinum: €5000/year - Premium partnership</p>
-                  </div>
-                </div>
               </div>
             </div>
 
