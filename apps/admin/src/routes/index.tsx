@@ -23,8 +23,21 @@ function IndexRouteComponent() {
 
 export const Route = createFileRoute('/')({
   component: IndexRouteComponent,
-  beforeLoad() {
-    return getInitialSession();
+  beforeLoad: async () => {
+    try {
+      return await getInitialSession();
+    } catch (error) {
+      // For the index route, we still want to show the login form
+      // even if the user is not an admin, so we catch admin role errors
+      // and return empty session to show login form
+      if (error instanceof Error && error.message.includes('Admin role required')) {
+        return {
+          session: undefined,
+          user: undefined,
+        } as const;
+      }
+      throw error;
+    }
   },
   loader(ctx) {
     return ctx.context;
