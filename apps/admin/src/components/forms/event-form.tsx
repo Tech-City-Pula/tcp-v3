@@ -6,17 +6,25 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { type CreateEventInput, createEventSchema } from '@/lib/validation/events';
+import {
+  type CreateEventInput,
+  createEventSchema,
+  descriptionSchema,
+  eventAtSchema,
+  locationSchema,
+  titleSchema,
+} from '@/lib/validation/events';
 import { createEvent } from '@/server/events';
+
+const defaultEvent: CreateEventInput = { title: '', description: '', eventAt: '', location: '' } as const;
 
 export type EventFormProps = {
   onCreated?: () => void;
 };
 
 export function EventForm({ onCreated }: EventFormProps) {
-  const defaultEvent: CreateEventInput = { title: '', description: '', eventAt: '', location: '' } as const;
-
   const form = useForm({
     defaultValues: defaultEvent,
     validators: {
@@ -59,7 +67,7 @@ export function EventForm({ onCreated }: EventFormProps) {
           <CardDescription>Fill out the form to add a new event</CardDescription>
         </CardHeader>
         <CardContent>
-          <form.Field name="title" validators={{ onChange: createEventSchema.shape.title }}>
+          <form.Field name="title" validators={{ onChange: titleSchema }}>
             {(field) => (
               <div className="flex flex-col gap-2">
                 <Label htmlFor={field.name}>{field.name}</Label>
@@ -76,14 +84,12 @@ export function EventForm({ onCreated }: EventFormProps) {
             )}
           </form.Field>
 
-          <form.Field name="description" validators={{ onChange: createEventSchema.shape.description }}>
+          <form.Field name="description" validators={{ onChange: descriptionSchema }}>
             {(field) => (
               <div className="flex flex-col gap-2">
                 <Label htmlFor={field.name}>{field.name}</Label>
-                <textarea
+                <Textarea
                   id={field.name}
-                  className="w-full"
-                  style={{ minHeight: '6rem' }}
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
@@ -99,7 +105,7 @@ export function EventForm({ onCreated }: EventFormProps) {
             )}
           </form.Field>
 
-          <form.Field name="eventAt" validators={{ onChange: createEventSchema.shape.eventAt }}>
+          <form.Field name="eventAt" validators={{ onChange: eventAtSchema }}>
             {(field) => (
               <div className="flex flex-col gap-2">
                 <Label htmlFor={field.name}>{field.name}</Label>
@@ -121,7 +127,7 @@ export function EventForm({ onCreated }: EventFormProps) {
             )}
           </form.Field>
 
-          <form.Field name="location" validators={{ onChange: createEventSchema.shape.location }}>
+          <form.Field name="location" validators={{ onChange: locationSchema }}>
             {(field) => (
               <div className="flex flex-col gap-2">
                 <Label htmlFor={field.name}>{field.name}</Label>
