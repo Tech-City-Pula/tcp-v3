@@ -1,19 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router';
-import type React from 'react';
-import { useState } from 'react';
+import type { ContactFormValues } from '@/components/contact-form';
+import { ContactForm } from '@/components/contact-form';
 
 export const Route = createFileRoute('/about')({
   component: AboutPage,
 });
 
 function AboutPage() {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', { email, message });
-    // Handle form submission here
+  const sponsor_inquiry = async (data: ContactFormValues) => {
+    return await ContactForm({ data });
+    // Additional sponsor-specific handling can go here
+    // For example, you could send this to a different endpoint
+    // or add additional tracking for sponsor inquiries
   };
 
   return (
@@ -32,9 +30,9 @@ function AboutPage() {
               <img
                 alt="Tech City Pula community"
                 className="mx-auto mb-6 w-full max-w-md rounded border border-green-400"
-                height="100%"
+                height="200"
                 src="/placeholder.svg?height=200&width=400&text=Tech+City+Pula+Community"
-                width="100%"
+                width="400"
               />
               <h2 className="mb-4 text-green-300 text-xl md:text-2xl">{'> Tech City Pula'}</h2>
               <div className="text-sm opacity-80">
@@ -99,9 +97,9 @@ function AboutPage() {
               <img
                 alt="Recent meetup photos"
                 className="mb-3 w-full rounded border border-green-400"
-                height="100%"
+                height="150"
                 src="/placeholder.svg?height=150&width=250&text=Hackathon+Photos"
-                width="100%"
+                width="250"
               />
               <p className="text-xs opacity-80">
                 Photos from our latest hackathon where we built amazing projects and made new connections in the tech
@@ -131,41 +129,14 @@ function AboutPage() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-green-400 bg-gray-900 p-6">
-              <form className="space-y-4" onSubmit={handleSubmit}>
-                <div>
-                  <label className="mb-2 block text-green-300 text-sm" htmlFor="asd">
-                    $ echo "your-email" {'>'} contact.txt
-                  </label>
-                  <input
-                    className="w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                    type="email"
-                    value={email}
-                  />
-                </div>
-                <div>
-                  <label className="mb-2 block text-green-300 text-sm" htmlFor="asdf">
-                    $ vim message.txt
-                  </label>
-                  <textarea
-                    className="min-h-[100px] w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600"
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Tell us about your sponsorship ideas or just say hello..."
-                    required
-                    value={message}
-                  />
-                  <div className="mt-1 text-green-600 text-xs">{message.length}/500 chars</div>
-                </div>
-                <button
-                  className="w-full rounded bg-green-400 p-2 font-bold font-mono text-black transition-colors hover:bg-green-300"
-                  type="submit"
-                >
-                  $ send --message
-                </button>
-              </form>
+            <div>
+              <ContactForm
+                onSuccess={sponsor_inquiry}
+                emailPlaceholder="sponsor@company.com"
+                messagePlaceholder="Tell us about your sponsorship ideas or just say hello..."
+                submitButtonText="$ send --sponsor-inquiry"
+                showCharacterCount={true}
+              />
             </div>
           </div>
         </section>
@@ -175,7 +146,7 @@ function AboutPage() {
           <div className="grid gap-6 text-sm md:grid-cols-2">
             <div>
               <h4 className="mb-2 font-bold text-green-300">$ cat contact_info.json</h4>
-              <div className="space-y-1 text-xs">
+              <div className="space-y-1 font-mono text-xs">
                 <p>{'{'}</p>
                 <p className="pl-4">"location": "Pula, Croatia",</p>
                 <p className="pl-4">"email": "hello@techcitypula.org",</p>

@@ -1,12 +1,10 @@
-import { render, toPlainText } from '@react-email/components';
-import { sendEmail } from '@repo/backend/email';
-import { ContactEmail } from '@repo/backend/emails/contact-email';
 import { createFileRoute } from '@tanstack/react-router';
-import { createServerFn } from '@tanstack/react-start';
-import { type FormEvent, useState } from 'react';
-import { z } from 'zod';
+import type { ContactFormValues } from '@/components/contact-form';
+import { ContactForm } from '@/components/contact-form';
 
-const emailSchema = z.email();
+export const Route = createFileRoute('/contact')({
+  component: ContactForm,
+});
 
 function ContactForm() {
   const [email, setEmail] = useState('');
@@ -15,104 +13,61 @@ function ContactForm() {
   const [ok, setOk] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    setError(null);
-    setOk(null);
-
-    if (!emailSchema.parse(email)) {
-      setError('Enter a valid email');
-      return;
-    }
-    if (!message.trim()) {
-      setError('Message cannot be empty');
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      const res = await sendContact({ data: { email, message } });
-      if (res?.ok) {
-        setOk('Message sent. Check MailHog.');
-        setEmail('');
-        setMessage('');
-      } else {
-        setError('Failed to send. Try again.');
-      }
-    } catch (_err) {
-      setError('Failed to send. Try again.');
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
   return (
-    <form className="mx-auto max-w-xl border border-emerald-500/40 bg-black/70 p-6" onSubmit={onSubmit}>
-      <h2 className="mb-4 font-mono text-emerald-500 text-xl">
-        <span className="text-white">[</span> CONTACT_US <span className="text-white">]</span>
-      </h2>
-      <div className="mb-3">
-        <label className="mb-1 block font-mono text-emerald-400 text-sm" htmlFor="contact-email">
-          EMAIL
-        </label>
-        <input
-          className="h-11 w-full border border-emerald-500/40 bg-black px-3 text-emerald-100 outline-none focus:border-emerald-500"
-          id="contact-email"
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
-          required
-          type="email"
-          value={email}
-        />
+    <div className="min-h-screen bg-black p-4 font-mono text-green-400 md:p-8">
+      <div className="mx-auto max-w-2xl">
+        <header className="mb-8">
+          <div className="mb-2 text-sm opacity-70">~/contact</div>
+          <h1 className="font-bold text-2xl md:text-3xl">$ cat contact.md</h1>
+        </header>
+
+        <section className="mb-8">
+          <h3 className="mb-4 text-green-300 text-lg">{'> contact --get-in-touch'}</h3>
+          <ContactForm
+            onSuccess={handleContactSuccess}
+            emailPlaceholder="your@email.com"
+            messagePlaceholder="Type your message here..."
+            submitButtonText="$ send --message"
+            showCharacterCount={true}
+          />
+        </section>
+
+        {/* Additional contact information */}
+        <section className="mb-8">
+          <h3 className="mb-4 text-green-300 text-lg">{'> cat contact_info.json'}</h3>
+          <div className="rounded-lg border border-green-400 bg-gray-900 p-6">
+            <div className="space-y-2 font-mono text-sm">
+              <p>{'{'}</p>
+              <p className="pl-4">"email": "hello@techcitypula.org",</p>
+              <p className="pl-4">"location": "Pula, Croatia",</p>
+              <p className="pl-4">"response_time": "24-48 hours",</p>
+              <p className="pl-4">"office_hours": "Mon-Fri 09:00-17:00 CET"</p>
+              <p>{'}'}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Social links */}
+        <section className="mb-8">
+          <h3 className="mb-4 text-green-300 text-lg">{'> ls social_links/'}</h3>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="rounded-lg border border-green-400 bg-gray-900 p-4">
+              <h4 className="mb-2 font-bold text-green-300">Development</h4>
+              <div className="space-y-1 text-sm">
+                <p>• github.com/techcitypula</p>
+                <p>• discord.gg/techcitypula</p>
+              </div>
+            </div>
+            <div className="rounded-lg border border-green-400 bg-gray-900 p-4">
+              <h4 className="mb-2 font-bold text-green-300">Social Media</h4>
+              <div className="space-y-1 text-sm">
+                <p>• twitter.com/techcitypula</p>
+                <p>• linkedin.com/company/techcitypula</p>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-      <div className="mb-4">
-        <label className="mb-1 block font-mono text-emerald-400 text-sm" htmlFor="contact-message">
-          MESSAGE
-        </label>
-        <textarea
-          className="min-h-[140px] w-full border border-emerald-500/40 bg-black px-3 py-2 text-emerald-100 outline-none focus:border-emerald-500"
-          id="contact-message"
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Write your message…"
-          required
-          value={message}
-        />
-      </div>
-      {error ? <p className="mb-3 font-mono text-red-400 text-sm">{error}</p> : null}
-      {ok ? <p className="mb-3 font-mono text-emerald-400 text-sm">{ok}</p> : null}
-      <button
-        className="cursor-pointer border-2 border-emerald-500 bg-black px-6 py-3 font-bold font-mono text-emerald-500 transition-all duration-300 hover:bg-emerald-500 hover:text-black disabled:opacity-60"
-        disabled={submitting}
-        type="submit"
-      >
-        {submitting ? '[ SENDING… ]' : '[ SEND ]'}
-      </button>
-    </form>
+    </div>
   );
 }
-
-const maxLength = 500;
-export const sendContact = createServerFn({ method: 'POST' })
-  .validator(z.object({ email: z.email(), message: z.string().min(1).max(maxLength) }))
-  .handler(async ({ data }) => {
-    const emailHtml = await render(<ContactEmail>{data.message}</ContactEmail>);
-
-    const info = await sendEmail({
-      subject: 'test mail',
-      to: data.email,
-      html: emailHtml,
-      text: toPlainText(emailHtml),
-    });
-
-    return { ok: true, id: info.messageId };
-  });
-
-export const Route = createFileRoute('/contact')({
-  component: () => (
-    <main className="min-h-screen bg-black text-emerald-500">
-      <div className="py-12">
-        <ContactForm />
-      </div>
-    </main>
-  ),
-});

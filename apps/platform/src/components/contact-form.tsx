@@ -1,0 +1,173 @@
+import { render, toPlainText } from '@react-email/components';
+import { sendEmail } from '@repo/backend/email';
+import { ContactEmail } from '@repo/backend/emails/contact-email';
+import { useForm } from '@tanstack/react-form';
+import { createServerFn } from '@tanstack/react-start';
+import { useState } from 'react';
+import { z } from 'zod';
+import { cn } from '@/lib/utils';
+
+const MIN_EMAIL_LENGTH = 3;
+const MAX_EMAIL_LENGTH = 50;
+const MIN_MESSAGE_LENGTH = 10;
+const MAX_MESSAGE_LENGTH = 500;
+
+type ContactFormProps = {
+  onSuccess: (values: ContactFormValues) => void;
+  emailPlaceholder?: string;
+  messagePlaceholder?: string;
+  submitButtonText?: string;
+  className?: string;
+  showCharacterCount?: boolean;
+};
+
+export const contactSchema = z.object({
+  email: z
+    .string()
+    .min(MIN_EMAIL_LENGTH, 'Email must be at least 3 characters')
+    .max(MAX_EMAIL_LENGTH, 'Email must be at most 50 characters')
+    .email('Invalid email address'),
+  message: z
+    .string()
+    .min(MIN_MESSAGE_LENGTH, 'Message must be at least 10 characters')
+    .max(MAX_MESSAGE_LENGTH, 'Message must be at most 500 characters'),
+});
+
+export function ContactForm({
+  onSuccess,
+  emailPlaceholder = 'your@email.com',
+  messagePlaceholder = 'Type your message here...',
+  submitButtonText = '$ send --message',
+  className = '',
+  showCharacterCount = true,
+}: ContactFormProps) {
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  const form = useForm({
+    defaultValues: {
+      email: '',
+      message: '',
+    },
+    onSubmit: async ({ value }) => {
+      try {
+        setServerError(null);
+        await sendContact({
+          data: value,
+        });
+      } catch (error) {
+        setServerError(error instanceof Error ? error.message : 'An error occurred');
+      }
+    },
+    validators: {
+      // Use Zod schema directly - TanStack Form supports Standard Schema
+      onChange: contactSchema,
+    },
+  });
+
+  return (
+    <div className={`rounded-lg border border-green-400 bg-gray-900 p-6 ${className}`}>
+      <form
+        className="space-y-4"
+        onSubmit={form.handleSubmit}
+        noValidate
+        aria-describedby={serverError ? 'server-error' : undefined}
+      >
+        <form.Field
+          name="email"
+          children={(field) => (
+            <div>
+              <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
+                $ echo "your-email" {'>'} contact.txt
+              </label>
+              <input
+                id={field.name}
+                className="w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600 focus:border-green-300 focus:outline-none focus:ring-1 focus:ring-green-300"
+                type="email"
+                placeholder={emailPlaceholder}
+                required
+                aria-invalid={!!field.state.meta.errors.length}
+                aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
+              />
+              {field.state.meta.errors.length > 0 && (
+                <div
+                  className={cn(
+                    'min-h-[3rem] text-left font-mono text-red-400 text-sm',
+                    field.state.meta.errors.length === 0 && 'invisible'
+                  )}
+                >
+                  {field.state.meta.errors.map((err, index) => (
+                    <div key={index}>{err?.message}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        />
+
+        <form.Field
+          name="message"
+          children={(field) => (
+            <div>
+              <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
+                $ vim message.txt
+              </label>
+              <textarea
+                id={field.name}
+                className="min-h-[100px] w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600 focus:border-green-300 focus:outline-none focus:ring-1 focus:ring-green-300"
+                placeholder={messagePlaceholder}
+                required
+                aria-invalid={!!field.state.meta.errors.length}
+                aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
+              />
+              {showCharacterCount && (
+                <div className="mt-1 text-green-600 text-xs">{form.state.values.message.length}/500 chars</div>
+              )}
+              <div
+                className={cn(
+                  'min-h-[3rem] text-left font-mono text-red-400 text-sm',
+                  field.state.meta.errors.length === 0 && 'invisible'
+                )}
+              >
+                {field.state.meta.errors.map((err) => (
+                  <div key={err?.message}>{err?.message}</div>
+                ))}
+              </div>
+            </div>
+          )}
+        />
+
+        <button
+          className="w-full rounded bg-green-400 p-2 font-bold font-mono text-black transition-colors hover:bg-green-300 disabled:cursor-not-allowed disabled:bg-green-600"
+          type="submit"
+          disabled={form.state.isSubmitting}
+        >
+          {form.state.isSubmitting ? '$ sending...' : submitButtonText}
+        </button>
+
+        {serverError && (
+          <div id="server-error" className="mt-2 text-red-400 text-xs" role="alert">
+            {serverError}
+          </div>
+        )}
+      </form>
+    </div>
+  );
+}
+
+const maxLength = 500;
+export const sendContact = createServerFn({ method: 'POST' })
+  .validator(z.object({ email: z.email(), message: z.string().min(1).max(maxLength) }))
+  .handler(async ({ data }) => {
+    const emailHtml = await render(<ContactEmail>{data.message}</ContactEmail>);
+
+    const info = await sendEmail({
+      subject: 'test mail',
+      to: data.email,
+      html: emailHtml,
+      text: toPlainText(emailHtml),
+    });
+
+    return { ok: true, id: info.messageId };
+  });
+
+export type ContactFormValues = z.infer<typeof contactSchema>;
