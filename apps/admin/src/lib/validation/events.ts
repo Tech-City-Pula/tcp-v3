@@ -24,16 +24,18 @@ export const locationSchema = z
   .min(locationMinLength, { message: 'Please enter a location.' })
   .max(locationMaxLength, { message: `Location must be at most ${locationMaxLength} characters.` });
 
-export const eventAtSchema = z
-  .string()
-  .datetime()
-  .transform((val) => new Date(val).getTime());
+export const eventAtBaseSchema = z.iso.datetime();
+export const eventAtTransformSchema = eventAtBaseSchema.transform((val) => new Date(val).getTime());
 
-export const createEventSchema = z.object({
+const createEventSchemaBaseSchema = z.object({
   title: titleSchema,
   description: descriptionSchema,
-  eventAt: eventAtSchema,
   location: locationSchema,
 });
 
-export type CreateEventInput = z.infer<typeof createEventSchema>;
+export const createEventEndpointSchema = createEventSchemaBaseSchema.extend({
+  eventAt: eventAtTransformSchema,
+});
+export const createEventFormSchema = createEventSchemaBaseSchema.extend({
+  eventAt: eventAtBaseSchema,
+});

@@ -1,12 +1,12 @@
 import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
 import { createServerFn } from '@tanstack/react-start';
-import { createEventSchema } from '@/lib/validation/events';
+import { createEventEndpointSchema } from '@/lib/validation/events';
 
 export const createEvent = createServerFn({
   method: 'POST',
 })
-  .validator(createEventSchema)
+  .validator(createEventEndpointSchema)
   .handler(async ({ data }) => {
     const eventAtDate = new Date(data.eventAt);
 

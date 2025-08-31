@@ -1,6 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { type FormEventHandler, useCallback } from 'react';
 import { toast } from 'sonner';
+import type z from 'zod';
 import { ZodError } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,17 +10,20 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import {
-  type CreateEventInput,
-  createEventSchema,
+  createEventFormSchema,
   descriptionSchema,
-  eventAtSchema,
+  eventAtBaseSchema,
   locationSchema,
   titleSchema,
 } from '@/lib/validation/events';
 import { createEvent } from '@/server/events';
 
-const defaultEvent: CreateEventInput = { title: '', description: '', eventAt: '', location: '' } as const;
-
+const defaultEvent: z.infer<typeof createEventFormSchema> = {
+  title: '',
+  description: '',
+  eventAt: '',
+  location: '',
+} as const;
 export type EventFormProps = {
   onCreated?: () => void;
 };
@@ -28,7 +32,7 @@ export function EventForm({ onCreated }: EventFormProps) {
   const form = useForm({
     defaultValues: defaultEvent,
     validators: {
-      onSubmit: createEventSchema,
+      onSubmit: createEventFormSchema,
     },
     async onSubmit(props) {
       try {
@@ -105,7 +109,7 @@ export function EventForm({ onCreated }: EventFormProps) {
             )}
           </form.Field>
 
-          <form.Field name="eventAt" validators={{ onChange: eventAtSchema }}>
+          <form.Field name="eventAt" validators={{ onChange: eventAtBaseSchema }}>
             {(field) => (
               <div className="flex flex-col gap-2">
                 <Label htmlFor={field.name}>{field.name}</Label>
