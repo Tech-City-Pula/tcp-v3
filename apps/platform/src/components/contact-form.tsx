@@ -1,8 +1,11 @@
+import { render, toPlainText } from '@react-email/components';
+import { sendEmail } from '@repo/backend/email';
+import { ContactEmail } from '@repo/backend/emails/contact-email';
 import { useForm } from '@tanstack/react-form';
 import { createServerFn } from '@tanstack/react-start';
 import { useState } from 'react';
-import { toast } from 'sonner';
 import { z } from 'zod';
+import { cn } from '@/lib/utils';
 
 const MIN_EMAIL_LENGTH = 3;
 const MAX_EMAIL_LENGTH = 50;
@@ -10,7 +13,7 @@ const MIN_MESSAGE_LENGTH = 10;
 const MAX_MESSAGE_LENGTH = 500;
 
 type ContactFormProps = {
-  onSuccess?: (values: ContactFormValues) => void;
+  onSuccess: (values: ContactFormValues) => void;
   emailPlaceholder?: string;
   messagePlaceholder?: string;
   submitButtonText?: string;
@@ -28,10 +31,9 @@ export const contactSchema = z.object({
     .string()
     .min(MIN_MESSAGE_LENGTH, 'Message must be at least 10 characters')
     .max(MAX_MESSAGE_LENGTH, 'Message must be at most 500 characters'),
+});
 
-
-
-export ({
+export function ContactForm({
   onSuccess,
   emailPlaceholder = 'your@email.com',
   messagePlaceholder = 'Type your message here...',
@@ -49,59 +51,20 @@ export ({
     onSubmit: async ({ value }) => {
       try {
         setServerError(null);
-        await onSubmit(value);
+        await sendContact({
+          data: value,
+        });
       } catch (error) {
         setServerError(error instanceof Error ? error.message : 'An error occurred');
       }
     },
     validators: {
       // Use Zod schema directly - TanStack Form supports Standard Schema
-      onChange: contactFormSchema,
+      onChange: contactSchema,
     },
   });
 
-      export const sendContact = createServerFn({ method: 'POST' })
-        .validator(z.object({ email: z.email(), message: z.string().min(1).max(maxLength) }))
-        .handler(async ({ data }) => {
-          const emailHtml = await render(<ContactEmail>{data.message}</ContactEmail>);
-
-  // Handle specific server errors
-  if (response.status === 409) {
-    setServerError('This email is already registered for event attendance.');
-    toast({
-      title: 'Error',
-      description: 'This email is already registered for event attendance.',
-      variant: 'destructive',
-    });
-    return;
-  }
-
-  if (response.status === 400) {
-    setServerError(errorData.message || 'Invalid form data. Please check your inputs.');
-    toast({
-      title: 'Validation Error',
-      description: errorData.message || 'Invalid form data. Please check your inputs.',
-      variant: 'destructive',
-    });
-    return;
-  }
-
-  throw new Error(errorData.message || 'Server error');
-}
-
-// Success
-toast({
-  title: 'Success!',
-  description: 'Your message has been sent.',
-  variant: 'success',
-});
-
-  // Reset form
-  form.reset();
-}
-,
-
-return (
+  return (
     <div className={`rounded-lg border border-green-400 bg-gray-900 p-6 ${className}`}>
       <form
         className="space-y-4"
@@ -122,13 +85,19 @@ return (
                 type="email"
                 placeholder={emailPlaceholder}
                 required
-                {...field.getInputProps()}
                 aria-invalid={!!field.state.meta.errors.length}
                 aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
               />
               {field.state.meta.errors.length > 0 && (
-                <div id={`${field.name}-error`} className="mt-1 text-red-400 text-xs" role="alert">
-                  {field.state.meta.errors[0]}
+                <div
+                  className={cn(
+                    'min-h-[3rem] text-left font-mono text-red-400 text-sm',
+                    field.state.meta.errors.length === 0 && 'invisible'
+                  )}
+                >
+                  {field.state.meta.errors.map((err, index) => (
+                    <div key={index}>{err?.message}</div>
+                  ))}
                 </div>
               )}
             </div>
@@ -147,18 +116,22 @@ return (
                 className="min-h-[100px] w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600 focus:border-green-300 focus:outline-none focus:ring-1 focus:ring-green-300"
                 placeholder={messagePlaceholder}
                 required
-                {...field.getInputProps()}
                 aria-invalid={!!field.state.meta.errors.length}
                 aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
               />
               {showCharacterCount && (
                 <div className="mt-1 text-green-600 text-xs">{form.state.values.message.length}/500 chars</div>
               )}
-              {field.state.meta.errors.length > 0 && (
-                <div id={`${field.name}-error`} className="mt-1 text-red-400 text-xs" role="alert">
-                  {field.state.meta.errors[0]}
-                </div>
-              )}
+              <div
+                className={cn(
+                  'min-h-[3rem] text-left font-mono text-red-400 text-sm',
+                  field.state.meta.errors.length === 0 && 'invisible'
+                )}
+              >
+                {field.state.meta.errors.map((err) => (
+                  <div key={err?.message}>{err?.message}</div>
+                ))}
+              </div>
             </div>
           )}
         />
@@ -181,6 +154,20 @@ return (
   );
 }
 
-})
+const maxLength = 500;
+export const sendContact = createServerFn({ method: 'POST' })
+  .validator(z.object({ email: z.email(), message: z.string().min(1).max(maxLength) }))
+  .handler(async ({ data }) => {
+    const emailHtml = await render(<ContactEmail>{data.message}</ContactEmail>);
+
+    const info = await sendEmail({
+      subject: 'test mail',
+      to: data.email,
+      html: emailHtml,
+      text: toPlainText(emailHtml),
+    });
+
+    return { ok: true, id: info.messageId };
+  });
 
 export type ContactFormValues = z.infer<typeof contactSchema>;
