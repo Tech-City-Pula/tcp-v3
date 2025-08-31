@@ -7,7 +7,7 @@ export const Route = createFileRoute('/about')({
 });
 
 function AboutPage() {
-  const handleSponsorInquiry = (values: ContactFormValues) => {
+  const sponsorInquiries = async (values: ContactFormValues) => {
     console.log('Sponsor inquiry submitted:', values);
     // Additional sponsor-specific handling can go here
     // For example, you could send this to a different endpoint

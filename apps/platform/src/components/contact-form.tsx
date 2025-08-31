@@ -1,4 +1,5 @@
 import { useForm } from '@tanstack/react-form';
+import { createServerFn } from '@tanstack/react-start';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -8,14 +9,25 @@ const MAX_EMAIL_LENGTH = 50;
 const MIN_MESSAGE_LENGTH = 10;
 const MAX_MESSAGE_LENGTH = 500;
 
+export const contactSchema = z.object({
+  email: z
+    .string()
+    .min(MIN_EMAIL_LENGTH, 'Email must be at least 3 characters')
+    .max(MAX_EMAIL_LENGTH, 'Email must be at most 50 characters')
+    .email('Invalid email address'),
+  message: z
+    .string()
+    .min(MIN_MESSAGE_LENGTH, 'Message must be at least 10 characters')
+    .max(MAX_MESSAGE_LENGTH, 'Message must be at most 500 characters'),
+
 type ContactFormProps = {
   onSuccess?: (values: ContactFormValues) => void;
-  emailPlaceholder?: string;
-  messagePlaceholder?: string;
-  submitButtonText?: string;
-  className?: string;
-  showCharacterCount?: boolean;
-};
+emailPlaceholder?: string;
+messagePlaceholder?: string;
+submitButtonText?: string;
+className?: string;
+showCharacterCount?: boolean;
+}
 
 export function ContactForm({
   onSuccess,
@@ -27,23 +39,18 @@ export function ContactForm({
 }: ContactFormProps) {
   const [serverError, setServerError] = useState<string | null>(null);
 
-  const form = useForm<ContactFormValues>({
+  const form = useForm({
     defaultValues: {
       email: '',
       message: '',
-    },
+    } as ContactFormValues,
     validatorAdapter: zodValidator,
-    validator: contactSchema,
+    validator: contactSchema,)
 
-      try {
-        // Replace with your real API call
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(value),
-        });
+      export const sendContact = createServerFn({ method: 'POST' })
+        .validator(z.object({ email: z.email(), message: z.string().min(1).max(maxLength) }))
+        .handler(async ({ data }) => {
+          const emailHtml = await render(<ContactEmail>{data.message}</ContactEmail>);
 
   // Handle specific server errors
   if (response.status === 409) {
@@ -76,11 +83,10 @@ toast({
   variant: 'success',
 });
 
-// Reset form
-form.reset();
-
-},
-  })
+  // Reset form
+  form.reset();
+}
+,
 
 return (
     <div className={`rounded-lg border border-green-400 bg-gray-900 p-6 ${className}`}>
@@ -161,16 +167,7 @@ return (
     </div>
   );
 }
-export const contactSchema = z.object({
-  email: z
-    .string()
-    .min(MIN_EMAIL_LENGTH, 'Email must be at least 3 characters')
-    .max(MAX_EMAIL_LENGTH, 'Email must be at most 50 characters')
-    .email('Invalid email address'),
-  message: z
-    .string()
-    .min(MIN_MESSAGE_LENGTH, 'Message must be at least 10 characters')
-    .max(MAX_MESSAGE_LENGTH, 'Message must be at most 500 characters'),
-});
+
+})
 
 export type ContactFormValues = z.infer<typeof contactSchema>;

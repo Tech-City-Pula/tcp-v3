@@ -6,13 +6,15 @@ export const Route = createFileRoute('/contact')({
   component: ContactPage,
 });
 
-function ContactPage() {
-  const handleContactSuccess = (values: ContactFormValues) => {
-    console.log('Contact form submitted successfully:', values);
-    // Additional success handling can go here
-  };
+function ContactForm() {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [ok, setOk] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+}
 
-  return (
+return (
     <div className="min-h-screen bg-black p-4 font-mono text-green-400 md:p-8">
       <div className="mx-auto max-w-2xl">
         <header className="mb-8">
