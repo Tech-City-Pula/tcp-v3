@@ -3,7 +3,7 @@ import type { ContactFormValues } from '@/components/contact-form';
 import { ContactForm } from '@/components/contact-form';
 
 export const Route = createFileRoute('/contact')({
-  component: ContactPage,
+  component: ContactForm,
 });
 
 function ContactForm() {
@@ -12,9 +12,8 @@ function ContactForm() {
   const [error, setError] = useState<string | null>(null);
   const [ok, setOk] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-}
 
-return (
+  return (
     <div className="min-h-screen bg-black p-4 font-mono text-green-400 md:p-8">
       <div className="mx-auto max-w-2xl">
         <header className="mb-8">

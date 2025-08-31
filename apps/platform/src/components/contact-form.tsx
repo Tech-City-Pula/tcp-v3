@@ -1,6 +1,6 @@
 import { useForm } from '@tanstack/react-form';
 import { createServerFn } from '@tanstack/react-start';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -8,6 +8,15 @@ const MIN_EMAIL_LENGTH = 3;
 const MAX_EMAIL_LENGTH = 50;
 const MIN_MESSAGE_LENGTH = 10;
 const MAX_MESSAGE_LENGTH = 500;
+
+type ContactFormProps = {
+  onSuccess?: (values: ContactFormValues) => void;
+  emailPlaceholder?: string;
+  messagePlaceholder?: string;
+  submitButtonText?: string;
+  className?: string;
+  showCharacterCount?: boolean;
+};
 
 export const contactSchema = z.object({
   email: z
@@ -20,16 +29,9 @@ export const contactSchema = z.object({
     .min(MIN_MESSAGE_LENGTH, 'Message must be at least 10 characters')
     .max(MAX_MESSAGE_LENGTH, 'Message must be at most 500 characters'),
 
-type ContactFormProps = {
-  onSuccess?: (values: ContactFormValues) => void;
-emailPlaceholder?: string;
-messagePlaceholder?: string;
-submitButtonText?: string;
-className?: string;
-showCharacterCount?: boolean;
-}
 
-export function ContactForm({
+
+export ({
   onSuccess,
   emailPlaceholder = 'your@email.com',
   messagePlaceholder = 'Type your message here...',
@@ -43,9 +45,20 @@ export function ContactForm({
     defaultValues: {
       email: '',
       message: '',
-    } as ContactFormValues,
-    validatorAdapter: zodValidator,
-    validator: contactSchema,)
+    },
+    onSubmit: async ({ value }) => {
+      try {
+        setServerError(null);
+        await onSubmit(value);
+      } catch (error) {
+        setServerError(error instanceof Error ? error.message : 'An error occurred');
+      }
+    },
+    validators: {
+      // Use Zod schema directly - TanStack Form supports Standard Schema
+      onChange: contactFormSchema,
+    },
+  });
 
       export const sendContact = createServerFn({ method: 'POST' })
         .validator(z.object({ email: z.email(), message: z.string().min(1).max(maxLength) }))
