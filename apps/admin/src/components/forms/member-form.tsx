@@ -166,5 +166,3 @@ export function MemberForm({ onCreated }: MemberFormProps) {
     </form>
   );
 }
-
-export default MemberForm;
