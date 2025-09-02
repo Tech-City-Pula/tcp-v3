@@ -4,10 +4,10 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { addMonths, addYears } from 'date-fns';
 import { z } from 'zod';
-import { getInitialSession } from '@/server/session';
 import MemberForm from '@/components/forms/member-form';
 import { emailSchema } from '@/lib/validation/auth';
 import { membershipTypeSchema, nameSchema } from '@/lib/validation/members';
+import { getInitialSession } from '@/server/session';
 
 export const insertNewMemberSchema = z.object({
   firstName: nameSchema,
