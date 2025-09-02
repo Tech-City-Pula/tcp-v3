@@ -1,8 +1,8 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import EventForm from '@/components/forms/event-form';
+import { EventForm } from '@/components/forms/event-form';
 import { getInitialSession } from '@/server/session';
 
-export default function EventsRoute() {
+function EventsRoute() {
   return <EventForm />;
 }
 

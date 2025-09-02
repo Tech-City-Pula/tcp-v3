@@ -8,5 +8,3 @@ export function ContactEmail(props: { children: ReactNode }) {
     </Html>
   );
 }
-
-export default ContactEmail;

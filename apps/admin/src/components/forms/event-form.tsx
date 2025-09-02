@@ -161,5 +161,3 @@ export function EventForm({ onCreated }: EventFormProps) {
     </form>
   );
 }
-
-export default EventForm;
