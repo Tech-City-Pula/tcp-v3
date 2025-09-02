@@ -1,5 +1,6 @@
 CREATE SCHEMA "better_auth";
 --> statement-breakpoint
+CREATE TYPE "public"."membership_type" AS ENUM('monthly', 'yearly');--> statement-breakpoint
 CREATE TABLE "better_auth"."account" (
 	"id" text PRIMARY KEY NOT NULL,
 	"account_id" text NOT NULL,
@@ -65,7 +66,7 @@ CREATE TABLE "event_attendance" (
 --> statement-breakpoint
 ALTER TABLE "event_attendance" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 CREATE TABLE "events" (
-	"event_id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"event_id" uuid PRIMARY KEY NOT NULL,
 	"title" text NOT NULL,
 	"description" text NOT NULL,
 	"event_at" timestamp NOT NULL,
@@ -75,8 +76,20 @@ CREATE TABLE "events" (
 );
 --> statement-breakpoint
 ALTER TABLE "events" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
+CREATE TABLE "members" (
+	"id" uuid PRIMARY KEY NOT NULL,
+	"email" text NOT NULL,
+	"first_name" text NOT NULL,
+	"last_name" text NOT NULL,
+	"membershipType" "membership_type" NOT NULL,
+	"expires_at" timestamp NOT NULL,
+	"created_at" timestamp DEFAULT now(),
+	CONSTRAINT "members_email_unique" UNIQUE("email")
+);
+--> statement-breakpoint
+ALTER TABLE "members" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 CREATE TABLE "newsletter_subscriptions" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" uuid PRIMARY KEY NOT NULL,
 	"email" text NOT NULL,
 	"created_at" timestamp DEFAULT now(),
 	CONSTRAINT "newsletter_subscriptions_email_unique" UNIQUE("email")
@@ -84,7 +97,8 @@ CREATE TABLE "newsletter_subscriptions" (
 --> statement-breakpoint
 ALTER TABLE "newsletter_subscriptions" ENABLE ROW LEVEL SECURITY;--> statement-breakpoint
 CREATE TABLE "talks" (
-	"talk_id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"talk_id" uuid PRIMARY KEY NOT NULL,
+	"email" text NOT NULL,
 	"title" text NOT NULL,
 	"description" text NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,

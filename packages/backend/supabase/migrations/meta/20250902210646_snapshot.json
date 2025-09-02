@@ -1,6 +1,6 @@
 {
-  "id": "423bd049-e016-4405-a6ee-0f3d5983d6c9",
-  "prevId": "7ceb7680-1335-4abe-86eb-2cd1a89ce814",
+  "id": "36011da6-671c-45cc-861d-2dd578c2399e",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -441,6 +441,71 @@
       "checkConstraints": {},
       "isRLSEnabled": true
     },
+    "public.members": {
+      "name": "members",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "membershipType": {
+          "name": "membershipType",
+          "type": "membership_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "members_email_unique": {
+          "name": "members_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": true
+    },
     "public.newsletter_subscriptions": {
       "name": "newsletter_subscriptions",
       "schema": "",
@@ -533,7 +598,16 @@
       "isRLSEnabled": true
     }
   },
-  "enums": {},
+  "enums": {
+    "public.membership_type": {
+      "name": "membership_type",
+      "schema": "public",
+      "values": [
+        "monthly",
+        "yearly"
+      ]
+    }
+  },
   "schemas": {
     "better_auth": "better_auth"
   },

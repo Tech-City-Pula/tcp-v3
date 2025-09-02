@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1756151202149,
-      "tag": "20250825194642_military_power_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1756233835585,
-      "tag": "20250826184355_colossal_greymalkin",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1756842037305,
-      "tag": "20250902194037_brainy_warpath",
+      "when": 1756847206657,
+      "tag": "20250902210646_rainy_peter_parker",
       "breakpoints": true
     }
   ]
