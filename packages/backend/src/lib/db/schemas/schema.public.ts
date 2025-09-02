@@ -43,6 +43,18 @@ export const talks = pgTable('talks', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 }).enableRLS();
 
+export const members = pgTable('members', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => randomUUID()),
+  email: text('email').unique().notNull(),
+  firstName: text('first_name').notNull(),
+  lastName: text('last_name').notNull(),
+  membershipType: text('membership_type').notNull(), // e.g., 'monthly' or 'yearly'
+  expiresAt: timestamp('expires_at').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+}).enableRLS();
+
 export const publicSchema = {
   newsletterSubscriptions,
   events,
