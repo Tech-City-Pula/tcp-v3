@@ -63,4 +63,5 @@ export const publicSchema = {
   events,
   eventAttendance,
   talks,
+  members,
 };
