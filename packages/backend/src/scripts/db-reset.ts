@@ -7,7 +7,7 @@ import { reset, seed } from 'drizzle-seed';
 import { auth } from 'lib/auth/index.ts';
 import { db } from 'lib/db/index.ts';
 import { schema } from 'lib/db/schemas/index.ts';
-import { eventAttendance, events, newsletterSubscriptions, talks } from 'lib/db/schemas/schema.public.ts';
+import { blogs, eventAttendance, events, newsletterSubscriptions, talks } from 'lib/db/schemas/schema.public.ts';
 
 config();
 
@@ -84,6 +84,7 @@ async function main() {
       talks,
       events,
       newsletterSubscriptions,
+      blogs,
     },
     { count: 10 }
   ).refine((generators) => {
@@ -151,6 +152,6 @@ async function main() {
   process.exit(0);
 }
 
-if (import.meta.main) {
-  main().catch(console.error);
-}
+//if (import.meta.main) {
+main().catch(console.error);
+//}

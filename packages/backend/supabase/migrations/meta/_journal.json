@@ -15,6 +15,13 @@
       "when": 1756233835585,
       "tag": "20250826184355_colossal_greymalkin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1756843055357,
+      "tag": "20250902195735_plain_chimera",
+      "breakpoints": true
     }
   ]
 }

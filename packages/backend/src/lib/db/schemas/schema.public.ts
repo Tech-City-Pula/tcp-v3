@@ -21,6 +21,16 @@ export const events = pgTable('events', {
   updatedAt: timestamp('updated_at').defaultNow(),
 }).enableRLS();
 
+export const blogs = pgTable('blogs', {
+  id: uuid('blogs_id')
+    .primaryKey()
+    .$defaultFn(() => randomUUID()),
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+}).enableRLS();
+
 export const eventAttendance = pgTable(
   'event_attendance',
   {
@@ -48,4 +58,5 @@ export const publicSchema = {
   events,
   eventAttendance,
   talks,
+  blogs,
 };
