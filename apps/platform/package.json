@@ -19,7 +19,6 @@
     "@radix-ui/react-slot": "catalog:",
     "@react-email/components": "catalog:",
     "@repo/backend": "workspace:*",
-    "@tailwindcss/postcss": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/react-start": "catalog:",
@@ -28,7 +27,6 @@
     "clsx": "catalog:",
     "drizzle-orm": "catalog:",
     "lucide-react": "catalog:",
-    "postcss": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "sonner": "catalog:",
@@ -38,6 +36,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",

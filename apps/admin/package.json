@@ -10,7 +10,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 3001",
+    "dev": "vite dev",
     "build": "vite build",
     "typecheck": "tsc --noEmit --allowImportingTsExtensions"
   },
@@ -43,7 +43,6 @@
     "@radix-ui/react-tooltip": "catalog:",
     "@react-email/components": "catalog:",
     "@repo/backend": "workspace:*",
-    "@tailwindcss/postcss": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/react-start": "catalog:",
@@ -58,7 +57,6 @@
     "input-otp": "catalog:",
     "lucide-react": "catalog:",
     "next-themes": "catalog:",
-    "postcss": "catalog:",
     "react": "catalog:",
     "react-day-picker": "catalog:",
     "react-dom": "catalog:",
@@ -72,6 +70,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",

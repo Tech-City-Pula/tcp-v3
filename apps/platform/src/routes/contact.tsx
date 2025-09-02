@@ -1,18 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
-import type { ContactFormValues } from '@/components/contact-form';
 import { ContactForm } from '@/components/contact-form';
 
 export const Route = createFileRoute('/contact')({
-  component: ContactForm,
+  component: ContactPage,
 });
 
-function ContactForm() {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [ok, setOk] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-
+function ContactPage() {
   return (
     <div className="min-h-screen bg-black p-4 font-mono text-green-400 md:p-8">
       <div className="mx-auto max-w-2xl">
@@ -24,7 +17,9 @@ function ContactForm() {
         <section className="mb-8">
           <h3 className="mb-4 text-green-300 text-lg">{'> contact --get-in-touch'}</h3>
           <ContactForm
-            onSuccess={handleContactSuccess}
+            onSuccess={() => {
+              /* no-op */
+            }}
             emailPlaceholder="your@email.com"
             messagePlaceholder="Type your message here..."
             submitButtonText="$ send --message"
