@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
+import { pgEnum, pgTable, text, timestamp, unique, uuid } from 'drizzle-orm/pg-core';
 
 export const newsletterSubscriptions = pgTable('newsletter_subscriptions', {
   id: uuid('id')
@@ -43,6 +43,8 @@ export const talks = pgTable('talks', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 }).enableRLS();
 
+export const membershipTypeEnum = pgEnum('membership_type', ['monthly', 'yearly']);
+
 export const members = pgTable('members', {
   id: uuid('id')
     .primaryKey()
@@ -50,12 +52,13 @@ export const members = pgTable('members', {
   email: text('email').unique().notNull(),
   firstName: text('first_name').notNull(),
   lastName: text('last_name').notNull(),
-  membershipType: text('membership_type').notNull(), // e.g., 'monthly' or 'yearly'
+  membershipType: membershipTypeEnum().notNull(), // e.g., 'monthly' or 'yearly'
   expiresAt: timestamp('expires_at').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 }).enableRLS();
 
 export const publicSchema = {
+  membershipTypeEnum,
   newsletterSubscriptions,
   events,
   eventAttendance,
