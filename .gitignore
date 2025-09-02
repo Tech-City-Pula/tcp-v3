@@ -33,3 +33,9 @@ npm-debug.log
 /.env.development.local
 /.env.test.local
 /.env.production.local
+
+
+# Playwright E2Es
+apps/**/test-results/
+apps/**/playwright-report/
+apps/**/blob-report/
