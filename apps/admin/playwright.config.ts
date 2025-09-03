@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+
+dotenv.config({ path: './.env' });
+
 import { defineConfig, devices } from '@playwright/test';
 
 const SECOND = 1000;
@@ -18,12 +22,6 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   projects: [
-    // Admin-specific setup: authenticates and saves admin storage state
-    {
-      name: 'setup-admin',
-      // Match only the dedicated admin auth setup file
-      testMatch: /tests\/setup\/auth\.setup\.ts$/,
-    },
     // Public tests (logged-out flows)
     {
       name: 'public',
@@ -34,15 +32,19 @@ export default defineConfig({
     },
     // Authenticated admin tests reuse prepared storage state
     {
-      name: 'admin-auth',
+      name: 'admin',
       testMatch: /tests\/auth\//,
       use: {
         ...devices['Desktop Chrome'],
         storageState: 'playwright/.auth/admin.json',
-        ...{
-          dependencies: ['setup-admin'],
-        },
       },
+      dependencies: ['setup-admin'],
+    },
+    // Admin-specific setup: authenticates and saves admin storage state
+    {
+      name: 'setup-admin',
+      // Match only the dedicated admin auth setup file
+      testMatch: 'tests/setup/auth.setup.ts',
     },
   ],
   webServer: {
