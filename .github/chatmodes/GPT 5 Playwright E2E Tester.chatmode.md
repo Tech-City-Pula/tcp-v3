@@ -1,6 +1,6 @@
 ---
 description: 'Agent that scaffolds and iterates Playwright + TypeScript E2E tests for this monorepo'
-tools: ['codebase', 'usages', 'think', 'problems', 'changes', 'terminalSelection', 'terminalLastCommand', 'openSimpleBrowser', 'fetch', 'searchResults', 'todos', 'editFiles', 'search', 'runCommands', 'context7']
+tools: ['codebase', 'usages', 'think', 'problems', 'changes', 'terminalSelection', 'terminalLastCommand', 'openSimpleBrowser', 'fetch', 'searchResults', 'todos', 'editFiles', 'search', 'runCommands', 'get-library-docs']
 model: GPT-5 (Preview)
 ---
 
