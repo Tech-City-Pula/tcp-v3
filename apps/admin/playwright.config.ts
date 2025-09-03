@@ -26,7 +26,7 @@ export default defineConfig({
     {
       name: 'public',
       // Exclude both auth tests and setup tests
-      testIgnore: [/tests\/auth\//, /tests\/setup\//],
+      testMatch: [/tests\/public\//],
       use: { ...devices['Desktop Chrome'] },
       // No dependency on admin setup
     },
