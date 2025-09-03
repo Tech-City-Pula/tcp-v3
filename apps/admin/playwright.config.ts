@@ -12,12 +12,14 @@ export default defineConfig({
   testDir: 'tests',
   fullyParallel: true,
   forbidOnly: false,
-  retries: 1,
+  // Local-first: fast feedback; retries produce traces via 'on-first-retry'.
+  retries: 3,
+  // No worker limits; fixtures handle scoped auth.
   workers: undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: 'http://localhost:3001',
-    trace: 'on-first-retry',
+    trace: 'on-all-retries',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
@@ -25,12 +27,12 @@ export default defineConfig({
     // Public tests (logged-out flows)
     {
       name: 'public',
-      // Exclude both auth tests and setup tests
+      // Match only public tests; no global setups, no storageState.
       testMatch: [/tests\/public\//],
       use: { ...devices['Desktop Chrome'] },
-      // No dependency on admin setup
+      // No dependencies; run standalone.
     },
-    // Authenticated admin tests reuse prepared storage state
+    // Admin tests: use per-test fixtures for auth (no global setup or storageState).
     {
       name: 'admin',
       testMatch: /tests\/auth\//,
