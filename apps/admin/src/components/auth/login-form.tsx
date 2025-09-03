@@ -61,6 +61,7 @@ export function LoginForm() {
             name="email"
             validators={{
               onChange: emailSchema,
+              onBlur: emailSchema,
             }}
           >
             {(field) => (
@@ -74,6 +75,7 @@ export function LoginForm() {
                   onChange={(e) => {
                     field.handleChange(e.target.value);
                   }}
+                  onBlur={field.handleBlur}
                 />
                 <em
                   className={cn(
@@ -91,6 +93,7 @@ export function LoginForm() {
             name="password"
             validators={{
               onChange: passwordSchema,
+              onBlur: passwordSchema,
             }}
           >
             {(field) => (
@@ -104,6 +107,7 @@ export function LoginForm() {
                   onChange={(e) => {
                     field.handleChange(e.target.value);
                   }}
+                  onBlur={field.handleBlur}
                 />
                 <em
                   className={cn('invisible h-lh text-red-400 text-xs', field.state.meta.errors.length > 0 && 'visible')}
@@ -115,13 +119,9 @@ export function LoginForm() {
           </form.Field>
         </CardContent>
         <CardFooter>
-          <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
-            {([canSubmit, isSubmitting]) => (
-              <Button type="submit" className="w-full" disabled={!canSubmit || isSubmitting || !form.state.isDirty}>
-                login
-              </Button>
-            )}
-          </form.Subscribe>
+          <Button type="submit" className="w-full">
+            login
+          </Button>
         </CardFooter>
       </Card>
     </form>
