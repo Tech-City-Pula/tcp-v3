@@ -42,7 +42,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm dev',
+    command: 'pnpm serve:e2e',
     url: 'http://localhost:3001',
     reuseExistingServer: true,
     timeout: WEB_SERVER_TIMEOUT_MS,

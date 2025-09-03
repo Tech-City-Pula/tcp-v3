@@ -12,9 +12,11 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "serve": "node --env-file=.env .output/server/index.mjs",
     "typecheck": "tsc --noEmit --allowImportingTsExtensions",
     "test:e2e": "playwright test --reporter=list",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "serve:e2e": "pnpm build && pnpm serve"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "catalog:",
