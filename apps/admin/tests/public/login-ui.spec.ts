@@ -4,7 +4,7 @@ const EMAIL_LABEL_RE = /email/i;
 const PASSWORD_LABEL_RE = /password/i;
 const SUBMIT_BTN_RE = /log in|sign in|login/i;
 const SIGN_OUT_BTN_RE = /sign out/i;
-const HOME_URL_RE = /\/?$/;
+const HOME_URL = '/';
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'admin1@email.com';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? '12345678';
@@ -35,7 +35,7 @@ test.describe('login (ui)', () => {
 
     await test.step('Verify login success', async () => {
       await expect(signoutButton).toBeVisible();
-      await expect(page).toHaveURL(HOME_URL_RE);
+      await expect(page).toHaveURL(HOME_URL);
     });
 
     await test.step('Sign out', async () => {
