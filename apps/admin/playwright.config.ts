@@ -18,9 +18,31 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   projects: [
+    // Admin-specific setup: authenticates and saves admin storage state
     {
-      name: 'chromium',
+      name: 'setup-admin',
+      // Match only the dedicated admin auth setup file
+      testMatch: /tests\/setup\/auth\.setup\.ts$/,
+    },
+    // Public tests (logged-out flows)
+    {
+      name: 'public',
+      // Exclude both auth tests and setup tests
+      testIgnore: [/tests\/auth\//, /tests\/setup\//],
       use: { ...devices['Desktop Chrome'] },
+      // No dependency on admin setup
+    },
+    // Authenticated admin tests reuse prepared storage state
+    {
+      name: 'admin-auth',
+      testMatch: /tests\/auth\//,
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/admin.json',
+        ...{
+          dependencies: ['setup-admin'],
+        },
+      },
     },
   ],
   webServer: {

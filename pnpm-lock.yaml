@@ -359,6 +359,9 @@ importers:
       date-fns:
         specifier: 'catalog:'
         version: 4.1.0
+      dotenv:
+        specifier: 'catalog:'
+        version: 17.2.1
       drizzle-orm:
         specifier: 'catalog:'
         version: 0.44.4(@types/pg@8.15.5)(kysely@0.28.5)(pg@8.16.3)
