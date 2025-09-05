@@ -57,6 +57,16 @@ export const members = pgTable('members', {
   createdAt: timestamp('created_at').defaultNow(),
 }).enableRLS();
 
+export const blogs = pgTable('blogs', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => randomUUID()),
+  title: text('title').notNull(),
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+}).enableRLS();
+
 export const publicSchema = {
   membershipTypeEnum,
   newsletterSubscriptions,
@@ -64,4 +74,5 @@ export const publicSchema = {
   eventAttendance,
   talks,
   members,
+  blogs,
 };
