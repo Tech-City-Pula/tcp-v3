@@ -11,7 +11,7 @@ import { formatDate, getWordCount } from '@/lib/posts';
 const getBlogById = createServerFn()
   .validator(
     z.object({
-      id: z.uuid(),
+      id: z.string(),
     })
   )
   .handler(async (args) => {
