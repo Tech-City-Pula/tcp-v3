@@ -22,7 +22,7 @@ export function BlogPostListItem(props: BlogPostListItemProps) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-muted-foreground">{props.blog.content}</p>
+        <p className="line-clamp-3 h-full text-muted-foreground">{props.blog.content}</p>
         <div className="mt-4">
           <Link
             className="font-medium text-primary text-sm hover:underline"
