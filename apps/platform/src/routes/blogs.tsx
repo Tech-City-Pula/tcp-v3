@@ -1,13 +1,22 @@
+import { db } from '@repo/backend/db';
+import { schema } from '@repo/backend/schema';
 import { createFileRoute } from '@tanstack/react-router';
+import { createServerFn } from '@tanstack/react-start';
 import { Search } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+import { BlogPostListItem } from '@/components/blog-post-list-item';
 import { Navbar } from '@/components/navbar';
-import { PostCard } from '@/components/post-card';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { type SortOption, searchPosts, sortPosts } from '@/lib/posts';
+
+const getAllBlogs = createServerFn().handler(async () => {
+  return await db.select().from(schema.blogs);
+});
+
 export const Route = createFileRoute('/blogs')({
   component: RouteComponent,
+  loader() {
+    return getAllBlogs();
+  },
 });
 
 function RouteComponent() {
@@ -15,13 +24,29 @@ function RouteComponent() {
 }
 
 function BlogPage() {
-  const [query, setQuery] = useState('');
-  const [sort, setSort] = useState<SortOption>('newest'); // default newest -> oldest
+  const allBlogs = Route.useLoaderData();
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState<'newest' | 'oldest'>('newest');
 
-  const filteredAndSorted = useMemo(() => {
-    const filtered = searchPosts(query);
-    return sortPosts(filtered, sort);
-  }, [query, sort]);
+  const hasSearchTerm = search.trim().length > 0;
+
+  const filteredBlogsBySearchTerm = hasSearchTerm
+    ? allBlogs.filter((blog) => {
+        const title = blog.title;
+
+        const hasTitleInSearch = title.toLowerCase().includes(search.toLocaleLowerCase());
+
+        return hasTitleInSearch;
+      })
+    : allBlogs;
+
+  const sortedFilteredBlogs = filteredBlogsBySearchTerm.sort((a, b) => {
+    if (sort === 'newest') {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    }
+
+    return a.createdAt.getTime() - b.createdAt.getTime();
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -42,40 +67,33 @@ function BlogPage() {
               <Input
                 aria-label="Search blog posts"
                 className="rounded-xl pl-10"
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search blog posts..."
-                value={query}
+                value={search}
               />
             </div>
             <div className="w-full sm:w-64">
-              <Select onValueChange={(v) => setSort(v as SortOption)} value={sort}>
-                <SelectTrigger aria-label="Sort posts" className="rounded-xl">
-                  <SelectValue placeholder="Sort posts" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="newest">Newest to oldest</SelectItem>
-                  <SelectItem value="oldest">Oldest to newest</SelectItem>
-                  <SelectItem value="most-words">Most words to least</SelectItem>
-                  <SelectItem value="least-words">Least words to most</SelectItem>
-                </SelectContent>
-              </Select>
+              <select value={sort} onChange={(e) => setSort(e.target.value as 'newest' | 'oldest')}>
+                <option value="newest">newest</option>
+                <option value="oldest">oldest</option>
+              </select>
             </div>
           </div>
         </div>
 
         {/* Search meta */}
-        {query ? (
+        {search ? (
           <div className="mb-4 text-center text-muted-foreground text-sm">
-            Found {filteredAndSorted.length} post{filteredAndSorted.length === 1 ? '' : 's'} for "{query}"
+            Found {sortedFilteredBlogs.length} post{sortedFilteredBlogs.length === 1 ? '' : 's'} for "{search}"
           </div>
         ) : null}
 
         {/* Posts top-to-bottom */}
         <div className="mx-auto max-w-3xl space-y-6">
-          {filteredAndSorted.map((post) => (
-            <PostCard key={post.id} post={post} />
+          {sortedFilteredBlogs.map((blog) => (
+            <BlogPostListItem key={blog.id} blog={blog} />
           ))}
-          {filteredAndSorted.length === 0 ? (
+          {sortedFilteredBlogs.length === 0 ? (
             <div className="rounded-xl border py-12 text-center text-muted-foreground">
               No posts found. Try a different search.
             </div>

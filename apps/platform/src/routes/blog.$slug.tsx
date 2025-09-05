@@ -1,37 +1,48 @@
+import { db } from '@repo/backend/db';
+import { schema } from '@repo/backend/schema';
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ArrowLeft, Calendar, FileText, User } from 'lucide-react';
+import { createServerFn } from '@tanstack/react-start';
+import { eq } from 'drizzle-orm';
+import { ArrowLeft, Calendar, FileText } from 'lucide-react';
+import z from 'zod';
 import { Button } from '@/components/ui/button';
-import { formatDate, getPostBySlug, getWordCount } from '@/lib/posts';
+import { formatDate, getWordCount } from '@/lib/posts';
+
+const getBlogById = createServerFn()
+  .validator(
+    z.object({
+      id: z.string(),
+    })
+  )
+  .handler(async (args) => {
+    const [blog] = await db.select().from(schema.blogs).where(eq(schema.blogs.id, args.data.id)).limit(1);
+    if (!blog) {
+      throw new Error('Not found');
+    }
+    return blog;
+  });
 
 export const Route = createFileRoute('/blog/$slug')({
   component: RouteComponent,
+  loader({ params }) {
+    return getBlogById({
+      data: {
+        id: params.slug,
+      },
+    });
+  },
 });
 
-type BlogPostPageProperties = {
-  params: { slug: string };
-};
+type BlogPost = typeof schema.blogs.$inferSelect;
+type BlogPostPageProperties = { blog: BlogPost };
 
 function RouteComponent() {
-  const { slug } = Route.useParams();
-
-  return (
-    <BlogPostPage
-      params={{
-        slug,
-      }}
-    />
-  );
+  const blog = Route.useLoaderData();
+  return <BlogPostPage blog={blog} />;
 }
 
-function BlogPostPage({ params }: BlogPostPageProperties) {
-  const post = getPostBySlug(params.slug);
-
-  if (!post) {
-    // Rely on the app/not-found.tsx route
-    throw new Error('Not found');
-  }
-
-  const wordCount = getWordCount(post.content);
+function BlogPostPage({ blog }: BlogPostPageProperties) {
+  const wordCount = getWordCount(blog.content);
 
   return (
     <div className="min-h-screen bg-background">
@@ -45,19 +56,16 @@ function BlogPostPage({ params }: BlogPostPageProperties) {
 
         <article>
           <header className="mb-6">
-            <h1 className="mb-3 font-bold text-4xl">{post.title}</h1>
+            <h1 className="mb-3 font-bold text-4xl">{blog.title}</h1>
             <div className="flex flex-wrap items-center gap-3 text-muted-foreground text-sm">
               <Calendar className="h-4 w-4" />
-              <span>{formatDate(post.date)}</span>
-              <User className="ml-2 h-4 w-4" />
-              <span>{post.author}</span>
+              <span>{formatDate(blog.createdAt.toISOString())}</span>
               <FileText className="ml-2 h-4 w-4" />
               <span>{wordCount} words</span>
             </div>
-            {post.excerpt ? <p className="mt-3 text-muted-foreground">{post.excerpt}</p> : null}
           </header>
 
-          <div className="prose prose-neutral dark:prose-invert max-w-none">{post.content}</div>
+          <div className="prose prose-neutral dark:prose-invert max-w-none whitespace-pre-wrap">{blog.content}</div>
         </article>
       </div>
     </div>
