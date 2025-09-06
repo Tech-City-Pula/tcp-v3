@@ -71,7 +71,6 @@ function BlogPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 text-center">
           <h1 className="mb-2 font-bold text-4xl">My Blog</h1>
