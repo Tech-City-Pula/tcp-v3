@@ -3,10 +3,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@repo/ui/components/shadcn/input';
 import { Label } from '@repo/ui/components/shadcn/label';
 import { RadioGroup, RadioGroupItem } from '@repo/ui/components/shadcn/radio-group';
+import { toast } from '@repo/ui/components/shadcn/sonner';
 import { cn } from '@repo/ui/utils';
 import { useForm } from '@tanstack/react-form';
 import { type FormEventHandler, useCallback } from 'react';
-import { toast } from 'sonner';
 import type z from 'zod';
 import { ZodError } from 'zod';
 import { emailSchema } from '@/lib/validation/auth';
