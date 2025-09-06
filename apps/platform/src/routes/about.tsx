@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import type { ContactFormValues } from '@/components/contact-form';
 import { ContactForm } from '@/components/contact-form';
+import { sendContact } from '@/server/contact';
 
 export const Route = createFileRoute('/about')({
   component: AboutPage,
@@ -8,7 +9,7 @@ export const Route = createFileRoute('/about')({
 
 function AboutPage() {
   const sponsor_inquiry = async (data: ContactFormValues) => {
-    return await ContactForm({ data });
+    return await sendContact({ data });
     // Additional sponsor-specific handling can go here
     // For example, you could send this to a different endpoint
     // or add additional tracking for sponsor inquiries
