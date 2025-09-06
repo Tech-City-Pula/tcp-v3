@@ -1,16 +1,10 @@
-import { render, toPlainText } from '@react-email/components';
-import { sendEmail } from '@repo/backend/email';
-import { ContactEmail } from '@repo/backend/emails/contact-email';
 import { useForm } from '@tanstack/react-form';
-import { createServerFn } from '@tanstack/react-start';
 import { useState } from 'react';
-import { z } from 'zod';
 import { cn } from '@/lib/utils';
+import { contactSchema, type ContactFormValues, MAX_MESSAGE_LENGTH } from '@/lib/validation/contact';
+import { sendContact } from '@/server/contact';
 
-const MIN_EMAIL_LENGTH = 3;
-const MAX_EMAIL_LENGTH = 50;
-const MIN_MESSAGE_LENGTH = 10;
-const MAX_MESSAGE_LENGTH = 500;
+export type { ContactFormValues };
 
 type ContactFormProps = {
   onSuccess: (values: ContactFormValues) => void;
@@ -21,17 +15,6 @@ type ContactFormProps = {
   showCharacterCount?: boolean;
 };
 
-export const contactSchema = z.object({
-  email: z
-    .string()
-    .min(MIN_EMAIL_LENGTH, 'Email must be at least 3 characters')
-    .max(MAX_EMAIL_LENGTH, 'Email must be at most 50 characters')
-    .email('Invalid email address'),
-  message: z
-    .string()
-    .min(MIN_MESSAGE_LENGTH, 'Message must be at least 10 characters')
-    .max(MAX_MESSAGE_LENGTH, 'Message must be at most 500 characters'),
-});
 
 export function ContactForm({
   onSuccess,
@@ -120,7 +103,7 @@ export function ContactForm({
                 aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
               />
               {showCharacterCount && (
-                <div className="mt-1 text-green-600 text-xs">{form.state.values.message.length}/500 chars</div>
+                <div className="mt-1 text-green-600 text-xs">{form.state.values.message.length}/{MAX_MESSAGE_LENGTH} chars</div>
               )}
               <div
                 className={cn(
@@ -154,20 +137,4 @@ export function ContactForm({
   );
 }
 
-const maxLength = 500;
-export const sendContact = createServerFn({ method: 'POST' })
-  .validator(z.object({ email: z.email(), message: z.string().min(1).max(maxLength) }))
-  .handler(async ({ data }) => {
-    const emailHtml = await render(<ContactEmail>{data.message}</ContactEmail>);
 
-    const info = await sendEmail({
-      subject: 'test mail',
-      to: data.email,
-      html: emailHtml,
-      text: toPlainText(emailHtml),
-    });
-
-    return { ok: true, id: info.messageId };
-  });
-
-export type ContactFormValues = z.infer<typeof contactSchema>;
