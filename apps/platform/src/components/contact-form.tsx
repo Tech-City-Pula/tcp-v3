@@ -1,11 +1,11 @@
 import { render, toPlainText } from '@react-email/components';
 import { sendEmail } from '@repo/backend/email';
 import { ContactEmail } from '@repo/backend/emails/contact-email';
+import { cn } from '@repo/ui/utils';
 import { useForm } from '@tanstack/react-form';
 import { createServerFn } from '@tanstack/react-start';
 import { useState } from 'react';
 import { z } from 'zod';
-import { cn } from '@/lib/utils';
 
 const MIN_EMAIL_LENGTH = 3;
 const MAX_EMAIL_LENGTH = 50;

@@ -1,7 +1,7 @@
+import { Button } from '@repo/ui/components/shadcn/button';
 import { Link } from '@tanstack/react-router';
 import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
 
 function useThemeToggle() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');

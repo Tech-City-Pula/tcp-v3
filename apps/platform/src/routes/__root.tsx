@@ -1,9 +1,9 @@
 /// <reference types="vite/client" />
 
+import { Toaster } from '@repo/ui/components/shadcn/sonner';
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 import { Navbar } from '@/components/navbar';
-import { Toaster } from '@/components/ui/sonner';
 import globalCss from '@/styles/globals.css?url';
 
 export const Route = createRootRoute({

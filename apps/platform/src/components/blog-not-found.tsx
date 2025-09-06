@@ -1,6 +1,6 @@
+import { Button } from '@repo/ui/components/shadcn/button';
 import { Link } from '@tanstack/react-router';
 import { Home } from 'lucide-react';
-import { Button } from './ui/button';
 
 export function BlogNotFound() {
   return (

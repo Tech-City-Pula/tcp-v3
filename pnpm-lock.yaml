@@ -381,18 +381,15 @@ importers:
 
   apps/platform:
     dependencies:
-      '@radix-ui/react-select':
-        specifier: 'catalog:'
-        version: 2.2.5(@types/react-dom@19.1.7(@types/react@19.1.9))(@types/react@19.1.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      '@radix-ui/react-slot':
-        specifier: 'catalog:'
-        version: 1.2.3(@types/react@19.1.9)(react@19.1.1)
       '@react-email/components':
         specifier: 'catalog:'
         version: 0.5.0(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@repo/backend':
         specifier: workspace:*
         version: link:../../packages/backend
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@tanstack/react-form':
         specifier: 'catalog:'
         version: 1.19.2(@tanstack/react-start@1.130.15(@netlify/blobs@9.1.2)(@tanstack/react-router@1.130.12(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@vitejs/plugin-react@4.7.0(vite@7.0.6(@types/node@24.3.0)(jiti@2.5.1)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.1)))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(vite@7.0.6(@types/node@24.3.0)(jiti@2.5.1)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.1))(webpack@5.101.3))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -405,12 +402,6 @@ importers:
       '@tanstack/react-store':
         specifier: 'catalog:'
         version: 0.7.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      class-variance-authority:
-        specifier: 'catalog:'
-        version: 0.7.1
-      clsx:
-        specifier: 'catalog:'
-        version: 2.1.1
       drizzle-orm:
         specifier: 'catalog:'
         version: 0.44.4(@types/pg@8.15.5)(kysely@0.28.5)(pg@8.16.3)
@@ -426,9 +417,6 @@ importers:
       react-markdown:
         specifier: 'catalog:'
         version: 9.0.1(@types/react@19.1.9)(react@19.1.1)
-      sonner:
-        specifier: 'catalog:'
-        version: 2.0.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       tailwind-merge:
         specifier: 'catalog:'
         version: 3.3.1

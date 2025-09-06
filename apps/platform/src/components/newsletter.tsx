@@ -1,8 +1,8 @@
+import { toast } from '@repo/ui/components/shadcn/sonner';
+import { cn } from '@repo/ui/utils';
 import { useForm } from '@tanstack/react-form';
 import { type FormEventHandler, useCallback } from 'react';
-import { toast } from 'sonner';
 import { ZodError } from 'zod';
-import { cn } from '@/lib/utils';
 import { emailSchema, type NewsletterInput, newsletterSchema } from '../lib/validation';
 
 export type NewsletterProps = {
