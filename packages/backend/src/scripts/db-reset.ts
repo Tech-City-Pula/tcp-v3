@@ -22,6 +22,9 @@ config();
 // hoisted regexes to satisfy linter
 const MD_EXT_RE = /\.md$/;
 const UNDERSCORE_RE = /_/g;
+// regexes for markdown sanitization (hoisted for linter/perf)
+const PRE_BLOCK_RE = /<pre[^>]*>([\s\S]*?)<\/pre>/i;
+const TRIM_NEWLINES_RE = /^[\r\n]+|[\r\n]+$/g;
 
 // magic numbers extracted as constants
 const TARGET_PER_KIND = 150;
@@ -133,10 +136,24 @@ async function main() {
   const blogFiles = allMdFiles.slice(0, finalEach);
   const eventFiles = allMdFiles.slice(finalEach, finalEach * 2);
 
-  const [blogContents, eventDescriptions] = await Promise.all([
+  // helper to strip <pre> wrappers and any html that follows, leaving only inner markdown
+  function sanitizeMarkdown(raw: string): string {
+    const preMatch = raw.match(PRE_BLOCK_RE);
+    let content = raw;
+    if (preMatch && typeof preMatch[1] === 'string' && preMatch[1].length > 0) {
+      content = preMatch[1];
+    }
+    content = content.replace(TRIM_NEWLINES_RE, '');
+    return content;
+  }
+
+  const [rawBlogContents, rawEventDescriptions] = await Promise.all([
     Promise.all(blogFiles.map((f) => fs.readFile(path.join(mdDir, f), 'utf8'))),
     Promise.all(eventFiles.map((f) => fs.readFile(path.join(mdDir, f), 'utf8'))),
   ]);
+
+  const blogContents = rawBlogContents.map(sanitizeMarkdown);
+  const eventDescriptions = rawEventDescriptions.map(sanitizeMarkdown);
 
   const blogTitles = blogFiles.map((f) => f.replace(MD_EXT_RE, '').replace(UNDERSCORE_RE, ' '));
   const eventTitles = eventFiles.map((f) => `Meetup: ${f.replace(MD_EXT_RE, '').replace(UNDERSCORE_RE, ' ')}`);
