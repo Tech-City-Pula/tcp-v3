@@ -1,9 +1,11 @@
 /// <reference types="vite/client" />
 
 import { Toaster } from '@repo/ui/components/shadcn/sonner';
-import globalCss from '@repo/ui/theme?url';
+import themeCss from '@repo/ui/theme?url';
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import globalCss from '../styles/globals.css?url';
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -19,6 +21,10 @@ export const Route = createRootRoute({
       },
     ],
     links: [
+      {
+        rel: 'stylesheet',
+        href: themeCss,
+      },
       {
         rel: 'stylesheet',
         href: globalCss,
