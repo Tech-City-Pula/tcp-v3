@@ -1,0 +1,5 @@
+/* you still need this for in app styles, just use all the tailwind deps you have in the ui package */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
