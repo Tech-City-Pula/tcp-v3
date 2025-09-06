@@ -24,7 +24,12 @@ export const locationSchema = z
   .min(locationMinLength, { message: 'Please enter a location.' })
   .max(locationMaxLength, { message: `Location must be at most ${locationMaxLength} characters.` });
 
-export const eventAtBaseSchema = z.iso.datetime();
+// Accept date/datetime strings; validate via Date.parse to avoid brittle regex
+export const eventAtBaseSchema = z
+  .string()
+  .min(1, { message: 'Please select a date' })
+  .refine((val) => !Number.isNaN(Date.parse(val)), { message: 'Invalid date' });
+
 export const eventAtTransformSchema = eventAtBaseSchema.transform((val) => new Date(val).getTime());
 
 const createEventSchemaBaseSchema = z.object({
