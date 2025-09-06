@@ -181,6 +181,7 @@ async function main() {
           title: generators.valuesFromArray({ values: eventTitles, isUnique: true }),
           description: generators.valuesFromArray({ values: eventDescriptions, isUnique: true }),
           location: generators.valuesFromArray({ values: ['Pula', 'Zagreb', 'Split'] }),
+          // @ts-expect-error: this works with drizzle
           eventAt: generators.valuesFromArray({ values: eventDates }),
         },
         count: finalEach,
