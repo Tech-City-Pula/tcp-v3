@@ -3,10 +3,11 @@ import { schema } from '@repo/backend/schema';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { eq } from 'drizzle-orm';
-import { ArrowLeft, Calendar, FileText } from 'lucide-react';
+import { ArrowLeft, Calendar } from 'lucide-react';
 import z from 'zod';
+import { RichTextOutput } from '@/components/rich-text-output';
 import { Button } from '@/components/ui/button';
-import { formatDate, getWordCount } from '@/lib/posts';
+import { formatDate } from '@/lib/posts';
 
 const getBlogById = createServerFn()
   .validator(
@@ -24,12 +25,13 @@ const getBlogById = createServerFn()
 
 export const Route = createFileRoute('/blog/$slug')({
   component: RouteComponent,
-  loader({ params }) {
-    return getBlogById({
+  async loader({ params }) {
+    const blog = await getBlogById({
       data: {
         id: params.slug,
       },
     });
+    return blog;
   },
 });
 
@@ -42,8 +44,6 @@ function RouteComponent() {
 }
 
 function BlogPostPage({ blog }: BlogPostPageProperties) {
-  const wordCount = getWordCount(blog.content);
-
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto max-w-3xl px-4 py-8">
@@ -60,12 +60,10 @@ function BlogPostPage({ blog }: BlogPostPageProperties) {
             <div className="flex flex-wrap items-center gap-3 text-muted-foreground text-sm">
               <Calendar className="h-4 w-4" />
               <span>{formatDate(blog.createdAt.toISOString())}</span>
-              <FileText className="ml-2 h-4 w-4" />
-              <span>{wordCount} words</span>
             </div>
           </header>
 
-          <div className="prose prose-neutral dark:prose-invert max-w-none whitespace-pre-wrap">{blog.content}</div>
+          <RichTextOutput markdown={blog.content} />
         </article>
       </div>
     </div>
