@@ -3,7 +3,11 @@ import { BlogForm } from '@/components/forms/blog-form';
 import { getInitialSession } from '@/server/session';
 
 function BlogsRoute() {
-  return <BlogForm />;
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <BlogForm />
+    </div>
+  );
 }
 
 export const Route = createFileRoute('/blogs')({
