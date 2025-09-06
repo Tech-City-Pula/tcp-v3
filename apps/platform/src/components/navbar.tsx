@@ -34,26 +34,23 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-10 border-b bg-background/70 backdrop-blur">
       <div className="container mx-auto flex h-14 items-center px-4">
-        <div className="flex-1">
-          <Link className="font-semibold text-lg" to="/">
-            My Blog
-          </Link>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button aria-label="Toggle theme" className="rounded-xl" onClick={toggle} size="sm" variant="outline">
-            {theme === 'dark' ? (
-              <>
-                <Sun className="mr-2 h-4 w-4" />
-                Light
-              </>
-            ) : (
-              <>
-                <Moon className="mr-2 h-4 w-4" />
-                Dark
-              </>
-            )}
-          </Button>
-        </div>
+        <nav className="flex items-center gap-4">
+          <Link to="/about">/about</Link>
+          <Link to="/blogs">/blogs</Link>
+          <Link to="/events">/events</Link>
+          <Link to="/learn">/learn</Link>
+          <Link to="/contact">/contact</Link>
+          <Link to="/submit-talk">/submit-talk</Link>
+        </nav>
+        <Button
+          aria-label="Toggle theme"
+          className="ml-auto flex size-8 items-center justify-center"
+          onClick={toggle}
+          size="sm"
+          variant="outline"
+        >
+          {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
+        </Button>
       </div>
     </header>
   );

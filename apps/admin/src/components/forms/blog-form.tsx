@@ -1,13 +1,14 @@
 import { useForm } from '@tanstack/react-form';
-import { type FormEventHandler, useCallback } from 'react';
+import type { Editor } from '@tiptap/react';
+import { type FormEventHandler, useCallback, useRef } from 'react';
 import { toast } from 'sonner';
 import type z from 'zod';
 import { ZodError } from 'zod';
+import { RichTextEditor } from '@/components/rich-text-editor';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { contentSchema, createBlogFormSchema, titleSchema } from '@/lib/validation/blogs';
 import { createBlog } from '@/server/blogs';
@@ -22,6 +23,7 @@ export type BlogFormProps = {
 };
 
 export function BlogForm({ onCreated }: BlogFormProps) {
+  const editorRef = useRef<Editor>(null);
   const form = useForm({
     defaultValues: defaultBlog,
     validators: {
@@ -52,12 +54,13 @@ export function BlogForm({ onCreated }: BlogFormProps) {
     async (e) => {
       e.preventDefault();
       await form.handleSubmit();
+      editorRef.current?.commands.clearContent();
     },
     [form.handleSubmit]
   );
 
   return (
-    <form onSubmit={onSubmit} className="w-full max-w-2xl" noValidate>
+    <form onSubmit={onSubmit} className="w-full max-w-lg" noValidate>
       <Card>
         <CardHeader>
           <CardTitle>Create new blog</CardTitle>
@@ -83,23 +86,12 @@ export function BlogForm({ onCreated }: BlogFormProps) {
 
           <form.Field name="content" validators={{ onChange: contentSchema }}>
             {(field) => (
-              <div className="flex flex-col gap-2">
-                <Label htmlFor={field.name}>{field.name}</Label>
-                <Textarea
-                  id={field.name}
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  rows={10}
-                />
-                <em
-                  className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
-                    field.state.meta.errors.length > 0 && 'visible'
-                  )}
-                >
-                  {field.state.meta.errors.map((err) => err?.message).join(', ')}
-                </em>
-              </div>
+              <RichTextEditor
+                onUpdate={(editor) => {
+                  field.handleChange(editor.getHTML());
+                }}
+                editorRef={editorRef}
+              />
             )}
           </form.Field>
         </CardContent>

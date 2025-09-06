@@ -1,5 +1,6 @@
 import type { schema } from '@repo/backend/schema';
 import { Link } from '@tanstack/react-router';
+import { RichTextOutput } from '@/components/rich-text-output';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDate } from '@/lib/posts';
 
@@ -24,7 +25,9 @@ export function BlogPostListItem(props: BlogPostListItemProps) {
         <p className="font-light text-primary/75 text-xs">{formatDate(props.blog.createdAt.toISOString())}</p>
       </CardHeader>
       <CardContent>
-        <p className="line-clamp-3 h-full text-muted-foreground">{props.blog.content}</p>
+        <div className="line-clamp-2 h-full text-muted-foreground">
+          <RichTextOutput markdown={props.blog.content} />
+        </div>
         <div className="mt-4">
           <Link
             className="font-medium text-primary text-sm hover:underline"

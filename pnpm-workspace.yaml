@@ -34,17 +34,23 @@ catalog:
   '@radix-ui/react-tooltip': 1.2.8
   '@react-email/components': 0.5.0
   '@react-email/preview-server': 4.2.8
+  '@tailwindcss/typography': 0.5.16
   '@tailwindcss/vite': 4.1.12
   '@tanstack/react-form': 1.19.2
   '@tanstack/react-router': 1.130.12
   '@tanstack/react-start': 1.130.15
   '@tanstack/react-store': 0.7.4
+  '@tiptap/core': 3.4.1
+  '@tiptap/pm': 3.4.1
+  '@tiptap/react': 3.4.1
+  '@tiptap/starter-kit': 3.4.1
   '@types/node': 24.2.1
   '@types/nodemailer': 6.4.17
   '@types/pg': 8.15.5
   '@types/prompts': 2.4.9
   '@types/react': 19.1.9
   '@types/react-dom': 19.1.7
+  '@types/turndown': 5.0.5
   '@vitejs/plugin-react': 4.7.0
   better-auth: 1.3.7
   class-variance-authority: 0.7.1
@@ -68,11 +74,13 @@ catalog:
   react-day-picker: 9.9.0
   react-dom: 19.1.1
   react-email: 4.2.8
+  react-markdown: 9.0.1
   react-resizable-panels: 3.0.5
   recharts: 2.15.4
   sonner: 2.0.7
   tailwind-merge: 3.3.1
   tailwindcss: 4.1.11
+  turndown: 7.1.2
   tw-animate-css: 1.3.6
   typescript: 5.9.2
   ultracite: 5.2.5

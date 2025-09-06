@@ -2,6 +2,7 @@
 
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import { Navbar } from '@/components/navbar';
 import { Toaster } from '@/components/ui/sonner';
 import globalCss from '@/styles/globals.css?url';
 
@@ -47,6 +48,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         <HeadContent />
       </head>
       <body>
+        <Navbar />
         {children}
         <Scripts />
       </body>

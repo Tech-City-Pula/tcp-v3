@@ -1,3 +1,4 @@
+import { sanitizeAndConvertIncomingHtml } from '@repo/backend/content';
 import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
 import { createServerFn } from '@tanstack/react-start';
@@ -8,9 +9,11 @@ export const createBlog = createServerFn({
 })
   .validator(createBlogEndpointSchema)
   .handler(async ({ data }) => {
+    const markdownConversionResult = sanitizeAndConvertIncomingHtml(data.content);
+
     await db.insert(schema.blogs).values({
       title: data.title,
-      content: data.content,
+      content: markdownConversionResult.markdown,
     });
 
     return { success: true };

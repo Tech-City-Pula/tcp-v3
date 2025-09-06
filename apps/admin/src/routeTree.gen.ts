@@ -11,6 +11,7 @@
 import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TestRouteImport } from './routes/test'
 import { Route as MembersRouteImport } from './routes/members'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as BlogsRouteImport } from './routes/blogs'
@@ -19,6 +20,11 @@ import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/
 
 const rootServerRouteImport = createServerRootRoute()
 
+const TestRoute = TestRouteImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MembersRoute = MembersRouteImport.update({
   id: '/members',
   path: '/members',
@@ -50,12 +56,14 @@ export interface FileRoutesByFullPath {
   '/blogs': typeof BlogsRoute
   '/events': typeof EventsRoute
   '/members': typeof MembersRoute
+  '/test': typeof TestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blogs': typeof BlogsRoute
   '/events': typeof EventsRoute
   '/members': typeof MembersRoute
+  '/test': typeof TestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -63,13 +71,14 @@ export interface FileRoutesById {
   '/blogs': typeof BlogsRoute
   '/events': typeof EventsRoute
   '/members': typeof MembersRoute
+  '/test': typeof TestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/blogs' | '/events' | '/members'
+  fullPaths: '/' | '/blogs' | '/events' | '/members' | '/test'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blogs' | '/events' | '/members'
-  id: '__root__' | '/' | '/blogs' | '/events' | '/members'
+  to: '/' | '/blogs' | '/events' | '/members' | '/test'
+  id: '__root__' | '/' | '/blogs' | '/events' | '/members' | '/test'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +86,7 @@ export interface RootRouteChildren {
   BlogsRoute: typeof BlogsRoute
   EventsRoute: typeof EventsRoute
   MembersRoute: typeof MembersRoute
+  TestRoute: typeof TestRoute
 }
 export interface FileServerRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatServerRoute
@@ -102,6 +112,13 @@ export interface RootServerRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/members': {
       id: '/members'
       path: '/members'
@@ -149,6 +166,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogsRoute: BlogsRoute,
   EventsRoute: EventsRoute,
   MembersRoute: MembersRoute,
+  TestRoute: TestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

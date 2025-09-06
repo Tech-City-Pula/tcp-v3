@@ -1,6 +1,6 @@
 ---
 description: 'Assistant that scaffolds and wires createServerFn RPC endpoints for TanStack Start (React)'
-tools: ['think', 'fetch', 'searchResults', 'todos', 'editFiles', 'search', 'context7']
+tools: ['codebase', 'usages', 'think', 'problems', 'changes', 'terminalSelection', 'terminalLastCommand', 'fetch', 'searchResults', 'todos', 'editFiles', 'search', 'context7']
 model: GPT-5 (Preview)
 ---
 

@@ -1,19 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
-import type { ContactFormValues } from '@/components/contact-form';
-import { ContactForm } from '@/components/contact-form';
 
 export const Route = createFileRoute('/about')({
   component: AboutPage,
 });
 
 function AboutPage() {
-  const sponsor_inquiry = async (data: ContactFormValues) => {
-    return await ContactForm({ data });
-    // Additional sponsor-specific handling can go here
-    // For example, you could send this to a different endpoint
-    // or add additional tracking for sponsor inquiries
-  };
-
   return (
     <div className="min-h-screen bg-black p-4 font-mono text-green-400 md:p-8">
       <div className="mx-auto max-w-4xl">
@@ -130,13 +121,13 @@ function AboutPage() {
             </div>
 
             <div>
-              <ContactForm
+              {/* <ContactForm
                 onSuccess={sponsor_inquiry}
                 emailPlaceholder="sponsor@company.com"
                 messagePlaceholder="Tell us about your sponsorship ideas or just say hello..."
                 submitButtonText="$ send --sponsor-inquiry"
                 showCharacterCount={true}
-              />
+              /> */}
             </div>
           </div>
         </section>
