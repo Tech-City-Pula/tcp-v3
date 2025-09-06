@@ -1,9 +1,11 @@
 import { type Editor, EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { type RefObject, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 
 type Props = {
   onUpdate?(editor: Editor): void;
+  editorRef?: RefObject<Editor | null>;
 };
 
 export function RichTextEditor(props: Props) {
@@ -11,10 +13,26 @@ export function RichTextEditor(props: Props) {
     extensions: [StarterKit], // define your extension array
     content: '<p>Hello World!</p>', // initial content
     immediatelyRender: false, // disable ssr
-    onUpdate: ({ editor }) => {
+    onUpdate({ editor }) {
       props.onUpdate?.(editor);
     },
   });
+
+  useEffect(() => {
+    if (!editor) {
+      return;
+    }
+
+    if (props.editorRef) {
+      props.editorRef.current = editor;
+    }
+
+    return () => {
+      if (props.editorRef) {
+        props.editorRef.current = null;
+      }
+    };
+  }, [editor, props.editorRef]);
 
   if (!editor) {
     return null;
