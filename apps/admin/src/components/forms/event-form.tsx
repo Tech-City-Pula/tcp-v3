@@ -1,12 +1,17 @@
+import { parseDate } from '@internationalized/date';
 import { useForm } from '@tanstack/react-form';
 import type { Editor } from '@tiptap/react';
+import { CalendarIcon } from 'lucide-react';
 import { type FormEventHandler, useCallback, useRef } from 'react';
+import { DatePicker, Dialog, Group, Popover, Button as RacButton, Label as RacLabel } from 'react-aria-components';
 import { toast } from 'sonner';
 import type z from 'zod';
 import { ZodError } from 'zod';
 import { RichTextEditor } from '@/components/rich-text-editor';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar-rac';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { DateInput } from '@/components/ui/datefield-rac';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
@@ -104,14 +109,37 @@ export function EventForm({ onCreated }: EventFormProps) {
 
           <form.Field name="eventAt" validators={{ onChange: eventAtBaseSchema }}>
             {(field) => (
-              <div className="flex flex-col gap-2">
-                <Label htmlFor={field.name}>{field.name}</Label>
-                <Input
-                  id={field.name}
-                  type="datetime-local"
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
+              <div className="*:not-first:mt-2">
+                <RacLabel className="font-medium text-foreground text-sm">{field.name}</RacLabel>
+                <DatePicker
+                  className="*:not-first:mt-2"
+                  value={field.state.value ? parseDate(field.state.value.substring(0, 10)) : undefined}
+                  onChange={(v) => field.handleChange(v ? v.toString() : '')}
+                >
+                  <div className="flex">
+                    <Group className="w-full">
+                      <DateInput
+                        className="pe-9"
+                        /**
+                         * React Aria DateInput uses a DateValue internally. When user types/picks,
+                         * onChange on the DatePicker will provide a DateValue; here we only need to
+                         * reflect the string to the form field.
+                         */
+                      />
+                    </Group>
+                    <RacButton className="-me-px -ms-9 z-10 flex w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground data-focus-visible:border-ring data-focus-visible:ring-[3px] data-focus-visible:ring-ring/50">
+                      <CalendarIcon size={16} />
+                    </RacButton>
+                  </div>
+                  <Popover
+                    className="data-[entering]:fade-in-0 data-[entering]:zoom-in-95 data-[exiting]:fade-out-0 data-[exiting]:zoom-out-95 data-[placement=bottom]:slide-in-from-top-2 data-[placement=left]:slide-in-from-right-2 data-[placement=right]:slide-in-from-left-2 data-[placement=top]:slide-in-from-bottom-2 z-50 rounded-lg border bg-background text-popover-foreground shadow-lg outline-hidden data-entering:animate-in data-exiting:animate-out"
+                    offset={4}
+                  >
+                    <Dialog className="max-h-[inherit] overflow-auto p-2">
+                      <Calendar />
+                    </Dialog>
+                  </Popover>
+                </DatePicker>
                 <em
                   className={cn(
                     'invisible min-h-lh text-red-400 text-xs',
