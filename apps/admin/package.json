@@ -20,6 +20,7 @@
     "serve:e2e": "pnpm build && pnpm serve"
   },
   "dependencies": {
+    "@internationalized/date": "^3.9.0",
     "@radix-ui/react-accordion": "catalog:",
     "@radix-ui/react-alert-dialog": "catalog:",
     "@radix-ui/react-aspect-ratio": "catalog:",
@@ -68,6 +69,7 @@
     "lucide-react": "catalog:",
     "next-themes": "catalog:",
     "react": "catalog:",
+    "react-aria-components": "^1.12.1",
     "react-day-picker": "catalog:",
     "react-dom": "catalog:",
     "react-markdown": "catalog:",
