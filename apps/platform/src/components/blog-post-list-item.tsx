@@ -25,9 +25,9 @@ export function BlogPostListItem(props: BlogPostListItemProps) {
         <p className="font-light text-primary/75 text-xs">{formatDate(props.blog.createdAt.toISOString())}</p>
       </CardHeader>
       <CardContent>
-        <p className="line-clamp-2 h-full text-muted-foreground">
+        <div className="line-clamp-2 h-full text-muted-foreground">
           <RichTextOutput markdown={props.blog.content} />
-        </p>
+        </div>
         <div className="mt-4">
           <Link
             className="font-medium text-primary text-sm hover:underline"
