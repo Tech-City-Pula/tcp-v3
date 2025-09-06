@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
+import TurndownService from 'turndown';
+import { RichTextOutput } from '@/components/rich-text-output';
 import { formatDate } from '@/lib/posts';
 import { EventAttend } from '../components/attend-event';
 import { getEvent } from '../server/events';
@@ -25,6 +27,7 @@ export const Route = createFileRoute('/events/$eventId')({
 
 function RouteComponent() {
   const event = Route.useLoaderData();
+  const td = new TurndownService();
 
   if (!event) {
     return (
@@ -102,7 +105,9 @@ function RouteComponent() {
         <section className="mx-auto max-w-4xl px-8 py-6">
           <h2 className="mb-4 font-bold font-mono text-2xl text-emerald-500">&gt; EVENT_DESCRIPTION.txt</h2>
           <div className="border border-emerald-500/30 bg-black/50 p-8">
-            <p className="font-mono text-base text-gray-300 leading-relaxed">{event.description}</p>
+            <div className="prose prose-invert">
+              <RichTextOutput markdown={td.turndown(event.description)} />
+            </div>
           </div>
         </section>
 
