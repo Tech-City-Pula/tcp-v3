@@ -46,7 +46,6 @@
     "@radix-ui/react-toggle": "catalog:",
     "@radix-ui/react-toggle-group": "catalog:",
     "@radix-ui/react-tooltip": "catalog:",
-    "@repo/backend": "workspace:*",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
     "@tanstack/react-start": "catalog:",
@@ -76,8 +75,7 @@
     "tailwindcss": "catalog:",
     "turndown": "catalog:",
     "vaul": "catalog:",
-    "vite": "catalog:",
-    "zod": "catalog:"
+    "vite": "catalog:"
   },
   "devDependencies": {
     "@playwright/test": "catalog:",
