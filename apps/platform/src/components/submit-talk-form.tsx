@@ -1,8 +1,8 @@
+import { Button } from '@repo/ui/components/shadcn/button';
+import { toast } from '@repo/ui/components/shadcn/sonner';
 import { useForm } from '@tanstack/react-form';
 import { type FormEventHandler, useCallback } from 'react';
-import { toast } from 'sonner';
 import { ZodError } from 'zod';
-import { Button } from '@/components/ui/button';
 import { descriptionSchema, emailSchema, type SubmitTalkInput, submitTalkSchema, titleSchema } from '@/lib/validation';
 
 const defaultTalkInfo: SubmitTalkInput = {

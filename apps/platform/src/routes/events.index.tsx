@@ -19,9 +19,6 @@ function RouteComponent() {
       <div className="absolute inset-0 z-0 animate-[matrix_20s_linear_infinite] bg-[length:20px_20px] bg-[linear-gradient(90deg,rgba(16,185,129,0.3)_1px,transparent_1px),linear-gradient(rgba(16,185,129,0.3)_1px,transparent_1px)] opacity-10" />
 
       <div className="relative z-10 mx-auto max-w-[1200px] p-8">
-        <Link className="text-white underline" to="/">
-          Home
-        </Link>
         <header className="mb-12 text-center">
           <h1 className="mb-4 font-bold font-mono text-4xl text-emerald-500 tracking-wide md:text-5xl">
             <span className="text-white">[</span>EVENTS<span className="text-white">]</span>

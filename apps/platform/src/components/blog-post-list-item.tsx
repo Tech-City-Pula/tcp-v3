@@ -1,7 +1,7 @@
 import type { schema } from '@repo/backend/schema';
+import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/shadcn/card';
 import { Link } from '@tanstack/react-router';
 import { RichTextOutput } from '@/components/rich-text-output';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDate } from '@/lib/posts';
 
 type BlogPostListItemProps = {

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@repo/ui/components/shadcn/button';
 import { authClient } from '@/lib/auth/client';
 import { Route } from '@/routes/index';
 
