@@ -1,10 +1,10 @@
 import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
+import { RichTextEditor } from '@repo/ui/components/rich-text-editor';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import TurndownService from 'turndown';
 import { z } from 'zod';
-import { RichTextEditor } from '@/components/rich-text-editor';
 
 const saveToDbInput = z.object({ html: z.string().trim().min(1) });
 

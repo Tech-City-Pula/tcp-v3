@@ -1,13 +1,13 @@
+import { Button } from '@repo/ui/components/shadcn/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@repo/ui/components/shadcn/card';
+import { Input } from '@repo/ui/components/shadcn/input';
+import { Label } from '@repo/ui/components/shadcn/label';
+import { cn } from '@repo/ui/utils';
 import { useForm } from '@tanstack/react-form';
 import { type FormEventHandler, useCallback } from 'react';
 import { toast } from 'sonner';
 import { ZodError } from 'zod';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { authClient } from '@/lib/auth/client';
-import { cn } from '@/lib/utils';
 import { emailSchema, type LoginInput, loginInputSchema, passwordSchema } from '@/lib/validation/auth';
 
 const defaultLoginInfo: LoginInput = { email: '', password: '' } as const;
