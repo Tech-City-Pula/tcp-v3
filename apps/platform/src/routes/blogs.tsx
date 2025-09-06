@@ -7,7 +7,6 @@ import { Search } from 'lucide-react';
 import { useState } from 'react';
 import z from 'zod';
 import { BlogPostListItem } from '@/components/blog-post-list-item';
-import { Navbar } from '@/components/navbar';
 import { Input } from '@/components/ui/input';
 
 // Shared validator for search params + server fn input
