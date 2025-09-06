@@ -1,32 +1,23 @@
 import { type Editor, EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { HtmlTagInputExtension } from '@/components/rte-html-tag-input';
 import { Button } from '@/components/ui/button';
 
 type Props = {
-  onSave(editor: Editor): void;
-  onChange?(editor: Editor): void;
+  onUpdate?(editor: Editor): void;
 };
 
 export function RichTextEditor(props: Props) {
   const editor = useEditor({
-    extensions: [StarterKit, HtmlTagInputExtension], // define your extension array
+    extensions: [StarterKit], // define your extension array
     content: '<p>Hello World!</p>', // initial content
     immediatelyRender: false, // disable ssr
-    onUpdate: ({ editor: ed }) => {
-      props.onChange?.(ed);
+    onUpdate: ({ editor }) => {
+      props.onUpdate?.(editor);
     },
   });
+
   if (!editor) {
     return null;
-  }
-
-  function handleSave() {
-    if (!editor) {
-      return;
-    }
-
-    props.onSave(editor);
   }
 
   return (
@@ -142,11 +133,6 @@ export function RichTextEditor(props: Props) {
         </Button>
       </div>
       <EditorContent className="prose h-64 w-full overflow-auto rounded-md border p-3" editor={editor} />
-      <div className="flex justify-end">
-        <Button type="button" onClick={handleSave}>
-          Save
-        </Button>
-      </div>
     </div>
   );
 }
