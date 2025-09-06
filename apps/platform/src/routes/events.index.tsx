@@ -1,5 +1,6 @@
 import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
+import { Input } from '@repo/ui/components/shadcn/input';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { desc, ilike } from 'drizzle-orm';
@@ -7,7 +8,6 @@ import { Search } from 'lucide-react';
 import { useState } from 'react';
 import z from 'zod';
 import { EventListItem } from '@/components/event-list-item';
-import { Input } from '@/components/ui/input';
 
 // Shared validator for search params + server fn input
 const searchSchema = z.object({

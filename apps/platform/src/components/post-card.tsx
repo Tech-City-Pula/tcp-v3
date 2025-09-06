@@ -1,6 +1,6 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/shadcn/card';
 import { Link } from '@tanstack/react-router';
 import { Calendar, FileText, User } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDate, getWordCount, type Post } from '@/lib/posts';
 
 export function PostCard({ post }: { post: Post }) {
