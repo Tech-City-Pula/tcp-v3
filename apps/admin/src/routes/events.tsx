@@ -15,7 +15,7 @@ export const Route = createFileRoute('/events')({
       // If no session, redirect to login
       if (!sessionData.user) {
         throw redirect({
-          to: '/',
+          to: '/login',
         });
       }
 
@@ -24,7 +24,7 @@ export const Route = createFileRoute('/events')({
       // If error (like non-admin role), redirect to login
       if (error instanceof Error && error.message.includes('Admin role required')) {
         throw redirect({
-          to: '/',
+          to: '/login',
         });
       }
       throw error;
