@@ -13,6 +13,7 @@ import { createServerRootRoute } from '@tanstack/react-start/server'
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TestRouteImport } from './routes/test'
 import { Route as MembersRouteImport } from './routes/members'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as IndexRouteImport } from './routes/index'
@@ -28,6 +29,11 @@ const TestRoute = TestRouteImport.update({
 const MembersRoute = MembersRouteImport.update({
   id: '/members',
   path: '/members',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsRoute = EventsRouteImport.update({
@@ -55,6 +61,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/blogs': typeof BlogsRoute
   '/events': typeof EventsRoute
+  '/login': typeof LoginRoute
   '/members': typeof MembersRoute
   '/test': typeof TestRoute
 }
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/blogs': typeof BlogsRoute
   '/events': typeof EventsRoute
+  '/login': typeof LoginRoute
   '/members': typeof MembersRoute
   '/test': typeof TestRoute
 }
@@ -70,21 +78,23 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/blogs': typeof BlogsRoute
   '/events': typeof EventsRoute
+  '/login': typeof LoginRoute
   '/members': typeof MembersRoute
   '/test': typeof TestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/blogs' | '/events' | '/members' | '/test'
+  fullPaths: '/' | '/blogs' | '/events' | '/login' | '/members' | '/test'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blogs' | '/events' | '/members' | '/test'
-  id: '__root__' | '/' | '/blogs' | '/events' | '/members' | '/test'
+  to: '/' | '/blogs' | '/events' | '/login' | '/members' | '/test'
+  id: '__root__' | '/' | '/blogs' | '/events' | '/login' | '/members' | '/test'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BlogsRoute: typeof BlogsRoute
   EventsRoute: typeof EventsRoute
+  LoginRoute: typeof LoginRoute
   MembersRoute: typeof MembersRoute
   TestRoute: typeof TestRoute
 }
@@ -126,6 +136,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MembersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events': {
       id: '/events'
       path: '/events'
@@ -165,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BlogsRoute: BlogsRoute,
   EventsRoute: EventsRoute,
+  LoginRoute: LoginRoute,
   MembersRoute: MembersRoute,
   TestRoute: TestRoute,
 }
