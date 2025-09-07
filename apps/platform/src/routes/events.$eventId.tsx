@@ -1,6 +1,6 @@
+import { RichTextOutput } from '@repo/ui/components/rich-text-output';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import TurndownService from 'turndown';
-import { RichTextOutput } from '@/components/rich-text-output';
 import { formatDate } from '@/lib/posts';
 import { EventAttend } from '../components/attend-event';
 import { getEvent } from '../server/events';

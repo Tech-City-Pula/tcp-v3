@@ -1,12 +1,12 @@
 import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
+import { RichTextOutput } from '@repo/ui/components/rich-text-output';
 import { Button } from '@repo/ui/components/shadcn/button';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { eq } from 'drizzle-orm';
 import { ArrowLeft, Calendar } from 'lucide-react';
 import z from 'zod';
-import { RichTextOutput } from '@/components/rich-text-output';
 import { formatDate } from '@/lib/posts';
 
 const getBlogById = createServerFn()
