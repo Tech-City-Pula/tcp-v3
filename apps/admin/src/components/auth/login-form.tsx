@@ -5,6 +5,7 @@ import { Label } from '@repo/ui/components/shadcn/label';
 import { toast } from '@repo/ui/components/shadcn/sonner';
 import { cn } from '@repo/ui/utils';
 import { useForm } from '@tanstack/react-form';
+import { useNavigate } from '@tanstack/react-router';
 import { type FormEventHandler, useCallback } from 'react';
 import { ZodError } from 'zod';
 import { authClient } from '@/lib/auth/client';
@@ -13,6 +14,7 @@ import { emailSchema, type LoginInput, loginInputSchema, passwordSchema } from '
 const defaultLoginInfo: LoginInput = { email: '', password: '' } as const;
 
 export function LoginForm() {
+  const navigate = useNavigate();
   const form = useForm({
     defaultValues: defaultLoginInfo,
     validators: {
@@ -28,6 +30,7 @@ export function LoginForm() {
         if (response.data) {
           toast.success('Logged in successfully!');
           form.reset();
+          navigate({ to: '/' });
         } else {
           throw new Error(response.error.message);
         }
