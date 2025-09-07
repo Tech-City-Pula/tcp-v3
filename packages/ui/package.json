@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit --allowImportingTsExtensions"
   },
   "dependencies": {
-    "@internationalized/date": "^3.9.0",
+    "@internationalized/date": "catalog:",
     "@radix-ui/react-accordion": "catalog:",
     "@radix-ui/react-alert-dialog": "catalog:",
     "@radix-ui/react-aspect-ratio": "catalog:",
@@ -56,7 +56,7 @@
     "@tiptap/react": "catalog:",
     "@tiptap/starter-kit": "catalog:",
     "@types/turndown": "catalog:",
-    "react-aria-components": "^1.12.1",
+    "react-aria-components": "catalog:",
     "better-auth": "catalog:",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",

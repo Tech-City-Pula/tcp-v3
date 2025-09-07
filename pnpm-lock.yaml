@@ -12,6 +12,9 @@ catalogs:
     '@faker-js/faker':
       specifier: 10.0.0
       version: 10.0.0
+    '@internationalized/date':
+      specifier: 3.9.0
+      version: 3.9.0
     '@playwright/test':
       specifier: 1.55.0
       version: 1.55.0
@@ -207,6 +210,9 @@ catalogs:
     react:
       specifier: 19.1.1
       version: 19.1.1
+    react-aria-components:
+      specifier: 1.12.1
+      version: 1.12.1
     react-day-picker:
       specifier: 9.9.0
       version: 9.9.0
@@ -273,7 +279,7 @@ importers:
   apps/admin:
     dependencies:
       '@internationalized/date':
-        specifier: ^3.9.0
+        specifier: 'catalog:'
         version: 3.9.0
       '@repo/backend':
         specifier: workspace:*
@@ -345,7 +351,7 @@ importers:
         specifier: 'catalog:'
         version: 19.1.1
       react-aria-components:
-        specifier: ^1.12.1
+        specifier: 'catalog:'
         version: 1.12.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react-day-picker:
         specifier: 'catalog:'
@@ -564,7 +570,7 @@ importers:
   packages/ui:
     dependencies:
       '@internationalized/date':
-        specifier: ^3.9.0
+        specifier: 'catalog:'
         version: 3.9.0
       '@radix-ui/react-accordion':
         specifier: 'catalog:'
@@ -702,7 +708,7 @@ importers:
         specifier: 'catalog:'
         version: 19.1.1
       react-aria-components:
-        specifier: ^1.12.1
+        specifier: 'catalog:'
         version: 1.12.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react-day-picker:
         specifier: 'catalog:'

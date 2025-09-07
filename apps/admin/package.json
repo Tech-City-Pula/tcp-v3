@@ -20,7 +20,7 @@
     "serve:e2e": "pnpm build && pnpm serve"
   },
   "dependencies": {
-    "@internationalized/date": "^3.9.0",
+    "@internationalized/date": "catalog:",
     "@repo/backend": "workspace:*",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-router": "catalog:",
@@ -43,7 +43,7 @@
     "lucide-react": "catalog:",
     "next-themes": "catalog:",
     "react": "catalog:",
-    "react-aria-components": "^1.12.1",
+    "react-aria-components": "catalog:",
     "@repo/ui": "workspace:*",
     "react-day-picker": "catalog:",
     "react-dom": "catalog:",
