@@ -1,6 +1,4 @@
-import React from 'react';
-
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className="border-green-400 border-t pt-6">
       <div className="grid gap-6 text-sm md:grid-cols-2">
@@ -30,5 +28,3 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;
