@@ -1,8 +1,10 @@
 import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
 import { Button } from '@repo/ui/components/shadcn/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@repo/ui/components/shadcn/card';
 import { Input } from '@repo/ui/components/shadcn/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/components/shadcn/select';
+import { Separator } from '@repo/ui/components/shadcn/separator';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { asc, desc, ilike } from 'drizzle-orm';
@@ -71,32 +73,34 @@ function BlogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <h1 className="mb-2 font-bold text-4xl">My Blog</h1>
-          <p className="text-lg text-muted-foreground">Insights and tutorials on web development and technology.</p>
-        </div>
-        <form onSubmit={handleSubmit} className="mx-auto mb-6 max-w-3xl">
-          <div className="flex flex-col items-stretch gap-3 sm:flex-row">
-            <div className="relative flex-1">
-              <Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
-              <Input
-                aria-label="Search blog posts"
-                name="search"
-                className="rounded-xl pl-10"
-                placeholder="Search blog posts..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-            <div className="w-full sm:w-48">
+    <div className="container mx-auto p-4 space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>My Blog</CardTitle>
+          <CardDescription>Insights and tutorials on web development and technology.</CardDescription>
+        </CardHeader>
+      </Card>
+      
+      <Card>
+        <CardContent className="pt-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  name="search"
+                  placeholder="Search blog posts..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
               <Select
                 name="order"
                 value={order}
                 onValueChange={(value) => setOrder(value as 'newest' | 'oldest')}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-48">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -104,27 +108,35 @@ function BlogPage() {
                   <SelectItem value="oldest">Oldest</SelectItem>
                 </SelectContent>
               </Select>
+              <Button type="submit">Apply</Button>
             </div>
-            <Button type="submit" size="default">
-              Apply
-            </Button>
-          </div>
-        </form>
-        {searchParams.search ? (
-          <div className="mb-4 text-center text-muted-foreground text-sm">
-            Found {blogs.length} post{blogs.length === 1 ? '' : 's'} for "{searchParams.search}"
-          </div>
-        ) : null}
-        <div className="mx-auto max-w-3xl space-y-6">
-          {blogs.map((blog) => (
-            <BlogPostListItem key={blog.id} blog={blog} />
-          ))}
-          {blogs.length === 0 ? (
-            <div className="rounded-xl border py-12 text-center text-muted-foreground">
-              No posts found. Try a different search.
-            </div>
-          ) : null}
-        </div>
+          </form>
+        </CardContent>
+      </Card>
+
+      {searchParams.search && (
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-sm text-muted-foreground text-center">
+              Found {blogs.length} post{blogs.length === 1 ? '' : 's'} for "{searchParams.search}"
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="space-y-4">
+        {blogs.map((blog) => (
+          <BlogPostListItem key={blog.id} blog={blog} />
+        ))}
+        {blogs.length === 0 && (
+          <Card>
+            <CardContent className="pt-6">
+              <p className="text-center text-muted-foreground">
+                No posts found. Try a different search.
+              </p>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
