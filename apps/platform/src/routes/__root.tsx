@@ -3,6 +3,7 @@
 import { Toaster } from '@repo/ui/components/shadcn/sonner';
 import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar';
 import globalCss from '@/styles/globals.css?url';
 
@@ -50,6 +51,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <body>
         <Navbar />
         {children}
+        <Footer />
         <Scripts />
       </body>
     </html>

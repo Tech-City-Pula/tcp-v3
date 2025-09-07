@@ -122,9 +122,6 @@ function BlogPage() {
             </div>
           ) : null}
         </div>
-        <footer className="mt-16 border-t pt-8 text-center text-muted-foreground">
-          <p>© 2025 My Blog. Preview build.</p>
-        </footer>
       </div>
     </div>
   );
