@@ -1,5 +1,6 @@
 import ReactMarkdown from 'react-markdown';
+import { cn } from '@/lib/utils';
 
-export function RichTextOutput(props: { markdown: string }) {
-  return <ReactMarkdown className="prose" children={props.markdown} />;
+export function RichTextOutput(props: { markdown: string; className?: string }) {
+  return <ReactMarkdown className={cn('prose', props.className)} children={props.markdown} />;
 }
