@@ -1,9 +1,9 @@
 import type { schema } from '@repo/backend/schema';
+import { RichTextOutput } from '@repo/ui/components/rich-text-output';
 import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/components/shadcn/card';
 import { Link } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import TurndownService from 'turndown';
-import { RichTextOutput } from '@/components/rich-text-output';
 import { formatDate } from '@/lib/posts';
 
 type EventListItemProps = {
