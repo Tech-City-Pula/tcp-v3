@@ -1,5 +1,6 @@
 import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
+import { Button } from '@repo/ui/components/shadcn/button';
 import { Input } from '@repo/ui/components/shadcn/input';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
@@ -88,12 +89,9 @@ function RouteComponent() {
               />
             </div>
             {/* Order removed; always most recent first */}
-            <button
-              type="submit"
-              className="rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground text-sm hover:opacity-90"
-            >
+            <Button type="submit" size="default">
               Apply
-            </button>
+            </Button>
           </div>
         </form>
         {searchParams.search ? (

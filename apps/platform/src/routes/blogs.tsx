@@ -1,6 +1,8 @@
 import { db } from '@repo/backend/db';
 import { schema } from '@repo/backend/schema';
+import { Button } from '@repo/ui/components/shadcn/button';
 import { Input } from '@repo/ui/components/shadcn/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@repo/ui/components/shadcn/select';
 import { createFileRoute } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { asc, desc, ilike } from 'drizzle-orm';
@@ -89,22 +91,23 @@ function BlogPage() {
               />
             </div>
             <div className="w-full sm:w-48">
-              <select
+              <Select
                 name="order"
-                className="w-full rounded-md border bg-background px-3 py-2 text-sm"
                 value={order}
-                onChange={(e) => setOrder(e.target.value as 'newest' | 'oldest')}
+                onValueChange={(value) => setOrder(value as 'newest' | 'oldest')}
               >
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-              </select>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest</SelectItem>
+                  <SelectItem value="oldest">Oldest</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-            <button
-              type="submit"
-              className="rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground text-sm hover:opacity-90"
-            >
+            <Button type="submit" size="default">
               Apply
-            </button>
+            </Button>
           </div>
         </form>
         {searchParams.search ? (
