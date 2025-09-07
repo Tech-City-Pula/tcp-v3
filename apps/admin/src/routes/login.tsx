@@ -14,12 +14,9 @@ export const Route = createFileRoute('/login')({
   component: LoginRoute,
   beforeLoad: async () => {
     const sessionData = await getInitialSession();
+
     if (sessionData.user) {
       throw redirect({ to: '/' });
     }
-    return sessionData;
-  },
-  loader(ctx) {
-    return ctx.context;
   },
 });
