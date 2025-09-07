@@ -1,8 +1,5 @@
-'use client';
-
 import { Command as CommandPrimitive } from 'cmdk';
 import { SearchIcon } from 'lucide-react';
-import type * as React from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '../../components/shadcn/dialog';
 import { cn } from '../../lib/utils';
 
