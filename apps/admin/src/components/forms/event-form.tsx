@@ -1,14 +1,25 @@
+import { parseDate } from '@internationalized/date';
 import { RichTextEditor } from '@repo/ui/components/rich-text-editor';
 import { Button } from '@repo/ui/components/shadcn/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@repo/ui/components/shadcn/card';
+import { DateInput } from '@repo/ui/components/shadcn/datefield-rac';
 import { Input } from '@repo/ui/components/shadcn/input';
 import { Label } from '@repo/ui/components/shadcn/label';
 import { toast } from '@repo/ui/components/shadcn/sonner';
 import { cn } from '@repo/ui/utils';
 import { useForm } from '@tanstack/react-form';
 import type { Editor } from '@tiptap/core';
+import { CalendarIcon } from 'lucide-react';
 import { type FormEventHandler, useCallback, useRef } from 'react';
-import { DatePicker } from 'react-aria-components';
+import {
+  Calendar,
+  DatePicker,
+  Dialog,
+  Group,
+  Popover,
+  Button as RacButton,
+  Label as RacLabel,
+} from 'react-aria-components';
 import type z from 'zod';
 import { ZodError } from 'zod';
 import {
