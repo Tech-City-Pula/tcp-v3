@@ -32,51 +32,19 @@ export function Navbar() {
   const { theme, toggle } = useThemeToggle();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-border/40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 max-w-screen-2xl items-center">
-        <nav className="flex flex-1 items-center gap-6">
-          <Link to="/" className="font-medium text-sm transition-colors hover:text-primary [&.active]:text-primary">
-            Home
-          </Link>
-          <Link
-            to="/about"
-            className="font-medium text-sm transition-colors hover:text-primary [&.active]:text-primary"
-          >
-            About
-          </Link>
-          <Link
-            to="/events"
-            className="font-medium text-sm transition-colors hover:text-primary [&.active]:text-primary"
-          >
-            Events
-          </Link>
-          <Link
-            to="/blogs"
-            className="font-medium text-sm transition-colors hover:text-primary [&.active]:text-primary"
-          >
-            Blog
-          </Link>
-          <Link
-            to="/learn"
-            className="font-medium text-sm transition-colors hover:text-primary [&.active]:text-primary"
-          >
-            Learn
-          </Link>
-          <Link
-            to="/contact"
-            className="font-medium text-sm transition-colors hover:text-primary [&.active]:text-primary"
-          >
-            Contact
-          </Link>
-          <Link
-            to="/submit-talk"
-            className="font-medium text-sm transition-colors hover:text-primary [&.active]:text-primary"
-          >
-            Submit Talk
-          </Link>
+    <header>
+      <div>
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/events">Events</Link>
+          <Link to="/blogs">Blog</Link>
+          <Link to="/learn">Learn</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/submit-talk">Submit Talk</Link>
         </nav>
         <Button aria-label="Toggle theme" onClick={toggle} size="sm" variant="outline">
-          {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          {theme === 'dark' ? <Sun /> : <Moon />}
         </Button>
       </div>
     </header>
