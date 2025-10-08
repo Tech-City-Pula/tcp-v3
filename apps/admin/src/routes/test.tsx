@@ -27,7 +27,7 @@ export const Route = createFileRoute('/test')({ component: RouteComponent });
 
 function RouteComponent() {
   return (
-    <div className="flex min-h-screen items-start p-6">
+    <div>
       <RichTextEditor
         onUpdate={async (editor) => {
           const html = editor.getHTML();

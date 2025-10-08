@@ -22,9 +22,9 @@ export function EventListItem(props: EventListItemProps) {
 
   const dateString = typeof props.event.eventAt === 'string' ? props.event.eventAt : props.event.eventAt.toISOString();
   return (
-    <Card className="rounded-xl transition-shadow hover:shadow-md">
+    <Card>
       <CardHeader>
-        <CardTitle className="text-primary">
+        <CardTitle>
           <Link
             params={{
               eventId: props.event.id,
@@ -34,17 +34,16 @@ export function EventListItem(props: EventListItemProps) {
             {props.event.title}
           </Link>
         </CardTitle>
-        <p className="font-light text-primary/75 text-xs">
+        <p>
           {formatDate(dateString)} · {props.event.location}
         </p>
       </CardHeader>
       <CardContent>
-        <div className="line-clamp-2 h-full text-muted-foreground">
+        <div>
           <RichTextOutput markdown={markdown} />
         </div>
-        <div className="mt-4">
+        <div>
           <Link
-            className="font-medium text-primary text-sm hover:underline"
             params={{
               eventId: props.event.id,
             }}

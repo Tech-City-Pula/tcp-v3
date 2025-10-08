@@ -6,15 +6,15 @@ export function createRouter() {
     routeTree,
     scrollRestoration: true,
     defaultPendingComponent: () => (
-      <div className="flex min-h-screen items-center justify-center bg-black text-emerald-500">
-        <div className="p-8 text-center font-mono">Loading route…</div>
+      <div>
+        <div>Loading route…</div>
       </div>
     ),
     defaultErrorComponent: ({ error }) => (
-      <div className="flex min-h-screen items-center justify-center bg-black text-emerald-500">
-        <div className="p-8 text-center font-mono">
-          <div className="mb-2 text-2xl">[ERROR]</div>
-          <div className="text-emerald-300">{error?.message ?? 'Unknown error'}</div>
+      <div>
+        <div>
+          <div>[ERROR]</div>
+          <div>{error?.message ?? 'Unknown error'}</div>
         </div>
       </div>
     ),

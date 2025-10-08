@@ -10,7 +10,7 @@ export function LoggedInPanel({ user }: Props) {
   const navigate = Route.useNavigate();
 
   return (
-    <div className="flex flex-col items-start gap-4">
+    <div>
       <h1>Welcome back, {user?.name ?? 'friend'}</h1>
       <Button
         type="button"

@@ -4,7 +4,7 @@ import { getInitialSession } from '@/server/session';
 
 function BlogsRoute() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div>
       <BlogForm />
     </div>
   );

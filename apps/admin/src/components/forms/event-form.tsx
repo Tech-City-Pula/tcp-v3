@@ -79,7 +79,7 @@ export function EventForm({ onCreated }: EventFormProps) {
   );
 
   return (
-    <form onSubmit={onSubmit} className="w-full max-w-lg" noValidate>
+    <form onSubmit={onSubmit}  noValidate>
       <Card>
         <CardHeader>
           <CardTitle>Create new event</CardTitle>
@@ -88,12 +88,11 @@ export function EventForm({ onCreated }: EventFormProps) {
         <CardContent>
           <form.Field name="title" validators={{ onChange: titleSchema }}>
             {(field) => (
-              <div className="flex flex-col gap-2">
+              <div>
                 <Label htmlFor={field.name}>{field.name}</Label>
                 <Input id={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
                 <em
                   className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
                     field.state.meta.errors.length > 0 && 'visible'
                   )}
                 >
@@ -116,17 +115,17 @@ export function EventForm({ onCreated }: EventFormProps) {
 
           <form.Field name="eventAt" validators={{ onChange: eventAtBaseSchema }}>
             {(field) => (
-              <div className="*:not-first:mt-2">
-                <RacLabel className="font-medium text-foreground text-sm">{field.name}</RacLabel>
+              <div>
+                <RacLabel>{field.name}</RacLabel>
                 <DatePicker
-                  className="*:not-first:mt-2"
+                 
                   value={field.state.value ? parseDate(field.state.value.substring(0, 10)) : undefined}
                   onChange={(v) => field.handleChange(v ? v.toString() : '')}
                 >
-                  <div className="flex">
-                    <Group className="w-full">
+                  <div>
+                    <Group >
                       <DateInput
-                        className="pe-9"
+                       
                         /**
                          * React Aria DateInput uses a DateValue internally. When user types/picks,
                          * onChange on the DatePicker will provide a DateValue; here we only need to
@@ -134,22 +133,21 @@ export function EventForm({ onCreated }: EventFormProps) {
                          */
                       />
                     </Group>
-                    <RacButton className="-me-px -ms-9 z-10 flex w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground data-focus-visible:border-ring data-focus-visible:ring-[3px] data-focus-visible:ring-ring/50">
+                    <RacButton>
                       <CalendarIcon size={16} />
                     </RacButton>
                   </div>
                   <Popover
-                    className="data-[entering]:fade-in-0 data-[entering]:zoom-in-95 data-[exiting]:fade-out-0 data-[exiting]:zoom-out-95 data-[placement=bottom]:slide-in-from-top-2 data-[placement=left]:slide-in-from-right-2 data-[placement=right]:slide-in-from-left-2 data-[placement=top]:slide-in-from-bottom-2 z-50 rounded-lg border bg-background text-popover-foreground shadow-lg outline-hidden data-entering:animate-in data-exiting:animate-out"
+                   
                     offset={4}
                   >
-                    <Dialog className="max-h-[inherit] overflow-auto p-2">
+                    <Dialog>
                       <Calendar />
                     </Dialog>
                   </Popover>
                 </DatePicker>
                 <em
                   className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
                     field.state.meta.errors.length > 0 && 'visible'
                   )}
                 >
@@ -161,12 +159,11 @@ export function EventForm({ onCreated }: EventFormProps) {
 
           <form.Field name="location" validators={{ onChange: locationSchema }}>
             {(field) => (
-              <div className="flex flex-col gap-2">
+              <div>
                 <Label htmlFor={field.name}>{field.name}</Label>
-                <Input id={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
+                <Input id={field.name} value={field.state.value} onChange=(e) => field.handleChange(e.target.value)} />
                 <em
                   className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
                     field.state.meta.errors.length > 0 && 'visible'
                   )}
                 >
@@ -179,7 +176,7 @@ export function EventForm({ onCreated }: EventFormProps) {
         <CardFooter>
           <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitting]}>
             {([canSubmit, isSubmitting]) => (
-              <Button type="submit" className="w-full" disabled={!canSubmit || isSubmitting || !form.state.isDirty}>
+              <Button type="submit"  disabled={!canSubmit || isSubmitting || !form.state.isDirty}>
                 Create event
               </Button>
             )}

@@ -7,15 +7,15 @@ export const Route = createFileRoute('/contact')({
 
 function ContactPage() {
   return (
-    <div className="min-h-screen bg-black p-4 font-mono text-green-400 md:p-8">
-      <div className="mx-auto max-w-2xl">
-        <header className="mb-8">
-          <div className="mb-2 text-sm opacity-70">~/contact</div>
-          <h1 className="font-bold text-2xl md:text-3xl">$ cat contact.md</h1>
+    <div>
+      <div>
+        <header>
+          <div>~/contact</div>
+          <h1>$ cat contact.md</h1>
         </header>
 
-        <section className="mb-8">
-          <h3 className="mb-4 text-green-300 text-lg">{'> contact --get-in-touch'}</h3>
+        <section>
+          <h3>{'> contact --get-in-touch'}</h3>
           <ContactForm
             onSuccess={() => {
               /* no-op */
@@ -28,34 +28,34 @@ function ContactPage() {
         </section>
 
         {/* Additional contact information */}
-        <section className="mb-8">
-          <h3 className="mb-4 text-green-300 text-lg">{'> cat contact_info.json'}</h3>
-          <div className="rounded-lg border border-green-400 bg-gray-900 p-6">
-            <div className="space-y-2 font-mono text-sm">
+        <section>
+          <h3>{'> cat contact_info.json'}</h3>
+          <div>
+            <div>
               <p>{'{'}</p>
-              <p className="pl-4">"email": "hello@techcitypula.org",</p>
-              <p className="pl-4">"location": "Pula, Croatia",</p>
-              <p className="pl-4">"response_time": "24-48 hours",</p>
-              <p className="pl-4">"office_hours": "Mon-Fri 09:00-17:00 CET"</p>
+              <p>"email": "hello@techcitypula.org",</p>
+              <p>"location": "Pula, Croatia",</p>
+              <p>"response_time": "24-48 hours",</p>
+              <p>"office_hours": "Mon-Fri 09:00-17:00 CET"</p>
               <p>{'}'}</p>
             </div>
           </div>
         </section>
 
         {/* Social links */}
-        <section className="mb-8">
-          <h3 className="mb-4 text-green-300 text-lg">{'> ls social_links/'}</h3>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-lg border border-green-400 bg-gray-900 p-4">
-              <h4 className="mb-2 font-bold text-green-300">Development</h4>
-              <div className="space-y-1 text-sm">
+        <section>
+          <h3>{'> ls social_links/'}</h3>
+          <div>
+            <div>
+              <h4>Development</h4>
+              <div>
                 <p>• github.com/techcitypula</p>
                 <p>• discord.gg/techcitypula</p>
               </div>
             </div>
-            <div className="rounded-lg border border-green-400 bg-gray-900 p-4">
-              <h4 className="mb-2 font-bold text-green-300">Social Media</h4>
-              <div className="space-y-1 text-sm">
+            <div>
+              <h4>Social Media</h4>
+              <div>
                 <p>• twitter.com/techcitypula</p>
                 <p>• linkedin.com/company/techcitypula</p>
               </div>

@@ -69,29 +69,27 @@ function BlogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <h1 className="mb-2 font-bold text-4xl">My Blog</h1>
-          <p className="text-lg text-muted-foreground">Insights and tutorials on web development and technology.</p>
+    <div>
+      <div>
+        <div>
+          <h1>My Blog</h1>
+          <p>Insights and tutorials on web development and technology.</p>
         </div>
-        <form onSubmit={handleSubmit} className="mx-auto mb-6 max-w-3xl">
-          <div className="flex flex-col items-stretch gap-3 sm:flex-row">
-            <div className="relative flex-1">
-              <Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
+        <form onSubmit={handleSubmit}>
+          <div>
+            <div>
+              <Search />
               <Input
                 aria-label="Search blog posts"
                 name="search"
-                className="rounded-xl pl-10"
                 placeholder="Search blog posts..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            <div className="w-full sm:w-48">
+            <div>
               <select
                 name="order"
-                className="w-full rounded-md border bg-background px-3 py-2 text-sm"
                 value={order}
                 onChange={(e) => setOrder(e.target.value as 'newest' | 'oldest')}
               >
@@ -101,23 +99,22 @@ function BlogPage() {
             </div>
             <button
               type="submit"
-              className="rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground text-sm hover:opacity-90"
             >
               Apply
             </button>
           </div>
         </form>
         {searchParams.search ? (
-          <div className="mb-4 text-center text-muted-foreground text-sm">
+          <div>
             Found {blogs.length} post{blogs.length === 1 ? '' : 's'} for "{searchParams.search}"
           </div>
         ) : null}
-        <div className="mx-auto max-w-3xl space-y-6">
+        <div>
           {blogs.map((blog) => (
             <BlogPostListItem key={blog.id} blog={blog} />
           ))}
           {blogs.length === 0 ? (
-            <div className="rounded-xl border py-12 text-center text-muted-foreground">
+            <div>
               No posts found. Try a different search.
             </div>
           ) : null}

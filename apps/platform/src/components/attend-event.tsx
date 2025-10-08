@@ -60,8 +60,8 @@ export function EventAttend({ eventId, onSuccess }: EventAttendProps) {
   );
 
   return (
-    <section className="mx-auto max-w-4xl px-8 pb-16 text-center">
-      <form className="mx-auto max-w-md" onSubmit={handleFormSubmit} noValidate>
+    <section>
+      <form onSubmit={handleFormSubmit} noValidate>
         <form.Field
           name="email"
           validators={{
@@ -69,13 +69,12 @@ export function EventAttend({ eventId, onSuccess }: EventAttendProps) {
           }}
         >
           {(field) => (
-            <div className="mb-2 flex flex-col gap-2">
-              <label className="block text-left font-mono text-emerald-400" htmlFor={field.name}>
+            <div>
+              <label htmlFor={field.name}>
                 Register your email to attend this event:
               </label>
               <input
                 autoComplete="email"
-                className="w-full rounded border border-emerald-500 bg-black p-3 text-emerald-200 focus:border-emerald-400 focus:outline-none"
                 id={field.name}
                 name={field.name}
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -85,7 +84,6 @@ export function EventAttend({ eventId, onSuccess }: EventAttendProps) {
               />
               <div
                 className={cn(
-                  'min-h-[3rem] text-left font-mono text-red-400 text-sm',
                   field.state.meta.errors.length === 0 && 'invisible'
                 )}
               >
@@ -100,7 +98,6 @@ export function EventAttend({ eventId, onSuccess }: EventAttendProps) {
         <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
           {([canSubmit, isSubmitting]) => (
             <button
-              className="w-full rounded border-2 border-emerald-500 bg-black px-8 py-3 font-bold font-mono text-emerald-500 text-lg transition-all duration-300 hover:bg-emerald-500 hover:text-black disabled:opacity-60"
               disabled={!canSubmit || isSubmitting || !form.state.isDirty}
               type="submit"
             >

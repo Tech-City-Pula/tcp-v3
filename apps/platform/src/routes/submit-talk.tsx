@@ -31,20 +31,20 @@ function SubmitTalkPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black p-8 font-mono text-green-400">
-      <div className="mx-auto max-w-4xl">
+    <div>
+      <div>
         {/* Terminal header */}
-        <div className="mb-8">
-          <h1 className="mb-4 text-xl">/submit-talk</h1>
+        <div>
+          <h1>/submit-talk</h1>
         </div>
 
-        <div className="mx-auto max-w-2xl">
+        <div>
           {/* Form */}
-          <div className="rounded-3xl border-2 border-green-400 p-8">
-            <div className="mb-8">
-              <h2 className="mb-2 text-lg">do you have an interesting idea</h2>
-              <h2 className="mb-6 text-lg">you'd like to present?</h2>
-              <p className="text-sm opacity-80">let us know and we'll make it happen</p>
+          <div>
+            <div>
+              <h2>do you have an interesting idea</h2>
+              <h2>you'd like to present?</h2>
+              <p>let us know and we'll make it happen</p>
             </div>
 
             <SubmitTalkForm onSubmit={handleSubmit} />

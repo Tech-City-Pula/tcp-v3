@@ -24,7 +24,7 @@ export const Route = createFileRoute('/test')({
 
 function RouteComponent() {
   return (
-    <div className="mx-auto max-w-xl p-6">
+    <div>
       <Newsletter
         onSubscribe={async (email) => {
           await subscribeToNewletter({

@@ -45,20 +45,20 @@ function RouteComponent() {
 
 function BlogPostPage({ blog }: BlogPostPageProperties) {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto max-w-3xl px-4 py-8">
-        <Button asChild className="mb-6 rounded-xl" variant="ghost">
+    <div>
+      <div>
+        <Button asChild variant="ghost">
           <Link to="/blogs">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft />
             Back to Blog
           </Link>
         </Button>
 
         <article>
-          <header className="mb-6">
-            <h1 className="mb-3 font-bold text-4xl">{blog.title}</h1>
-            <div className="flex flex-wrap items-center gap-3 text-muted-foreground text-sm">
-              <Calendar className="h-4 w-4" />
+          <header>
+            <h1>{blog.title}</h1>
+            <div>
+              <Calendar />
               <span>{formatDate(blog.createdAt.toISOString())}</span>
             </div>
           </header>

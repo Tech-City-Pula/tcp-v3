@@ -10,9 +10,9 @@ type BlogPostListItemProps = {
 
 export function BlogPostListItem(props: BlogPostListItemProps) {
   return (
-    <Card className="rounded-xl transition-shadow hover:shadow-md">
+    <Card>
       <CardHeader>
-        <CardTitle className="text-primary">
+        <CardTitle>
           <Link
             params={{
               slug: props.blog.id,
@@ -22,15 +22,14 @@ export function BlogPostListItem(props: BlogPostListItemProps) {
             {props.blog.title}
           </Link>
         </CardTitle>
-        <p className="font-light text-primary/75 text-xs">{formatDate(props.blog.createdAt.toISOString())}</p>
+        <p>{formatDate(props.blog.createdAt.toISOString())}</p>
       </CardHeader>
       <CardContent>
-        <div className="line-clamp-2 h-full text-muted-foreground">
+        <div>
           <RichTextOutput markdown={props.blog.content} />
         </div>
-        <div className="mt-4">
+        <div>
           <Link
-            className="font-medium text-primary text-sm hover:underline"
             params={{
               slug: props.blog.id,
             }}

@@ -32,9 +32,9 @@ export function Navbar() {
   const { theme, toggle } = useThemeToggle();
 
   return (
-    <header className="sticky top-0 z-10 border-b bg-background/70 backdrop-blur">
-      <div className="container mx-auto flex h-14 items-center px-4">
-        <nav className="flex items-center gap-4">
+    <header>
+      <div>
+        <nav>
           <Link to="/about">/about</Link>
           <Link to="/blogs">/blogs</Link>
           <Link to="/events">/events</Link>
@@ -44,12 +44,11 @@ export function Navbar() {
         </nav>
         <Button
           aria-label="Toggle theme"
-          className="ml-auto flex size-8 items-center justify-center"
           onClick={toggle}
           size="sm"
           variant="outline"
         >
-          {theme === 'dark' ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          {theme === 'dark' ? <Sun /> : <Moon />}
         </Button>
       </div>
     </header>

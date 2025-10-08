@@ -53,7 +53,7 @@ export function LoginForm() {
   );
 
   return (
-    <form onSubmit={login} className="w-full max-w-xs" noValidate>
+    <form onSubmit={login} noValidate>
       <Card>
         <CardHeader>
           <CardTitle>login</CardTitle>
@@ -68,7 +68,7 @@ export function LoginForm() {
             }}
           >
             {(field) => (
-              <div className="flex flex-col gap-2">
+              <div>
                 <Label htmlFor={field.name}>{field.name}</Label>
                 <Input
                   id={field.name}
@@ -82,7 +82,7 @@ export function LoginForm() {
                 />
                 <em
                   className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
+                    'invisible',
                     field.state.meta.errors.length > 0 && 'visible'
                   )}
                 >
@@ -100,7 +100,7 @@ export function LoginForm() {
             }}
           >
             {(field) => (
-              <div className="flex flex-col gap-2">
+              <div>
                 <Label htmlFor={field.name}>{field.name}</Label>
                 <Input
                   id={field.name}
@@ -113,7 +113,7 @@ export function LoginForm() {
                   onBlur={field.handleBlur}
                 />
                 <em
-                  className={cn('invisible h-lh text-red-400 text-xs', field.state.meta.errors.length > 0 && 'visible')}
+                  className={cn('invisible', field.state.meta.errors.length > 0 && 'visible')}
                 >
                   {field.state.meta.errors.map((err) => err?.message).join(', ')}
                 </em>
@@ -122,7 +122,7 @@ export function LoginForm() {
           </form.Field>
         </CardContent>
         <CardFooter>
-          <Button type="submit" className="w-full">
+          <Button type="submit">
             login
           </Button>
         </CardFooter>
