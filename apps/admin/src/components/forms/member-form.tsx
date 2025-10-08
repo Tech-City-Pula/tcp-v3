@@ -59,7 +59,7 @@ export function MemberForm({ onCreated }: MemberFormProps) {
   );
 
   return (
-    <form onSubmit={onSubmit} className="w-full max-w-2xl" noValidate>
+    <form onSubmit={onSubmit} noValidate>
       <Card>
         <CardHeader>
           <CardTitle>Create new member</CardTitle>
@@ -68,41 +68,39 @@ export function MemberForm({ onCreated }: MemberFormProps) {
         <CardContent>
           <form.Field name="firstName" validators={{ onChange: nameSchema }}>
             {(field) => (
-              <div className="flex flex-col gap-2">
+              <div>
                 <Label htmlFor={field.name}>{field.name}</Label>
                 <Input id={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
                 <em
                   className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
                     field.state.meta.errors.length > 0 && 'visible'
                   )}
                 >
                   {field.state.meta.errors.map((err) => err?.message).join(', ')}
                 </em>
               </div>
-            )}
+}}
           </form.Field>
 
           <form.Field name="lastName" validators={{ onChange: nameSchema }}>
             {(field) => (
-              <div className="flex flex-col gap-2">
+              <div>
                 <Label htmlFor={field.name}>{field.name}</Label>
                 <Input id={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
                 <em
                   className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
                     field.state.meta.errors.length > 0 && 'visible'
                   )}
                 >
                   {field.state.meta.errors.map((err) => err?.message).join(', ')}
                 </em>
               </div>
-            )}
+}}
           </form.Field>
 
           <form.Field name="email" validators={{ onChange: emailSchema }}>
             {(field) => (
-              <div className="flex flex-col gap-2">
+              <div>
                 <Label htmlFor={field.name}>{field.name}</Label>
                 <Input
                   type="email"
@@ -112,54 +110,52 @@ export function MemberForm({ onCreated }: MemberFormProps) {
                 />
                 <em
                   className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
                     field.state.meta.errors.length > 0 && 'visible'
                   )}
                 >
                   {field.state.meta.errors.map((err) => err?.message).join(', ')}
                 </em>
               </div>
-            )}
+}}
           </form.Field>
 
           <form.Field name="membershipType" validators={{ onChange: membershipTypeSchema }}>
             {(field) => (
-              <div className="flex flex-col gap-2">
+              <div>
                 <Label htmlFor={field.name}>Membership Type</Label>
                 <RadioGroup
                   id={field.name}
                   value={field.state.value}
                   onValueChange={(value) => field.handleChange(value as 'monthly' | 'yearly')}
-                  className="flex flex-row gap-4"
+                 
                 >
-                  <div className="flex items-center space-x-2">
+                  <div>
                     <RadioGroupItem value="monthly" id="monthly" />
                     <Label htmlFor="monthly">Monthly</Label>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div>
                     <RadioGroupItem value="yearly" id="yearly" />
                     <Label htmlFor="yearly">Yearly</Label>
                   </div>
                 </RadioGroup>
                 <em
                   className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
                     field.state.meta.errors.length > 0 && 'visible'
                   )}
                 >
                   {field.state.meta.errors.map((err) => err?.message).join(', ')}
                 </em>
               </div>
-            )}
+}}
           </form.Field>
         </CardContent>
         <CardFooter>
           <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitting]}>
             {([canSubmit, isSubmitting]) => (
-              <Button type="submit" className="w-full" disabled={!canSubmit || isSubmitting || !form.state.isDirty}>
+              <Button type="submit" disabled={!canSubmit || isSubmitting || !form.state.isDirty}>
                 Create member
               </Button>
-            )}
+}}
           </form.Subscribe>
         </CardFooter>
       </Card>
