@@ -27,7 +27,7 @@ function Home() {
   const user = Route.useLoaderData();
 
   return (
-    <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-gray-300">
+    <div>
       <LoggedInPanel user={user} />
     </div>
   );

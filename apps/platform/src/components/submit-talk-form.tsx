@@ -51,8 +51,8 @@ export function SubmitTalkForm({ onSubmit }: SubmitTalkFormProps) {
   );
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit} noValidate>
-      <div className="space-y-4 rounded-2xl border-2 border-green-400 p-6">
+    <form onSubmit={handleSubmit} noValidate>
+      <div>
         <form.Field
           name="email"
           validators={{
@@ -60,12 +60,11 @@ export function SubmitTalkForm({ onSubmit }: SubmitTalkFormProps) {
           }}
         >
           {(field) => (
-            <div className="rounded-xl border-2 border-green-400">
+            <div>
               <input
                 id={field.name}
                 type="email"
                 autoComplete="email"
-                className="w-full rounded-xl bg-transparent p-4 font-mono text-green-400 placeholder-green-400/60 focus:outline-none"
                 placeholder="your email"
                 required
                 value={field.state.value}
@@ -74,8 +73,8 @@ export function SubmitTalkForm({ onSubmit }: SubmitTalkFormProps) {
                 }}
               />
               {field.state.meta.errors.length > 0 && (
-                <div className="px-4 pb-2">
-                  <em className="text-red-400 text-xs">
+                <div>
+                  <em>
                     {field.state.meta.errors.map((err) => err?.message).join(', ')}
                   </em>
                 </div>
@@ -91,11 +90,10 @@ export function SubmitTalkForm({ onSubmit }: SubmitTalkFormProps) {
           }}
         >
           {(field) => (
-            <div className="rounded-xl border-2 border-green-400">
+            <div>
               <input
                 id={field.name}
                 type="text"
-                className="w-full rounded-xl bg-transparent p-4 font-mono text-green-400 placeholder-green-400/60 focus:outline-none"
                 placeholder="talk title"
                 required
                 value={field.state.value}
@@ -104,8 +102,8 @@ export function SubmitTalkForm({ onSubmit }: SubmitTalkFormProps) {
                 }}
               />
               {field.state.meta.errors.length > 0 && (
-                <div className="px-4 pb-2">
-                  <em className="text-red-400 text-xs">
+                <div>
+                  <em>
                     {field.state.meta.errors.map((err) => err?.message).join(', ')}
                   </em>
                 </div>
@@ -121,10 +119,9 @@ export function SubmitTalkForm({ onSubmit }: SubmitTalkFormProps) {
           }}
         >
           {(field) => (
-            <div className="rounded-xl border-2 border-green-400">
+            <div>
               <textarea
                 id={field.name}
-                className="w-full resize-none rounded-xl bg-transparent p-4 font-mono text-green-400 placeholder-green-400/60 focus:outline-none"
                 placeholder="short description"
                 required
                 rows={4}
@@ -134,8 +131,8 @@ export function SubmitTalkForm({ onSubmit }: SubmitTalkFormProps) {
                 }}
               />
               {field.state.meta.errors.length > 0 && (
-                <div className="px-4 pb-2">
-                  <em className="text-red-400 text-xs">
+                <div>
+                  <em>
                     {field.state.meta.errors.map((err) => err?.message).join(', ')}
                   </em>
                 </div>
@@ -148,7 +145,6 @@ export function SubmitTalkForm({ onSubmit }: SubmitTalkFormProps) {
           {([canSubmit, isSubmitting]) => (
             <Button
               type="submit"
-              className="w-full rounded-xl border-0 bg-purple-600 py-6 font-mono text-base text-white hover:bg-purple-700"
               disabled={!canSubmit || isSubmitting || !form.state.isDirty}
             >
               {isSubmitting ? 'submitting...' : 'submit'}

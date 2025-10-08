@@ -65,9 +65,8 @@ export function ContactForm({
   });
 
   return (
-    <div className={`rounded-lg border border-green-400 bg-gray-900 p-6 ${className}`}>
+    <div className={className}>
       <form
-        className="space-y-4"
         onSubmit={form.handleSubmit}
         noValidate
         aria-describedby={serverError ? 'server-error' : undefined}
@@ -76,12 +75,11 @@ export function ContactForm({
           name="email"
           children={(field) => (
             <div>
-              <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
+              <label htmlFor={field.name}>
                 $ echo "your-email" {'>'} contact.txt
               </label>
               <input
                 id={field.name}
-                className="w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600 focus:border-green-300 focus:outline-none focus:ring-1 focus:ring-green-300"
                 type="email"
                 placeholder={emailPlaceholder}
                 required
@@ -91,7 +89,6 @@ export function ContactForm({
               {field.state.meta.errors.length > 0 && (
                 <div
                   className={cn(
-                    'min-h-[3rem] text-left font-mono text-red-400 text-sm',
                     field.state.meta.errors.length === 0 && 'invisible'
                   )}
                 >
@@ -108,23 +105,21 @@ export function ContactForm({
           name="message"
           children={(field) => (
             <div>
-              <label className="mb-2 block text-green-300 text-sm" htmlFor={field.name}>
+              <label htmlFor={field.name}>
                 $ vim message.txt
               </label>
               <textarea
                 id={field.name}
-                className="min-h-[100px] w-full rounded border border-green-400 bg-black p-2 font-mono text-green-400 placeholder-green-600 focus:border-green-300 focus:outline-none focus:ring-1 focus:ring-green-300"
                 placeholder={messagePlaceholder}
                 required
                 aria-invalid={!!field.state.meta.errors.length}
                 aria-describedby={field.state.meta.errors.length ? `${field.name}-error` : undefined}
               />
               {showCharacterCount && (
-                <div className="mt-1 text-green-600 text-xs">{form.state.values.message.length}/500 chars</div>
+                <div>{form.state.values.message.length}/500 chars</div>
               )}
               <div
                 className={cn(
-                  'min-h-[3rem] text-left font-mono text-red-400 text-sm',
                   field.state.meta.errors.length === 0 && 'invisible'
                 )}
               >
@@ -137,7 +132,6 @@ export function ContactForm({
         />
 
         <button
-          className="w-full rounded bg-green-400 p-2 font-bold font-mono text-black transition-colors hover:bg-green-300 disabled:cursor-not-allowed disabled:bg-green-600"
           type="submit"
           disabled={form.state.isSubmitting}
         >
@@ -145,7 +139,7 @@ export function ContactForm({
         </button>
 
         {serverError && (
-          <div id="server-error" className="mt-2 text-red-400 text-xs" role="alert">
+          <div id="server-error" role="alert">
             {serverError}
           </div>
         )}

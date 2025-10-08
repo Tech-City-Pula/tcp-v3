@@ -60,7 +60,7 @@ export function BlogForm({ onCreated }: BlogFormProps) {
   );
 
   return (
-    <form onSubmit={onSubmit} className="w-full max-w-lg" noValidate>
+    <form onSubmit={onSubmit} noValidate>
       <Card>
         <CardHeader>
           <CardTitle>Create new blog</CardTitle>
@@ -69,12 +69,11 @@ export function BlogForm({ onCreated }: BlogFormProps) {
         <CardContent>
           <form.Field name="title" validators={{ onChange: titleSchema }}>
             {(field) => (
-              <div className="flex flex-col gap-2">
+              <div>
                 <Label htmlFor={field.name}>{field.name}</Label>
                 <Input id={field.name} value={field.state.value} onChange={(e) => field.handleChange(e.target.value)} />
                 <em
                   className={cn(
-                    'invisible min-h-lh text-red-400 text-xs',
                     field.state.meta.errors.length > 0 && 'visible'
                   )}
                 >
@@ -98,7 +97,7 @@ export function BlogForm({ onCreated }: BlogFormProps) {
         <CardFooter>
           <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitting]}>
             {([canSubmit, isSubmitting]) => (
-              <Button type="submit" className="w-full" disabled={!canSubmit || isSubmitting || !form.state.isDirty}>
+              <Button type="submit" disabled={!canSubmit || isSubmitting || !form.state.isDirty}>
                 Create blog
               </Button>
             )}

@@ -7,17 +7,17 @@ export function PostCard({ post }: { post: Post }) {
   const words = getWordCount(post.content);
 
   return (
-    <Card className="rounded-xl transition-shadow hover:shadow-md">
+    <Card>
       <CardHeader>
-        <div className="mb-2 flex items-center gap-2 text-muted-foreground text-sm">
-          <Calendar className="h-12 w-12" />
+        <div>
+          <Calendar />
           <span>{formatDate(post.date)}</span>
-          <User className="ml-2 h-4 w-4" />
+          <User />
           <span>{post.author}</span>
-          <FileText className="ml-2 h-4 w-4" />
+          <FileText />
           <span>{words} words</span>
         </div>
-        <CardTitle className="text-red-400 transition-colors hover:text-primary">
+        <CardTitle>
           <Link
             params={{
               slug: post.slug,
@@ -29,10 +29,9 @@ export function PostCard({ post }: { post: Post }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-muted-foreground">{post.excerpt}</p>
-        <div className="mt-4">
+        <p>{post.excerpt}</p>
+        <div>
           <Link
-            className="font-medium text-primary text-sm hover:underline"
             params={{
               slug: post.slug,
             }}
