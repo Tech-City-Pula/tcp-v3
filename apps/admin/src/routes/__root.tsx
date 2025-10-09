@@ -2,8 +2,9 @@
 
 import { Toaster } from '@repo/ui/components/shadcn/sonner';
 import themeCss from '@repo/ui/theme?url';
-import { createRootRoute, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
+import { createRootRoute, HeadContent, Outlet, Scripts, useMatches } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import { Navbar } from '@/components/navbar';
 import globalCss from '../styles/globals.css?url';
 
 export const Route = createRootRoute({
@@ -36,14 +37,17 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  const matches = useMatches();
+  const isLoginPage = matches.some((match) => match.routeId === '/login');
+
   return (
-    <RootDocument>
+    <RootDocument showNavbar={!isLoginPage}>
       <Outlet />
     </RootDocument>
   );
 }
 
-function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
+function RootDocument({ children, showNavbar }: Readonly<{ children: ReactNode; showNavbar: boolean }>) {
   return (
     <html lang="en-US">
       {/** biome-ignore lint/style/noHeadElement: Tanstack Start template */}
@@ -51,6 +55,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         <HeadContent />
       </head>
       <body>
+        {showNavbar && <Navbar />}
         {children}
         <Scripts />
         <Toaster />
