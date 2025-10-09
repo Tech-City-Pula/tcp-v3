@@ -35,19 +35,15 @@ export function Navbar() {
     <header>
       <div>
         <nav>
-          <Link to="/about">/about</Link>
-          <Link to="/blogs">/blogs</Link>
-          <Link to="/events">/events</Link>
-          <Link to="/learn">/learn</Link>
-          <Link to="/contact">/contact</Link>
-          <Link to="/submit-talk">/submit-talk</Link>
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/events">Events</Link>
+          <Link to="/blogs">Blog</Link>
+          <Link to="/learn">Learn</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/submit-talk">Submit Talk</Link>
         </nav>
-        <Button
-          aria-label="Toggle theme"
-          onClick={toggle}
-          size="sm"
-          variant="outline"
-        >
+        <Button aria-label="Toggle theme" onClick={toggle} size="sm" variant="outline">
           {theme === 'dark' ? <Sun /> : <Moon />}
         </Button>
       </div>
